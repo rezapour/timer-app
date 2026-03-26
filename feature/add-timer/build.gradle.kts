@@ -61,4 +61,9 @@ dependencies {
 
     implementation(libs.bundles.coroutines)
     implementation(libs.bundles.koin)
+
+    // Navigation 3
+    implementation(libs.androidx.navigation3.ui)
+    implementation(libs.androidx.navigation3.runtime)
+    implementation(libs.androidx.lifecycle.viewmodel.navigation3)
 }
