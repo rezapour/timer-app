@@ -39,6 +39,7 @@ android {
 }
 
 dependencies {
+    implementation(project((":core:timer-core")))
     implementation(project(":core:di"))
     implementation(project(":feature:di"))
     implementation(project(":feature:add-timer"))
