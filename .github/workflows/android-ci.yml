@@ -1,4 +1,4 @@
-name: Android CI
+name: PR Check
 
 on:
   pull_request:
@@ -8,7 +8,7 @@ on:
 
 
 jobs:
-  unit-tests:
+  unit-tests-and-build:
     runs-on: ubuntu-latest
 
     steps:
