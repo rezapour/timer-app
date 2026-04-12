@@ -22,6 +22,6 @@ fun AppRoot() {
                     backStack.add(AddTimerScreen)
                 })
             }
-            addTimerScreen()
+            addTimerScreen(backStack)
         })
 }
