@@ -2,14 +2,15 @@ package me.rezapour.add_timer.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.CancellationException
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import me.rezapour.common.extentionfunctions.digitOnly
-import me.rezapour.common.extentionfunctions.toIntOrZero
-import me.rezapour.common.extentionfunctions.toLongOrZero
 import me.rezapour.domain.model.Timer
 import me.rezapour.domain.usecase.InsertTimerUseCase
 
@@ -18,94 +19,147 @@ class AddTimerViewModel(private val insertUseCase: InsertTimerUseCase) : ViewMod
     private val _uiState: MutableStateFlow<AddTimerUiState> = MutableStateFlow(AddTimerUiState())
     val uiState: StateFlow<AddTimerUiState> = _uiState.asStateFlow()
 
-    fun saveTimer() {
+    private val _uiEffect: MutableSharedFlow<AddTimerUiEffect> = MutableSharedFlow()
+    val uiEffect: SharedFlow<AddTimerUiEffect> = _uiEffect.asSharedFlow()
+
+    private fun saveTimer() {
         val state = uiState.value
-        if (state.name == null) {
+        if (state.name.isBlank()) {
             showError("Name can't be empty")
             return
         }
-        val workSeconds = minuteSecondsToTotalSeconds(state.workMin, state.workSec)
-        val restSeconds = minuteSecondsToTotalSeconds(state.restMin, state.restSec)
 
         val timer = Timer(
             name = state.name,
-            workSeconds = workSeconds,
-            restSeconds = restSeconds,
-            rounds = state.rounds.toIntOrZero()
+            workSeconds = state.workoutSecond,
+            restSeconds = state.restSecond,
+            rounds = state.rounds
         )
         viewModelScope.launch {
-            insertUseCase(timer)
+            isSaving(true)
+            try {
+                insertUseCase(timer)
+                _uiEffect.emit(AddTimerUiEffect.NavigationBack)
+            } catch (e: Exception) {
+                if (e is CancellationException) throw e
+                showError(e.message.toString())
+            } finally {
+                isSaving(false)
+            }
+
+
         }
     }
 
-    fun updateUiEvent(e: AddTimerUiEvent) {
-        when (e) {
-            is AddTimerUiEvent.OnRestMinChanged -> onIntervalMinChanged(e.min)
-            is AddTimerUiEvent.OnRestSecChanged -> onIntervalSecChange(e.sec)
-            AddTimerUiEvent.SaveTimer -> saveTimer()
-            is AddTimerUiEvent.OnNameChanged -> onNameChange(e.name)
-            is AddTimerUiEvent.OnRoundsChanged -> onSetChange(e.set)
-            is AddTimerUiEvent.OnWorkMinChanged -> onTimerMinChange(e.min)
-            is AddTimerUiEvent.OnWorkSecChanged -> onTimerSecChange(e.sec)
+    fun onAction(event: AddTimerAction) {
+        when (event) {
+            AddTimerAction.SaveTimer -> saveTimer()
+            is AddTimerAction.OnNameChanged -> onNameChange(event.name)
+            AddTimerAction.OnRestDecreased -> restDecreaseValue()
+            AddTimerAction.OnRestIncreased -> restIncreaseValue()
+            AddTimerAction.OnRoundDecreased -> roundDecreaseValue()
+            AddTimerAction.OnRoundIncreased -> roundIncreaseValue()
+            AddTimerAction.OnWorkoutDecreased -> workoutDecreaseValue()
+            AddTimerAction.OnWorkoutIncreased -> workoutIncreaseValue()
+            AddTimerAction.BackClicked -> emitBackNavigation()
+        }
+    }
+
+    private fun isSaving(isSaving: Boolean) {
+        _uiState.update { it.copy(isSaving = isSaving) }
+    }
+
+    private fun workoutIncreaseValue() {
+        _uiState.update {
+            it.copy(workoutSecond = it.workoutSecond + 30)
+        }
+    }
+
+    private fun workoutDecreaseValue() {
+        _uiState.update {
+            if (it.workoutSecond > AddTimerUiState.MIN_WORK_OUT)
+                it.copy(workoutSecond = it.workoutSecond - 30)
+            else
+                it.copy(workoutSecond = AddTimerUiState.MIN_WORK_OUT)
+        }
+    }
+
+    private fun restIncreaseValue() {
+        _uiState.update {
+            it.copy(restSecond = it.restSecond + 30)
+        }
+    }
+
+    private fun restDecreaseValue() {
+        _uiState.update {
+            if (it.restSecond > AddTimerUiState.MIN_REST)
+                it.copy(restSecond = it.restSecond - 30)
+            else
+                it.copy(restSecond = AddTimerUiState.MIN_REST)
+        }
+    }
+
+    private fun roundIncreaseValue() {
+        _uiState.update {
+            it.copy(rounds = it.rounds + 1)
+        }
+    }
+
+    private fun roundDecreaseValue() {
+        _uiState.update {
+            if (it.rounds > AddTimerUiState.MIN_ROUNDS)
+                it.copy(rounds = it.rounds - 1)
+            else
+                it.copy(rounds = AddTimerUiState.MIN_ROUNDS)
         }
     }
 
     private fun showError(message: String) {
-        _uiState.update { it.copy(errorMessage = message) }
+        viewModelScope.launch {
+            _uiEffect.emit(AddTimerUiEffect.ShowSnackBar(message))
+        }
     }
 
     private fun onNameChange(newNameValue: String) {
-        _uiState.update { it.copy(name = newNameValue, errorMessage = null) }
+        _uiState.update { it.copy(name = newNameValue) }
     }
 
-    private fun onTimerMinChange(newMin: String) {
-        _uiState.update { it.copy(workMin = validateTimeInput(newMin)) }
-    }
-
-    private fun onTimerSecChange(newSec: String) {
-        _uiState.update { it.copy(workSec = validateTimeInput(newSec)) }
-    }
-
-    private fun onIntervalMinChanged(newMin: String) {
-        _uiState.update { it.copy(restMin = validateTimeInput(newMin)) }
-    }
-
-    private fun onIntervalSecChange(newSec: String) {
-        _uiState.update { it.copy(restSec = validateTimeInput(newSec)) }
-    }
-
-    private fun onSetChange(newSet: String) {
-        _uiState.update { it.copy(rounds = newSet.digitOnly()) }
-    }
-
-    private fun validateTimeInput(value: String) =
-        value.digitOnly(2).toIntOrZero().coerceIn(0, 59).toString()
-
-    private fun minuteSecondsToTotalSeconds(minText: String, secText: String): Long {
-        val min = minText.toLongOrZero() * 60L
-        val sec = secText.toLongOrZero()
-        return min + sec
+    private fun emitBackNavigation() {
+        viewModelScope.launch {
+            _uiEffect.emit(AddTimerUiEffect.NavigationBack)
+        }
     }
 }
 
-sealed class AddTimerUiEvent {
+sealed class AddTimerAction {
 
-    object SaveTimer : AddTimerUiEvent()
-    data class OnNameChanged(val name: String) : AddTimerUiEvent()
-    data class OnWorkMinChanged(val min: String) : AddTimerUiEvent()
-    data class OnWorkSecChanged(val sec: String) : AddTimerUiEvent()
-    data class OnRestMinChanged(val min: String) : AddTimerUiEvent()
-    data class OnRestSecChanged(val sec: String) : AddTimerUiEvent()
-    data class OnRoundsChanged(val set: String) : AddTimerUiEvent()
+    object SaveTimer : AddTimerAction()
+    data class OnNameChanged(val name: String) : AddTimerAction()
+    object OnWorkoutIncreased : AddTimerAction()
+    object OnWorkoutDecreased : AddTimerAction()
+    object OnRestIncreased : AddTimerAction()
+    object OnRestDecreased : AddTimerAction()
+    object OnRoundIncreased : AddTimerAction()
+    object OnRoundDecreased : AddTimerAction()
+    object BackClicked : AddTimerAction()
 }
 
 data class AddTimerUiState(
-    val isLoading: Boolean = false,
-    val errorMessage: String? = null,
-    val name: String? = null,
-    val workMin: String = "",
-    val workSec: String = "",
-    val restMin: String = "",
-    val restSec: String = "",
-    val rounds: String = ""
-)
+    val isSaving: Boolean = false,
+    val name: String = "",
+    val workoutSecond: Long = MIN_WORK_OUT,
+    val restSecond: Long = MIN_REST,
+    val rounds: Int = MIN_ROUNDS,
+) {
+    companion object {
+        const val MIN_REST = 30L
+        const val MIN_WORK_OUT = 30L
+        const val MIN_ROUNDS = 1
+    }
+}
+
+sealed class AddTimerUiEffect {
+    data class ShowSnackBar(val errorMessage: String) : AddTimerUiEffect()
+    object NavigationBack : AddTimerUiEffect()
+
+}

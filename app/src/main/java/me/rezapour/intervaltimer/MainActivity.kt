@@ -4,7 +4,7 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import me.rezapour.designsystem.theme.IntervalTimerTheme
+import me.rezapour.designsystem.theme.IniTheme
 import me.rezapour.intervaltimer.compose.AppRoot
 
 class MainActivity : ComponentActivity() {
@@ -12,7 +12,7 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
-            IntervalTimerTheme {
+            IniTheme {
                 AppRoot()
             }
         }

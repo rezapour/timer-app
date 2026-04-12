@@ -26,6 +26,11 @@ val Typography = Typography(
         fontWeight = FontWeight.ExtraBold,
         fontSize = 72.sp
     ),
+    displaySmall = TextStyle(
+        fontFamily = JetBrainsMonoFontFamily,
+        fontWeight = FontWeight.ExtraBold,
+        fontSize = 42.sp
+    ),
     headlineLarge = TextStyle(
         fontFamily = InterFontFamily,
         fontWeight = FontWeight.ExtraBold,
