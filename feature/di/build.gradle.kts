@@ -35,5 +35,6 @@ android {
 dependencies {
 
     implementation(project(":feature:add-timer"))
+    implementation(project(":feature:timer-list"))
     implementation(libs.bundles.koin)
 }

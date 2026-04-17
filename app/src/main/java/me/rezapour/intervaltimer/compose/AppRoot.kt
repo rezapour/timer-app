@@ -7,6 +7,8 @@ import androidx.navigation3.runtime.entryProvider
 import androidx.navigation3.ui.NavDisplay
 import me.rezapour.add_timer.navigation.AddTimerScreen
 import me.rezapour.add_timer.navigation.addTimerScreen
+import me.rezapour.timer_list.navigation.TimerListScreen
+import me.rezapour.timer_list.navigation.timerListScreen
 
 data object MainScreen
 
@@ -20,8 +22,11 @@ fun AppRoot() {
             entry<MainScreen> {
                 MainScreen(onAddTimerClicked = {
                     backStack.add(AddTimerScreen)
+                }, onTimerListScreenClicked = {
+                    backStack.add(TimerListScreen)
                 })
             }
             addTimerScreen(backStack)
+            timerListScreen(backStack)
         })
 }

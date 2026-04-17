@@ -1,29 +1,28 @@
 plugins {
-    alias(libs.plugins.android.application)
+    alias(libs.plugins.android.library)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
     alias(libs.plugins.ksp)
-    alias(libs.plugins.kotlinSerialization)
 }
 
 android {
-    namespace = "me.rezapour.intervaltimer"
+    namespace = "me.rezapour.timer_list"
     compileSdk = 36
 
     defaultConfig {
-        applicationId = "me.rezapour.intervaltimer"
         minSdk = 24
-        targetSdk = 36
-        versionCode = 1
-        versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        consumerProguardFiles("consumer-rules.pro")
     }
 
     buildTypes {
         release {
             isMinifyEnabled = false
-            proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
+            proguardFiles(
+                getDefaultProguardFile("proguard-android-optimize.txt"),
+                "proguard-rules.pro"
+            )
         }
     }
     compileOptions {
@@ -33,19 +32,17 @@ android {
     kotlinOptions {
         jvmTarget = "11"
     }
-    buildFeatures {
+
+    buildFeatures{
         compose = true
     }
 }
 
 dependencies {
-    implementation(project((":core:timer-core")))
-    implementation(project(":core:di"))
-    implementation(project(":feature:di"))
-    implementation(project(":feature:add-timer"))
-    implementation(project(":feature:timer-list"))
-
+    implementation(project(":core:domain"))
     implementation(project(":core:designsystem"))
+    implementation(project(":core:common"))
+    implementation(project(":core:ui"))
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.activity.compose)
@@ -61,13 +58,13 @@ dependencies {
     androidTestImplementation(libs.androidx.ui.test.junit4)
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
+    implementation(libs.compose.material.icons.extended)
 
+    implementation(libs.bundles.coroutines)
     implementation(libs.bundles.koin)
-    ksp(libs.koin.ksp.compiler)
 
     // Navigation 3
     implementation(libs.androidx.navigation3.ui)
     implementation(libs.androidx.navigation3.runtime)
     implementation(libs.androidx.lifecycle.viewmodel.navigation3)
-
 }

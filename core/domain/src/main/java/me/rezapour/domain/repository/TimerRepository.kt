@@ -9,4 +9,6 @@ interface TimerRepository {
 
     fun getTimers(): Flow<List<Timer>>
 
+    suspend fun deleteTimer(id:Long)
+
 }
