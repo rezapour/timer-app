@@ -2,6 +2,7 @@ package me.rezapour.timer_list.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.SharingStarted
@@ -70,7 +71,13 @@ class TimerListViewModel(
 
     private fun deleteTimer(timerId: Long) {
         viewModelScope.launch {
-            deleteTimersUseCase(timerId)
+            try {
+                deleteTimersUseCase(timerId)
+            } catch (e: Exception) {
+                if (e is CancellationException) throw e
+                emitShowSankBarEffect(e.message.toString())
+            }
+
         }
     }
 }
