@@ -126,7 +126,8 @@ fun Content(
     Column(
         modifier = modifier
             .fillMaxWidth()
-            .padding(horizontal = 16.dp, vertical = 16.dp),
+            .padding(horizontal = 16.dp, vertical = 16.dp)
+            .navigationBarsPadding(),
         verticalArrangement = Arrangement.spacedBy(IniTheme.spacing.m),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {

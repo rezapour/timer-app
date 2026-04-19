@@ -23,6 +23,7 @@ data class AppShapes(
     val extraLarge: Dp = 24.dp,
     val large: Dp = 16.dp,
     val medium: Dp = 12.dp,
+    val small:Dp = 8.dp,
     val circle: Float = 0.5f // 50%
 )
 

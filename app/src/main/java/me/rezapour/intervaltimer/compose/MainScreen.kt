@@ -11,7 +11,8 @@ import me.rezapour.designsystem.components.button.IniButtonPicker
 
 @Composable
 fun MainScreen(
-    onAddTimerClicked: () -> Unit
+    onAddTimerClicked: () -> Unit,
+    onTimerListScreenClicked:() -> Unit
 ) {
 
     Box(modifier = Modifier.fillMaxSize()) {
@@ -19,6 +20,9 @@ fun MainScreen(
             IniButtonPicker (onClick = {
                 onAddTimerClicked()
             })
+            IniButtonPicker (increaseMode = false){
+                onTimerListScreenClicked()
+            }
         }
     }
 
