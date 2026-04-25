@@ -1,15 +1,14 @@
 package me.rezapour.domain.usecase
 
-import kotlinx.coroutines.withContext
-import me.rezapour.domain.model.Timer
-import me.rezapour.domain.repository.TimerRepository
+import me.rezapour.domain.model.Routine
+import me.rezapour.domain.repository.RoutineRepository
 
 class InsertTimerUseCase(
-    private val timerRepository: TimerRepository
+    private val routineRepository: RoutineRepository
 ) {
 
-    suspend operator fun invoke(timer: Timer) {
-        timerRepository.insertTimer(timer)
+    suspend operator fun invoke(routine: Routine) {
+        routineRepository.insertRoutine(routine)
     }
 
 }

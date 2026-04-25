@@ -44,6 +44,7 @@ dependencies {
     implementation(project(":feature:di"))
     implementation(project(":feature:add-timer"))
     implementation(project(":feature:timer-list"))
+    implementation(project(":feature:timer-flow"))
 
     implementation(project(":core:designsystem"))
     implementation(libs.androidx.core.ktx)

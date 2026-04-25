@@ -1,10 +1,10 @@
 package me.rezapour.domain.usecase
 
-import me.rezapour.domain.repository.TimerRepository
+import me.rezapour.domain.repository.RoutineRepository
 
-class DeleteTimerUseCase(private val repository: TimerRepository) {
+class DeleteTimerUseCase(private val repository: RoutineRepository) {
 
     suspend operator fun invoke(id: Long) {
-        repository.deleteTimer(id)
+        repository.deleteRoutine(id)
     }
 }

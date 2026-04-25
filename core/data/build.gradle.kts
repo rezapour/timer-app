@@ -36,6 +36,7 @@ dependencies {
     implementation(project(":core:domain"))
     implementation(project(":core:db"))
     implementation(project(":core:common"))
+    implementation(project(":core:timer-core"))
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.material)

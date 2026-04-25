@@ -1,10 +1,10 @@
 package me.rezapour.data.mapper
 
-import me.rezapour.db.entites.TimerEntity
-import me.rezapour.domain.model.Timer
+import me.rezapour.db.entites.RoutineEntity
+import me.rezapour.domain.model.Routine
 
-class TimerDbMapper : Mapper<TimerEntity, Timer> {
-    override fun mapEntityToDomain(entity: TimerEntity): Timer = Timer(
+class RoutineDbMapper : Mapper<RoutineEntity, Routine> {
+    override fun mapEntityToDomain(entity: RoutineEntity): Routine = Routine(
         id = entity.id,
         name = entity.name,
         workSeconds = entity.workSeconds,
@@ -13,11 +13,11 @@ class TimerDbMapper : Mapper<TimerEntity, Timer> {
 
     )
 
-    override fun mapEntityToDomain(entities: List<TimerEntity>): List<Timer> =
+    override fun mapEntityToDomain(entities: List<RoutineEntity>): List<Routine> =
         entities.map { mapEntityToDomain(it) }
 
 
-    override fun mapDomainToEntity(domain: Timer): TimerEntity = TimerEntity(
+    override fun mapDomainToEntity(domain: Routine): RoutineEntity = RoutineEntity(
         id = domain.id,
         name = domain.name,
         workSeconds = domain.workSeconds,
@@ -26,7 +26,7 @@ class TimerDbMapper : Mapper<TimerEntity, Timer> {
 
     )
 
-    override fun mapDomainToEntity(domains: List<Timer>): List<TimerEntity> =
+    override fun mapDomainToEntity(domains: List<Routine>): List<RoutineEntity> =
         domains.map { mapDomainToEntity(it) }
 
 }
