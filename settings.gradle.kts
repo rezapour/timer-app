@@ -21,3 +21,14 @@ dependencyResolutionManagement {
 
 rootProject.name = "Interval timer"
 include(":app")
+include(":core:db")
+include(":core:data")
+include(":core:domain")
+include(":core:di")
+include(":core:common")
+include(":feature:add-timer")
+include(":feature:di")
+include(":core:designsystem")
+include(":core:timer-core")
+include(":core:ui")
+include(":feature:timer-list")
