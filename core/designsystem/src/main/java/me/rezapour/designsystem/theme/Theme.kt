@@ -101,17 +101,16 @@ fun IniTheme(
     }
 
     val spacing = Spacing()
-    val appShapes = AppShapes()
     val sizes = Sizes()
 
     CompositionLocalProvider(
         LocalSpacing provides spacing,
-        LocalShapes provides appShapes,
         LocalSizes provides sizes
     ) {
         MaterialTheme(
             colorScheme = colorScheme,
             typography = Typography,
+            shapes = MaterialShapes,
             content = content
         )
     }
@@ -122,9 +121,6 @@ object IniTheme {
         @Composable @ReadOnlyComposable get() = LocalSpacing.current
     val sizes: Sizes
         @Composable @ReadOnlyComposable get() = LocalSizes.current
-
-    val appShapes: AppShapes
-        @Composable @ReadOnlyComposable get() = LocalShapes.current
 
     val colors: ColorScheme
         @Composable @ReadOnlyComposable get() = MaterialTheme.colorScheme
