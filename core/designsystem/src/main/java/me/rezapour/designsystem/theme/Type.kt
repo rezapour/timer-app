@@ -18,48 +18,44 @@ val InterFontFamily = FontFamily(
 )
 
 val JetBrainsMonoFontFamily = FontFamily(
+    Font(R.font.jetbrains_mono_medium, FontWeight.Medium),
     Font(R.font.jetbrains_mono_extrabold, FontWeight.ExtraBold)
 )
 val Typography = Typography(
     displayLarge = TextStyle(
-        fontFamily = JetBrainsMonoFontFamily,
-        fontWeight = FontWeight.ExtraBold,
-        fontSize = 72.sp
-    ),
-    displaySmall = TextStyle(
-        fontFamily = JetBrainsMonoFontFamily,
-        fontWeight = FontWeight.ExtraBold,
-        fontSize = 42.sp
+        fontFamily = InterFontFamily,
+        fontWeight = FontWeight.Bold,
+        fontSize = 72.sp,
+        lineHeight = 80.sp
     ),
     headlineLarge = TextStyle(
         fontFamily = InterFontFamily,
-        fontWeight = FontWeight.ExtraBold,
-        fontSize = 32.sp
+        fontWeight = FontWeight.SemiBold,
+        fontSize = 32.sp,
+        lineHeight = 40.sp
     ),
     headlineMedium = TextStyle(
         fontFamily = InterFontFamily,
-        fontWeight = FontWeight.Bold,
-        fontSize = 24.sp
-    ),
-    titleLarge = TextStyle(
-        fontFamily = InterFontFamily,
         fontWeight = FontWeight.SemiBold,
-        fontSize = 20.sp
+        fontSize = 24.sp,
+        lineHeight = 32.sp
     ),
-    titleMedium = TextStyle(
+    bodyLarge = TextStyle(
         fontFamily = InterFontFamily,
-        fontWeight = FontWeight.SemiBold,
-        fontSize = 16.sp
+        fontWeight = FontWeight.Normal,
+        fontSize = 18.sp,
+        lineHeight = 28.sp
     ),
     bodyMedium = TextStyle(
         fontFamily = InterFontFamily,
         fontWeight = FontWeight.Normal,
-        fontSize = 14.sp
+        fontSize = 16.sp,
+        lineHeight = 24.sp
     ),
-    labelSmall = TextStyle(
-        fontFamily = InterFontFamily,
-        fontWeight = FontWeight.SemiBold,
-        fontSize = 11.sp,
-        letterSpacing = 0.3.sp
+    labelMedium = TextStyle(
+        fontFamily = JetBrainsMonoFontFamily,
+        fontWeight = FontWeight.Medium,
+        fontSize = 14.sp,
+        lineHeight = 20.sp
     )
 )
