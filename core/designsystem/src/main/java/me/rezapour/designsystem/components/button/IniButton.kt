@@ -5,7 +5,6 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonColors
 import androidx.compose.material3.ButtonDefaults
@@ -27,17 +26,17 @@ fun IniButton(
     modifier: Modifier = Modifier,
     text: String? = null,
     @DrawableRes icon: Int? = null,
-    enable:Boolean = true,
+    enable: Boolean = true,
     onClick: () -> Unit,
 ) {
 
     val isSquare = icon != null && text == null
     Button(
-        modifier = modifier.condition(isSquare){
+        modifier = modifier.condition(isSquare) {
             size(54.dp)
         },
         enabled = enable,
-        shape = RoundedCornerShape(IniTheme.appShapes.medium),
+        shape = IniTheme.shapes.medium,
         colors = ButtonColors(
             containerColor = IniTheme.colors.primary,
             contentColor = IniTheme.colors.onPrimary,
