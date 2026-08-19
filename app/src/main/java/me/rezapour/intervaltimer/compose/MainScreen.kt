@@ -6,7 +6,9 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import me.rezapour.designsystem.components.button.IniButtonPicker
+import me.rezapour.designsystem.components.button.IniDestructiveButton
+import me.rezapour.designsystem.components.button.IniPrimaryButton
+import me.rezapour.designsystem.components.button.IniSecondaryButton
 
 
 @Composable
@@ -18,14 +20,14 @@ fun MainScreen(
 
     Box(modifier = Modifier.fillMaxSize()) {
         Column(modifier = Modifier.align(Alignment.Center)) {
-            IniButtonPicker(onClick = {
+            IniPrimaryButton (loading = true,text = "saveTimer",onClick = {
                 onAddTimerClicked()
             })
-            IniButtonPicker(increaseMode = false) {
+            IniSecondaryButton(text = "Timer List")  {
                 onTimerListScreenClicked()
             }
 
-            IniButtonPicker(increaseMode = false) {
+            IniDestructiveButton(text = "Timer") {
                 onTimeFlowScreenClicked()
             }
         }

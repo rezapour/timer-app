@@ -22,7 +22,14 @@ data class Spacing(
 
 @Immutable
 data class Sizes(
+
     val touchTarget: Dp = 48.dp,
     val primaryFab: Dp = 80.dp,
-    val secondaryFab: Dp = 64.dp
+    val secondaryFab: Dp = 64.dp,
+
+    val buttonHeight: Dp = 56.dp,
+    val buttonIcon: Dp = 20.dp,
+    val buttonLoader: Dp = 20.dp,
+    val buttonLoaderStroke: Dp = 2.dp,
+
 )
