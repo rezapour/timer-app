@@ -4,18 +4,18 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.Query
 import kotlinx.coroutines.flow.Flow
-import me.rezapour.db.entites.TimerEntity
+import me.rezapour.db.entites.RoutineEntity
 
 @Dao
-interface TimerDao {
+interface RoutineDao {
 
     @Insert()
-    suspend fun insertTimer(timer: TimerEntity)
+    suspend fun insertTimer(timer: RoutineEntity): Long
 
     @Query("SELECT * FROM timer_table")
-    fun getTimers(): Flow<List<TimerEntity>>
+    fun getTimers(): Flow<List<RoutineEntity>>
 
     @Query("DELETE FROM timer_table WHERE id= :id")
-    fun deleteTimer(id:Long)
+    fun deleteTimer(id: Long)
 
 }

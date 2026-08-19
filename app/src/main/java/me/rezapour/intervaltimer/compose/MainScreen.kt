@@ -12,16 +12,21 @@ import me.rezapour.designsystem.components.button.IniButtonPicker
 @Composable
 fun MainScreen(
     onAddTimerClicked: () -> Unit,
-    onTimerListScreenClicked:() -> Unit
+    onTimerListScreenClicked: () -> Unit,
+    onTimeFlowScreenClicked: () -> Unit,
 ) {
 
     Box(modifier = Modifier.fillMaxSize()) {
         Column(modifier = Modifier.align(Alignment.Center)) {
-            IniButtonPicker (onClick = {
+            IniButtonPicker(onClick = {
                 onAddTimerClicked()
             })
-            IniButtonPicker (increaseMode = false){
+            IniButtonPicker(increaseMode = false) {
                 onTimerListScreenClicked()
+            }
+
+            IniButtonPicker(increaseMode = false) {
+                onTimeFlowScreenClicked()
             }
         }
     }

@@ -36,5 +36,6 @@ dependencies {
 
     implementation(project(":feature:add-timer"))
     implementation(project(":feature:timer-list"))
+    implementation(project(":feature:timer-flow"))
     implementation(libs.bundles.koin)
 }

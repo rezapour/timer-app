@@ -11,7 +11,7 @@ import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import me.rezapour.domain.model.Timer
+import me.rezapour.domain.model.Routine
 import me.rezapour.domain.usecase.InsertTimerUseCase
 
 class AddTimerViewModel(private val insertUseCase: InsertTimerUseCase) : ViewModel() {
@@ -29,7 +29,7 @@ class AddTimerViewModel(private val insertUseCase: InsertTimerUseCase) : ViewMod
             return
         }
 
-        val timer = Timer(
+        val routine = Routine(
             name = state.name,
             workSeconds = state.workoutSecond,
             restSeconds = state.restSecond,
@@ -38,7 +38,7 @@ class AddTimerViewModel(private val insertUseCase: InsertTimerUseCase) : ViewMod
         viewModelScope.launch {
             isSaving(true)
             try {
-                insertUseCase(timer)
+                insertUseCase(routine)
                 _uiEffect.emit(AddTimerUiEffect.NavigationBack)
             } catch (e: Exception) {
                 if (e is CancellationException) throw e

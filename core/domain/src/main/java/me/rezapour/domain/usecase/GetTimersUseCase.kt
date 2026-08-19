@@ -1,9 +1,9 @@
 package me.rezapour.domain.usecase
 
-import me.rezapour.domain.repository.TimerRepository
+import me.rezapour.domain.repository.RoutineRepository
 
 class GetTimersUseCase(
-    private val timerRepository: TimerRepository
+    private val routineRepository: RoutineRepository
 ) {
-    operator fun invoke() = timerRepository.getTimers()
+    operator fun invoke() = routineRepository.getRoutines()
 }

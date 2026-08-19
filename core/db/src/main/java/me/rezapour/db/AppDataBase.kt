@@ -4,14 +4,19 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
-import me.rezapour.db.dao.TimerDao
-import me.rezapour.db.entites.TimerEntity
-import kotlin.jvm.java
+import androidx.room.TypeConverters
+import me.rezapour.db.converter.DataBaseConverter
+import me.rezapour.db.dao.RoutineDao
+import me.rezapour.db.dao.RoutineSessionDao
+import me.rezapour.db.entites.RoutineEntity
+import me.rezapour.db.entites.RoutineSessionEntity
 
-@Database(entities = [TimerEntity::class], version = 1)
+@Database(entities = [RoutineEntity::class, RoutineSessionEntity::class], version = 1)
+@TypeConverters(DataBaseConverter::class)
 abstract class AppDataBase : RoomDatabase() {
 
-    abstract fun timerDao(): TimerDao
+    abstract fun RoutineDao(): RoutineDao
+    abstract fun RoutineSessionDao(): RoutineSessionDao
 
     companion object {
         fun databaseBuilder(context: Context) =

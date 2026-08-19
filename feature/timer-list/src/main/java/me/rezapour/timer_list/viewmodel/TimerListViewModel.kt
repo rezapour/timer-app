@@ -13,7 +13,7 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
-import me.rezapour.domain.model.Timer
+import me.rezapour.domain.model.Routine
 import me.rezapour.domain.usecase.DeleteTimerUseCase
 import me.rezapour.domain.usecase.GetTimersUseCase
 import me.rezapour.timer_list.model.TimerItem
@@ -22,7 +22,7 @@ import me.rezapour.ui.mapper.Mapper
 class TimerListViewModel(
     private val getTimersUseCase: GetTimersUseCase,
     private val deleteTimersUseCase: DeleteTimerUseCase,
-    private val mapper: Mapper<Timer, TimerItem>
+    private val mapper: Mapper<Routine, TimerItem>
 ) : ViewModel() {
 
     private val _uiEffect: MutableSharedFlow<TimerListUiEffect> = MutableSharedFlow()
