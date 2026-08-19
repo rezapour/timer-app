@@ -1,6 +1,7 @@
 package me.rezapour.designsystem.theme
 
 import android.os.Build
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.ColorScheme
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Shapes
@@ -12,33 +13,32 @@ import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.ReadOnlyComposable
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 
 private val DarkColorScheme = darkColorScheme(
-    primary = GreenPrimary,
-    onPrimary = OnLight,
-    primaryContainer = GreenContainerDark,
-    onPrimaryContainer = GreenContainerLight,
+    primary = PrimaryDark,
+    onPrimary = OnPrimaryDark,
+    primaryContainer = PrimaryContainerDark,
+    onPrimaryContainer = OnPrimaryContainerDark,
 
-    secondary = OrangeSecondary,
-    onSecondary = OnLight,
-    secondaryContainer = OrangeContainerDark,
-    onSecondaryContainer = Color(0xFFFFDCC2),
+    secondary = SecondaryDark,
+    onSecondary = OnSecondaryDark,
+    secondaryContainer = SecondaryContainerDark,
+    onSecondaryContainer = OnSecondaryContainerDark,
 
-    tertiary = SkyTertiary,
-    onTertiary = OnLight,
-    tertiaryContainer = SkyContainerDark,
-    onTertiaryContainer = Color(0xFFBFE9FF),
+    tertiary = TertiaryDark,
+    onTertiary = OnTertiaryDark,
+    tertiaryContainer = TertiaryContainerDark,
+    onTertiaryContainer = OnTertiaryContainerDark,
 
     background = BackgroundDark,
-    onBackground = OnDark,
+    onBackground = OnBackgroundDark,
 
     surface = SurfaceDark,
-    onSurface = OnDark,
+    onSurface = OnSurfaceDark,
 
     surfaceVariant = SurfaceVariantDark,
-    onSurfaceVariant = MutedDark,
+    onSurfaceVariant = OnSurfaceVariantDark,
 
     outline = OutlineDark,
     outlineVariant = OutlineVariantDark,
@@ -46,33 +46,33 @@ private val DarkColorScheme = darkColorScheme(
     error = ErrorDark,
     onError = OnErrorDark,
     errorContainer = ErrorContainerDark,
-    onErrorContainer = Color(0xFFFFDAD6),
+    onErrorContainer = OnErrorContainerDark,
 )
 
 private val LightColorScheme = lightColorScheme(
-    primary = GreenPrimaryDark,
-    onPrimary = Color.White,
-    primaryContainer = GreenContainerLight,
-    onPrimaryContainer = Color(0xFF052E16),
+    primary = PrimaryLight,
+    onPrimary = OnPrimaryLight,
+    primaryContainer = PrimaryContainerLight,
+    onPrimaryContainer = OnPrimaryContainerLight,
 
-    secondary = OrangeSecondaryDark,
-    onSecondary = Color.White,
-    secondaryContainer = OrangeContainerLight,
-    onSecondaryContainer = Color(0xFF431407),
+    secondary = SecondaryLight,
+    onSecondary = OnSecondaryLight,
+    secondaryContainer = SecondaryContainerLight,
+    onSecondaryContainer = OnSecondaryContainerLight,
 
-    tertiary = SkyTertiaryDark,
-    onTertiary = Color.White,
-    tertiaryContainer = SkyContainerLight,
-    onTertiaryContainer = Color(0xFF082F49),
+    tertiary = TertiaryLight,
+    onTertiary = OnTertiaryLight,
+    tertiaryContainer = TertiaryContainerLight,
+    onTertiaryContainer = OnTertiaryContainerLight,
 
     background = BackgroundLight,
-    onBackground = OnLight,
+    onBackground = OnBackgroundLight,
 
     surface = SurfaceLight,
-    onSurface = OnLight,
+    onSurface = OnSurfaceLight,
 
     surfaceVariant = SurfaceVariantLight,
-    onSurfaceVariant = MutedLight,
+    onSurfaceVariant = OnSurfaceVariantLight,
 
     outline = OutlineLight,
     outlineVariant = OutlineVariantLight,
@@ -80,12 +80,12 @@ private val LightColorScheme = lightColorScheme(
     error = ErrorLight,
     onError = OnErrorLight,
     errorContainer = ErrorContainerLight,
-    onErrorContainer = Color(0xFF410E0B),
+    onErrorContainer = OnErrorContainerLight,
 )
 
 @Composable
 fun IniTheme(
-    darkTheme: Boolean = true,
+    darkTheme: Boolean = isSystemInDarkTheme(),
     // Dynamic color is available on Android 12+
     dynamicColor: Boolean = false,
     content: @Composable () -> Unit
