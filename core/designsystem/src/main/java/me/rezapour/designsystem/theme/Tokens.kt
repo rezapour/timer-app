@@ -15,7 +15,10 @@ data class Spacing(
     val s: Dp = 8.dp,
     val m: Dp = 16.dp,
     val l: Dp = 24.dp,
-    val xl: Dp = 32.dp
+    val xl: Dp = 32.dp,
+    val xxl: Dp = 48.dp,
+    val gutter: Dp = 16.dp,
+    val screenMargin: Dp = 20.dp
 )
 
 @Immutable
