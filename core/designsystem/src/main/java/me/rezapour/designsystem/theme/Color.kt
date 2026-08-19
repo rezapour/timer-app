@@ -2,46 +2,73 @@ package me.rezapour.designsystem.theme
 
 import androidx.compose.ui.graphics.Color
 
-// Brand / Accent palette
-val GreenPrimary = Color(0xFF22C55E)
-val GreenPrimaryDark = Color(0xFF15803D)
-val GreenContainerDark = Color(0xFF163320)
-val GreenContainerLight = Color(0xFFDCFCE7)
+// Light
+val PrimaryLight = Color(0xFF24389C)
+val OnPrimaryLight = Color(0xFFFFFFFF)
+val PrimaryContainerLight = Color(0xFF3F51B5)
+val OnPrimaryContainerLight = Color(0xFFCACFFF)
 
-val OrangeSecondary = Color(0xFFF97316)
-val OrangeSecondaryDark = Color(0xFFC2410C)
-val OrangeContainerDark = Color(0xFF3A2314)
-val OrangeContainerLight = Color(0xFFFFE0CC)
+val SecondaryLight = Color(0xFF006C49)
+val OnSecondaryLight = Color(0xFFFFFFFF)
+val SecondaryContainerLight = Color(0xFF6CF8BB)
+val OnSecondaryContainerLight = Color(0xFF00714D)
 
-val SkyTertiary = Color(0xFF0EA5E9)
-val SkyTertiaryDark = Color(0xFF0369A1)
-val SkyContainerDark = Color(0xFF132C3A)
-val SkyContainerLight = Color(0xFFE0F2FE)
+val TertiaryLight = Color(0xFF603B00)
+val OnTertiaryLight = Color(0xFFFFFFFF)
+val TertiaryContainerLight = Color(0xFF805000)
+val OnTertiaryContainerLight = Color(0xFFFFC988)
 
-// Neutral dark surfaces
-val BackgroundDark = Color(0xFF0F172A)
-val SurfaceDark = Color(0xFF1E293B)
-val SurfaceVariantDark = Color(0xFF1A2236)
-val OutlineDark = Color(0xFF334155)
-val OutlineVariantDark = Color(0xFF475569)
+val BackgroundLight = Color(0xFFF8F9FF)
+val OnBackgroundLight = Color(0xFF0B1C30)
 
-// Neutral light surfaces
-val BackgroundLight = Color(0xFFF8FAFC)
-val SurfaceLight = Color(0xFFFFFFFF)
-val SurfaceVariantLight = Color(0xFFE2E8F0)
-val OutlineLight = Color(0xFF94A3B8)
-val OutlineVariantLight = Color(0xFFCBD5E1)
+val SurfaceLight = Color(0xFFF8F9FF)
+val OnSurfaceLight = Color(0xFF0B1C30)
+val SurfaceVariantLight = Color(0xFFD3E4FE)
+val OnSurfaceVariantLight = Color(0xFF454652)
 
-// Text / content
-val OnDark = Color(0xFFF8FAFC)
-val OnLight = Color(0xFF0F172A)
-val MutedDark = Color(0xFF94A3B8)
-val MutedLight = Color(0xFF64748B)
+val OutlineLight = Color(0xFF757684)
+val OutlineVariantLight = Color(0xFFC5C5D4)
 
-// Error
-val ErrorLight = Color(0xFFB3261E)
-val ErrorDark = Color(0xFFFFB4AB)
-val ErrorContainerLight = Color(0xFFF9DEDC)
-val ErrorContainerDark = Color(0xFF8C1D18)
+val ErrorLight = Color(0xFFBA1A1A)
 val OnErrorLight = Color(0xFFFFFFFF)
+val ErrorContainerLight = Color(0xFFFFDAD6)
+val OnErrorContainerLight = Color(0xFF93000A)
+
+
+// Dark
+val PrimaryDark = Color(0xFFBAC3FF)
+val OnPrimaryDark = Color(0xFF072289)
+val PrimaryContainerDark = Color(0xFF24389C)
+val OnPrimaryContainerDark = Color(0xFF9DABFF)
+
+val SecondaryDark = Color(0xFF81D8AD)
+val OnSecondaryDark = Color(0xFF003824)
+val SecondaryContainerDark = Color(0xFF006C49)
+val OnSecondaryContainerDark = Color(0xFF93EABE)
+
+val TertiaryDark = Color(0xFFF4BC78)
+val OnTertiaryDark = Color(0xFF472A00)
+val TertiaryContainerDark = Color(0xFF603B00)
+val OnTertiaryContainerDark = Color(0xFFDBA664)
+
+val BackgroundDark = Color(0xFF121319)
+val OnBackgroundDark = Color(0xFFE3E1EA)
+
+val SurfaceDark = Color(0xFF121319)
+val OnSurfaceDark = Color(0xFFE3E1EA)
+val SurfaceVariantDark = Color(0xFF34343B)
+val OnSurfaceVariantDark = Color(0xFFC5C5D4)
+
+val OutlineDark = Color(0xFF8F909E)
+val OutlineVariantDark = Color(0xFF454652)
+
+val ErrorDark = Color(0xFFFFB4AB)
 val OnErrorDark = Color(0xFF690005)
+val ErrorContainerDark = Color(0xFF93000A)
+val OnErrorContainerDark = Color(0xFFFFDAD6)
+
+
+// Routine semantic colors
+val Work = Color(0xFF10B981)
+val Rest = Color(0xFFF59E0B)
+val Completed = Color(0xFF14B8A6)

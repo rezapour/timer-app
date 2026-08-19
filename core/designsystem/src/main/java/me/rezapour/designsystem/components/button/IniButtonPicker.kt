@@ -2,7 +2,6 @@ package me.rezapour.designsystem.components.button
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.runtime.Composable
@@ -25,7 +24,7 @@ fun IniButtonPicker(
     IconButton(
         modifier = modifier
             .size(54.dp)
-            .clip(RoundedCornerShape(IniTheme.appShapes.medium))
+            .clip(IniTheme.shapes.medium)
             .background(
                 color = IniTheme.colors.primaryContainer,
             ),
