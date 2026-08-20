@@ -32,4 +32,7 @@ data class Sizes(
     val buttonLoader: Dp = 20.dp,
     val buttonLoaderStroke: Dp = 2.dp,
 
+    val iconButtonSize: Dp = 40.dp,
+    val iconButtonIconSize: Dp = 14.dp
+
 )
