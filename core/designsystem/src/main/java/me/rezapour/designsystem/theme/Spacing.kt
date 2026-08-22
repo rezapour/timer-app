@@ -6,7 +6,6 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 
 val LocalSpacing = staticCompositionLocalOf { Spacing() }
-val LocalSizes = staticCompositionLocalOf { Sizes() }
 
 @Immutable
 data class Spacing(
@@ -20,19 +19,3 @@ data class Spacing(
     val screenMargin: Dp = 20.dp
 )
 
-@Immutable
-data class Sizes(
-
-    val touchTarget: Dp = 48.dp,
-    val primaryFab: Dp = 80.dp,
-    val secondaryFab: Dp = 64.dp,
-
-    val buttonHeight: Dp = 56.dp,
-    val buttonIcon: Dp = 20.dp,
-    val buttonLoader: Dp = 20.dp,
-    val buttonLoaderStroke: Dp = 2.dp,
-
-    val iconButtonSize: Dp = 40.dp,
-    val iconButtonIconSize: Dp = 14.dp
-
-)
