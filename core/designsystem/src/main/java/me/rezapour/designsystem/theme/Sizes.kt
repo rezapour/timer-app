@@ -24,4 +24,11 @@ data class Sizes(
     //IniIconButton Sizes
     val iconButtonSize: Dp = 40.dp,
     val iconButtonIconSize: Dp = 14.dp,
+
+    //IniNumberPicker
+    val numberPickerWidth: Dp = 154.dp,
+    val numberPickerHeight: Dp = 50.dp,
+    val numberPickerInnerPadding: Dp = 5.dp,
+    val numberPickerBorderStroke: Dp = 1.dp,
+    val numberPickerValueWidth:Dp = 56.dp
 )
