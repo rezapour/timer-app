@@ -1,10 +1,9 @@
 plugins {
     alias(libs.plugins.android.library)
-    alias(libs.plugins.kotlin.android)
 }
 
 android {
-    namespace = "me.rezapour.di"
+    namespace = "me.rezapour.core_di"
     compileSdk = libs.versions.compileSdk.get().toInt()
 
     defaultConfig {
@@ -26,9 +25,6 @@ android {
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11
-    }
-    kotlinOptions {
-        jvmTarget = "11"
     }
 }
 
