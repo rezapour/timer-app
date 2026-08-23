@@ -33,8 +33,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import me.rezapour.designsystem.R
-import me.rezapour.designsystem.components.button.IniButton
 import me.rezapour.designsystem.components.button.IniButtonPicker
+import me.rezapour.designsystem.components.button.IniPrimaryButton
 import me.rezapour.designsystem.theme.IniTheme
 import me.rezapour.timer_list.model.TimerItem
 import me.rezapour.timer_list.viewmodel.TimerListAction
@@ -201,11 +201,11 @@ fun TimerItemComponent(
             }
 
 
-            IniButton(icon = R.drawable.ic_delete) {
+            IniPrimaryButton(text = "Delete", icon = R.drawable.ic_delete) {
                 onDeleteClicked(timerItem.id)
             }
             Spacer(modifier = Modifier.width(IniTheme.spacing.m))
-            IniButton(icon = R.drawable.ic_play) {
+            IniPrimaryButton(text = "start", icon = R.drawable.ic_play) {
                 onStartClicked(timerItem.id)
             }
         }

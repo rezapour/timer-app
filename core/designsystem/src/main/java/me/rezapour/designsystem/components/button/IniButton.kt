@@ -4,74 +4,76 @@ import androidx.annotation.DrawableRes
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonColors
-import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
+import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.unit.dp
-import me.rezapour.designsystem.R
 import me.rezapour.designsystem.theme.IniTheme
-import me.rezapour.designsystem.util.IniPreview
-import me.rezapour.ui.compose.condition
 
 
 @Composable
-fun IniButton(
-    modifier: Modifier = Modifier,
-    text: String? = null,
-    @DrawableRes icon: Int? = null,
-    enable: Boolean = true,
+internal fun IniButton(
+    modifier: Modifier,
+    text: String,
+    enabled: Boolean,
+    loading: Boolean,
+    colors: ButtonColors,
+    @DrawableRes resId: Int?,
     onClick: () -> Unit,
 ) {
-
-    val isSquare = icon != null && text == null
     Button(
-        modifier = modifier.condition(isSquare) {
-            size(54.dp)
-        },
-        enabled = enable,
-        shape = IniTheme.shapes.medium,
-        colors = ButtonColors(
-            containerColor = IniTheme.colors.primary,
-            contentColor = IniTheme.colors.onPrimary,
-            disabledContainerColor = IniTheme.colors.primary.copy(alpha = 0.6f),
-            disabledContentColor = IniTheme.colors.onPrimary.copy(alpha = 0.6f),
+        modifier = modifier
+            .height(IniTheme.sizes.buttonHeight),
+        contentPadding = PaddingValues(
+            horizontal = IniTheme.spacing.l,
+            vertical = IniTheme.spacing.s
         ),
-        contentPadding = if (isSquare) PaddingValues(0.dp) else ButtonDefaults.ContentPadding,
-        onClick = onClick
+        shape = IniTheme.shapes.large,
+        colors = colors,
+        enabled = enabled && !loading,
+        onClick = onClick,
     ) {
         Row(
+            modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.Center,
             verticalAlignment = Alignment.CenterVertically
         ) {
-            icon?.let {
-                Icon(
-                    painter = painterResource(
-                        icon
-                    ),
-                    contentDescription = null
+
+
+            if (loading) {
+                CircularProgressIndicator(
+                    modifier = Modifier.size(IniTheme.sizes.buttonLoader),
+                    color = LocalContentColor.current,
+                    strokeWidth = IniTheme.sizes.buttonLoaderStroke
                 )
+                Spacer(modifier = Modifier.width(IniTheme.spacing.s))
+            } else {
+                resId?.let {
+                    Icon(
+                        painter = painterResource(resId),
+                        modifier = Modifier.size(IniTheme.sizes.buttonIcon),
+                        contentDescription = null
+                    )
+                    Spacer(modifier = Modifier.width(IniTheme.spacing.s))
+                }
             }
-            text?.let {
-                Text(text = it)
-            }
-        }
 
-
-    }
-}
-
-@Composable
-@IniPreview
-private fun IniButtonPreview() {
-    IniTheme {
-        IniButton(icon = R.drawable.ic_plus, text = "Text") {
+            Text(
+                text = text,
+                style = IniTheme.typography.labelLarge,
+                maxLines = 1
+            )
         }
     }
 }
