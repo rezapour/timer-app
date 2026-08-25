@@ -5,7 +5,7 @@ plugins {
 }
 
 android {
-    namespace = "me.rezapour.add_routine"
+    namespace = "me.rezapour.add_routine.impl"
     compileSdk = libs.versions.compileSdk.get().toInt()
 
     defaultConfig {
