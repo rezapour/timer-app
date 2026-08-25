@@ -14,4 +14,6 @@
     <string name="add_routine_repetitions">Repetitions</string>
 
     <string name="add_routine_save">Save Routine</string>
+    <string name="add_routine_summary">%1$d rounds • %2$s total</string>
+    <string name="add_routine_error">The routine did not saved please try again.</string>
 </resources>

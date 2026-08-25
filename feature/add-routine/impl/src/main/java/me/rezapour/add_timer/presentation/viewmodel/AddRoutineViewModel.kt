@@ -11,6 +11,7 @@ import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.sync.Mutex
 import me.rezapour.domain.model.Routine
 import me.rezapour.domain.usecase.InsertTimerUseCase
 
@@ -23,32 +24,28 @@ class AddRoutineViewModel(private val insertUseCase: InsertTimerUseCase) : ViewM
     private val _uiEffect: MutableSharedFlow<AddRoutineUiEffect> = MutableSharedFlow()
     val uiEffect: SharedFlow<AddRoutineUiEffect> = _uiEffect.asSharedFlow()
 
+    val mutex = Mutex()
+
     private fun saveRoutine() {
         val state = uiState.value
-        if (state.name.isBlank()) {
-            showError("Name can't be empty")
-            return
-        }
-
         val routine = Routine(
-            name = state.name,
+            name = state.name.ifBlank { null },
             workSeconds = state.workoutSecond,
             restSeconds = state.restSecond,
             rounds = state.rounds
         )
         viewModelScope.launch {
-            isSaving(true)
-            try {
-                insertUseCase(routine)
-                _uiEffect.emit(AddRoutineUiEffect.NavigationBack)
-            } catch (e: Exception) {
-                if (e is CancellationException) throw e
-                showError(e.message.toString())
-            } finally {
-                isSaving(false)
+            if (mutex.tryLock()) {
+                try {
+                    insertUseCase(routine)
+                    _uiEffect.emit(AddRoutineUiEffect.NavigationBack)
+                } catch (e: Exception) {
+                    if (e is CancellationException) throw e
+                    showError(e.message.toString())
+                } finally {
+                    mutex.unlock()
+                }
             }
-
-
         }
     }
 
@@ -66,13 +63,12 @@ class AddRoutineViewModel(private val insertUseCase: InsertTimerUseCase) : ViewM
         }
     }
 
-    private fun isSaving(isSaving: Boolean) {
-        _uiState.update { it.copy(isSaving = isSaving) }
-    }
-
     private fun workoutIncreaseValue() {
         _uiState.update {
-            it.copy(workoutSecond = it.workoutSecond + 30)
+            it.copy(
+                workoutSecond = it.workoutSecond + 30,
+                workDecreasedEnabled = true
+            )
         }
     }
 
@@ -81,13 +77,19 @@ class AddRoutineViewModel(private val insertUseCase: InsertTimerUseCase) : ViewM
             if (it.workoutSecond > AddRoutineUiState.MIN_WORK_OUT)
                 it.copy(workoutSecond = it.workoutSecond - 30)
             else
-                it.copy(workoutSecond = AddRoutineUiState.MIN_WORK_OUT)
+                it.copy(
+                    workoutSecond = AddRoutineUiState.MIN_WORK_OUT,
+                    workDecreasedEnabled = false
+                )
         }
     }
 
     private fun restIncreaseValue() {
         _uiState.update {
-            it.copy(restSecond = it.restSecond + 30)
+            it.copy(
+                restSecond = it.restSecond + 30,
+                restDecreasedEnabled = true
+            )
         }
     }
 
@@ -96,13 +98,19 @@ class AddRoutineViewModel(private val insertUseCase: InsertTimerUseCase) : ViewM
             if (it.restSecond > AddRoutineUiState.MIN_REST)
                 it.copy(restSecond = it.restSecond - 30)
             else
-                it.copy(restSecond = AddRoutineUiState.MIN_REST)
+                it.copy(
+                    restSecond = AddRoutineUiState.MIN_REST,
+                    restDecreasedEnabled = false
+                )
         }
     }
 
     private fun roundIncreaseValue() {
         _uiState.update {
-            it.copy(rounds = it.rounds + 1)
+            it.copy(
+                rounds = it.rounds + 1,
+                roundDecreasedEnabled = true
+            )
         }
     }
 
@@ -111,7 +119,10 @@ class AddRoutineViewModel(private val insertUseCase: InsertTimerUseCase) : ViewM
             if (it.rounds > AddRoutineUiState.MIN_ROUNDS)
                 it.copy(rounds = it.rounds - 1)
             else
-                it.copy(rounds = AddRoutineUiState.MIN_ROUNDS)
+                it.copy(
+                    rounds = AddRoutineUiState.MIN_ROUNDS,
+                    roundDecreasedEnabled = false
+                )
         }
     }
 
@@ -146,13 +157,19 @@ sealed class AddRoutineAction {
 }
 
 data class AddRoutineUiState(
-    val isSaving: Boolean = false,
     val name: String = "",
     val workoutSecond: Long = MIN_WORK_OUT,
     val restSecond: Long = MIN_REST,
     val rounds: Int = MIN_ROUNDS,
+    val workIncreasedEnabled: Boolean = true,
+    val workDecreasedEnabled: Boolean = false,
+    val restIncreasedEnabled: Boolean = true,
+    val restDecreasedEnabled: Boolean = false,
+    val roundIncreasedEnabled: Boolean = true,
+    val roundDecreasedEnabled: Boolean = false
+
 ) {
-    val total = (workoutSecond + restSecond) * rounds
+    val total = workoutSecond * rounds + restSecond * (rounds - 1)
 
     companion object {
         const val MIN_REST = 30L

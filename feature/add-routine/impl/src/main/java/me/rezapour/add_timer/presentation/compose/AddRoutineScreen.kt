@@ -62,21 +62,19 @@ fun AddRoutineScreen(
         }
     }
 
-    AddTimerContent(
+    AddRoutineContent(
         uiState = uiState,
         snackBarHostState = snackbarHost,
         onAction = viewModel::onAction,
-        onNavigationBack = onNavigationBack
     )
 }
 
 
 @Composable
-fun AddTimerContent(
+private fun AddRoutineContent(
     uiState: AddRoutineUiState,
     snackBarHostState: SnackbarHostState,
-    onAction: (AddRoutineAction) -> Unit,
-    onNavigationBack: () -> Unit
+    onAction: (AddRoutineAction) -> Unit
 ) {
 
     Scaffold(
@@ -96,7 +94,7 @@ fun AddTimerContent(
                         iconSize = 32.dp,
                         tint = IniTheme.materialColors.primary
                     ) {
-                        onNavigationBack()
+                        onAction(AddRoutineAction.BackClicked)
                     }
 
                 }
@@ -118,7 +116,7 @@ fun AddTimerContent(
 }
 
 @Composable
-fun Content(
+private fun Content(
     modifier: Modifier = Modifier,
     uiState: AddRoutineUiState,
     onAction: (AddRoutineAction) -> Unit
@@ -167,7 +165,9 @@ fun Content(
             iconContainerColor = IniTheme.colors.workContainer,
             value = uiState.workoutSecond.toString(),
             onIncreased = { onAction(AddRoutineAction.WorkoutIncreased) },
-            onDecreased = { onAction(AddRoutineAction.WorkoutDecreased) }
+            onDecreased = { onAction(AddRoutineAction.WorkoutDecreased) },
+            increasedEnabled = uiState.workIncreasedEnabled,
+            decreasedEnabled = uiState.workDecreasedEnabled
         )
         Spacer(modifier = Modifier.height(IniTheme.spacing.m))
 
@@ -181,7 +181,9 @@ fun Content(
             iconContainerColor = IniTheme.colors.restContainer,
             value = uiState.restSecond.toString(),
             onIncreased = { onAction(AddRoutineAction.RestIncreased) },
-            onDecreased = { onAction(AddRoutineAction.RestDecreased) }
+            onDecreased = { onAction(AddRoutineAction.RestDecreased) },
+            increasedEnabled = uiState.restIncreasedEnabled,
+            decreasedEnabled = uiState.restDecreasedEnabled
         )
         Spacer(modifier = Modifier.height(IniTheme.spacing.m))
 
@@ -194,7 +196,9 @@ fun Content(
             iconContainerColor = IniTheme.colors.roundContainer,
             value = uiState.rounds.toString(),
             onIncreased = { onAction(AddRoutineAction.RoundIncreased) },
-            onDecreased = { onAction(AddRoutineAction.RoundDecreased) }
+            onDecreased = { onAction(AddRoutineAction.RoundDecreased) },
+            increasedEnabled = uiState.roundIncreasedEnabled,
+            decreasedEnabled = uiState.roundDecreasedEnabled
         )
         Spacer(modifier = Modifier.height(IniTheme.spacing.m))
         HorizontalDivider()
@@ -202,7 +206,11 @@ fun Content(
 
         Spacer(modifier = Modifier.height(IniTheme.spacing.m))
         IniPill(
-            value = "${uiState.rounds} rounds • ${TimerDurationFormatter.formatForTotal(uiState.total)} total"
+            value = stringResource(
+                res.string.add_routine_summary,
+                uiState.rounds,
+                TimerDurationFormatter.formatForTotal(uiState.total)
+            )
         )
         Spacer(modifier = Modifier.height(IniTheme.spacing.m))
         IniPrimaryButton(
@@ -216,12 +224,11 @@ fun Content(
 
 @Preview
 @Composable
-fun AddTimerContentPreview() {
+private fun AddRoutineContentPreview() {
     IniTheme {
-        AddTimerContent(
+        AddRoutineContent(
             AddRoutineUiState(),
             SnackbarHostState(),
-            onAction = {},
-            onNavigationBack = {})
+            onAction = {},)
     }
 }
