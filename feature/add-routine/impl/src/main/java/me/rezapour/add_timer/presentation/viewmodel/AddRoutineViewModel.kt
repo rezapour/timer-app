@@ -13,9 +13,9 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.sync.Mutex
 import me.rezapour.domain.model.Routine
-import me.rezapour.domain.usecase.InsertTimerUseCase
+import me.rezapour.domain.usecase.InsertRoutineUseCase
 
-class AddRoutineViewModel(private val insertUseCase: InsertTimerUseCase) : ViewModel() {
+class AddRoutineViewModel(private val insertUseCase: InsertRoutineUseCase) : ViewModel() {
 
     private val _uiState: MutableStateFlow<AddRoutineUiState> =
         MutableStateFlow(AddRoutineUiState())
