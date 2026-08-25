@@ -1,7 +1,7 @@
 package me.rezapour.ui.formatter
 
 object TimerDurationFormatter {
-    fun formatForPicker(seconds:Long):String {
+    fun formatForPicker(seconds: Long): String {
         val mins = seconds / 60
         val seconds = seconds % 60
 
@@ -12,7 +12,18 @@ object TimerDurationFormatter {
         }
     }
 
-    fun formatForTimerList(seconds:Long):String {
+    fun formatForTotal(seconds: Long): String {
+        val mins = seconds / 60
+        val seconds = seconds % 60
+
+        return when {
+            mins != 0L && seconds != 0L -> "${mins}:${seconds}"
+            mins != 0L -> "${mins}:00"
+            else -> "00:${seconds}"
+        }
+    }
+
+    fun formatForTimerList(seconds: Long): String {
         val mins = seconds / 60
         val seconds = seconds % 60
 

@@ -1,6 +1,6 @@
 @file:OptIn(ExperimentalMaterial3Api::class)
 
-package me.rezapour.add_timer.compose
+package me.rezapour.add_timer.presentation.compose
 
 
 import androidx.compose.foundation.layout.Arrangement
@@ -27,21 +27,26 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import me.rezapour.add_timer.viewmodel.AddTimerAction
-import me.rezapour.add_timer.viewmodel.AddTimerUiEffect
-import me.rezapour.add_timer.viewmodel.AddTimerUiState
-import me.rezapour.add_timer.viewmodel.AddTimerViewModel
+import me.rezapour.add_timer.compose.RoutineConfigItem
+import me.rezapour.add_timer.presentation.viewmodel.AddRoutineAction
+import me.rezapour.add_timer.presentation.viewmodel.AddRoutineUiEffect
+import me.rezapour.add_timer.presentation.viewmodel.AddRoutineUiState
+import me.rezapour.add_timer.presentation.viewmodel.AddRoutineViewModel
 import me.rezapour.designsystem.components.IniPill
 import me.rezapour.designsystem.components.button.IniPrimaryButton
 import me.rezapour.designsystem.components.icon_button.IniIconButton
 import me.rezapour.designsystem.components.textfield.IniTextField
 import me.rezapour.designsystem.theme.IniTheme
+import me.rezapour.ui.formatter.TimerDurationFormatter
 import org.koin.compose.viewmodel.koinViewModel
 import me.rezapour.resources.R as res
 
 
 @Composable
-fun AddRoutineScreen(viewModel: AddTimerViewModel = koinViewModel(), onNavigationBack: () -> Unit) {
+fun AddRoutineScreen(
+    viewModel: AddRoutineViewModel = koinViewModel(),
+    onNavigationBack: () -> Unit
+) {
     val uiState = viewModel.uiState.collectAsStateWithLifecycle().value
 
     val snackbarHost = remember { SnackbarHostState() }
@@ -51,8 +56,8 @@ fun AddRoutineScreen(viewModel: AddTimerViewModel = koinViewModel(), onNavigatio
     LaunchedEffect(viewModel) {
         viewModel.uiEffect.collect { effect ->
             when (effect) {
-                AddTimerUiEffect.NavigationBack -> onNavigationBack()
-                is AddTimerUiEffect.ShowSnackBar -> snackbarHost.showSnackbar(effect.errorMessage)
+                AddRoutineUiEffect.NavigationBack -> onNavigationBack()
+                is AddRoutineUiEffect.ShowSnackBar -> snackbarHost.showSnackbar(effect.errorMessage)
             }
         }
     }
@@ -68,9 +73,9 @@ fun AddRoutineScreen(viewModel: AddTimerViewModel = koinViewModel(), onNavigatio
 
 @Composable
 fun AddTimerContent(
-    uiState: AddTimerUiState,
+    uiState: AddRoutineUiState,
     snackBarHostState: SnackbarHostState,
-    onAction: (AddTimerAction) -> Unit,
+    onAction: (AddRoutineAction) -> Unit,
     onNavigationBack: () -> Unit
 ) {
 
@@ -90,7 +95,9 @@ fun AddTimerContent(
                         icon = res.drawable.ic_button_close,
                         iconSize = 32.dp,
                         tint = IniTheme.materialColors.primary
-                    ) { }
+                    ) {
+                        onNavigationBack()
+                    }
 
                 }
             )
@@ -100,13 +107,22 @@ fun AddTimerContent(
         }
     ) { paddingValues ->
         Content(
-            modifier = Modifier.padding(top = paddingValues.calculateTopPadding())
+            modifier = Modifier.padding(
+                top = paddingValues.calculateTopPadding(),
+
+                ),
+            uiState = uiState,
+            onAction = onAction
         )
     }
 }
 
 @Composable
-fun Content(modifier: Modifier = Modifier) {
+fun Content(
+    modifier: Modifier = Modifier,
+    uiState: AddRoutineUiState,
+    onAction: (AddRoutineAction) -> Unit
+) {
 
     Column(
         modifier = modifier.padding(
@@ -119,8 +135,10 @@ fun Content(modifier: Modifier = Modifier) {
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         IniTextField(
-            value = "",
-            onValueChange = {},
+            value = uiState.name,
+            onValueChange = { newValue ->
+                onAction(AddRoutineAction.OnNameChanged(newValue))
+            },
             placeholder = stringResource(res.string.add_routine_name_placeholder),
             label = stringResource(res.string.add_routine_name_label)
         )
@@ -147,9 +165,9 @@ fun Content(modifier: Modifier = Modifier) {
             icon = res.drawable.ic_workout,
             tint = IniTheme.colors.workContent,
             iconContainerColor = IniTheme.colors.workContainer,
-            value = "50",
-            onIncreased = {},
-            onDecreased = {}
+            value = uiState.workoutSecond.toString(),
+            onIncreased = { onAction(AddRoutineAction.WorkoutIncreased) },
+            onDecreased = { onAction(AddRoutineAction.WorkoutDecreased) }
         )
         Spacer(modifier = Modifier.height(IniTheme.spacing.m))
 
@@ -161,9 +179,9 @@ fun Content(modifier: Modifier = Modifier) {
             icon = res.drawable.ic_rest,
             tint = IniTheme.colors.restContent,
             iconContainerColor = IniTheme.colors.restContainer,
-            value = "50",
-            onIncreased = {},
-            onDecreased = {}
+            value = uiState.restSecond.toString(),
+            onIncreased = { onAction(AddRoutineAction.RestIncreased) },
+            onDecreased = { onAction(AddRoutineAction.RestDecreased) }
         )
         Spacer(modifier = Modifier.height(IniTheme.spacing.m))
 
@@ -174,21 +192,24 @@ fun Content(modifier: Modifier = Modifier) {
             icon = res.drawable.ic_round,
             tint = IniTheme.colors.roundContent,
             iconContainerColor = IniTheme.colors.roundContainer,
-            value = "50",
-            onIncreased = {},
-            onDecreased = {}
+            value = uiState.rounds.toString(),
+            onIncreased = { onAction(AddRoutineAction.RoundIncreased) },
+            onDecreased = { onAction(AddRoutineAction.RoundDecreased) }
         )
         Spacer(modifier = Modifier.height(IniTheme.spacing.m))
         HorizontalDivider()
 
 
         Spacer(modifier = Modifier.height(IniTheme.spacing.m))
-        IniPill(value = "5 rounds • 5:00 total")
-
+        IniPill(
+            value = "${uiState.rounds} rounds • ${TimerDurationFormatter.formatForTotal(uiState.total)} total"
+        )
         Spacer(modifier = Modifier.height(IniTheme.spacing.m))
         IniPrimaryButton(
             text = stringResource(res.string.add_routine_save)
-        ) { }
+        ) {
+            onAction(AddRoutineAction.SaveRoutine)
+        }
     }
 }
 
@@ -198,7 +219,7 @@ fun Content(modifier: Modifier = Modifier) {
 fun AddTimerContentPreview() {
     IniTheme {
         AddTimerContent(
-            AddTimerUiState(),
+            AddRoutineUiState(),
             SnackbarHostState(),
             onAction = {},
             onNavigationBack = {})

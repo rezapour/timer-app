@@ -1,4 +1,4 @@
-package me.rezapour.add_timer.viewmodel
+package me.rezapour.add_timer.presentation.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -14,15 +14,16 @@ import kotlinx.coroutines.launch
 import me.rezapour.domain.model.Routine
 import me.rezapour.domain.usecase.InsertTimerUseCase
 
-class AddTimerViewModel(private val insertUseCase: InsertTimerUseCase) : ViewModel() {
+class AddRoutineViewModel(private val insertUseCase: InsertTimerUseCase) : ViewModel() {
 
-    private val _uiState: MutableStateFlow<AddTimerUiState> = MutableStateFlow(AddTimerUiState())
-    val uiState: StateFlow<AddTimerUiState> = _uiState.asStateFlow()
+    private val _uiState: MutableStateFlow<AddRoutineUiState> =
+        MutableStateFlow(AddRoutineUiState())
+    val uiState: StateFlow<AddRoutineUiState> = _uiState.asStateFlow()
 
-    private val _uiEffect: MutableSharedFlow<AddTimerUiEffect> = MutableSharedFlow()
-    val uiEffect: SharedFlow<AddTimerUiEffect> = _uiEffect.asSharedFlow()
+    private val _uiEffect: MutableSharedFlow<AddRoutineUiEffect> = MutableSharedFlow()
+    val uiEffect: SharedFlow<AddRoutineUiEffect> = _uiEffect.asSharedFlow()
 
-    private fun saveTimer() {
+    private fun saveRoutine() {
         val state = uiState.value
         if (state.name.isBlank()) {
             showError("Name can't be empty")
@@ -39,7 +40,7 @@ class AddTimerViewModel(private val insertUseCase: InsertTimerUseCase) : ViewMod
             isSaving(true)
             try {
                 insertUseCase(routine)
-                _uiEffect.emit(AddTimerUiEffect.NavigationBack)
+                _uiEffect.emit(AddRoutineUiEffect.NavigationBack)
             } catch (e: Exception) {
                 if (e is CancellationException) throw e
                 showError(e.message.toString())
@@ -51,17 +52,17 @@ class AddTimerViewModel(private val insertUseCase: InsertTimerUseCase) : ViewMod
         }
     }
 
-    fun onAction(event: AddTimerAction) {
+    fun onAction(event: AddRoutineAction) {
         when (event) {
-            AddTimerAction.SaveTimer -> saveTimer()
-            is AddTimerAction.OnNameChanged -> onNameChange(event.name)
-            AddTimerAction.OnRestDecreased -> restDecreaseValue()
-            AddTimerAction.OnRestIncreased -> restIncreaseValue()
-            AddTimerAction.OnRoundDecreased -> roundDecreaseValue()
-            AddTimerAction.OnRoundIncreased -> roundIncreaseValue()
-            AddTimerAction.OnWorkoutDecreased -> workoutDecreaseValue()
-            AddTimerAction.OnWorkoutIncreased -> workoutIncreaseValue()
-            AddTimerAction.BackClicked -> emitBackNavigation()
+            AddRoutineAction.SaveRoutine -> saveRoutine()
+            is AddRoutineAction.OnNameChanged -> onNameChange(event.name)
+            AddRoutineAction.RestDecreased -> restDecreaseValue()
+            AddRoutineAction.RestIncreased -> restIncreaseValue()
+            AddRoutineAction.RoundDecreased -> roundDecreaseValue()
+            AddRoutineAction.RoundIncreased -> roundIncreaseValue()
+            AddRoutineAction.WorkoutDecreased -> workoutDecreaseValue()
+            AddRoutineAction.WorkoutIncreased -> workoutIncreaseValue()
+            AddRoutineAction.BackClicked -> emitBackNavigation()
         }
     }
 
@@ -77,10 +78,10 @@ class AddTimerViewModel(private val insertUseCase: InsertTimerUseCase) : ViewMod
 
     private fun workoutDecreaseValue() {
         _uiState.update {
-            if (it.workoutSecond > AddTimerUiState.MIN_WORK_OUT)
+            if (it.workoutSecond > AddRoutineUiState.MIN_WORK_OUT)
                 it.copy(workoutSecond = it.workoutSecond - 30)
             else
-                it.copy(workoutSecond = AddTimerUiState.MIN_WORK_OUT)
+                it.copy(workoutSecond = AddRoutineUiState.MIN_WORK_OUT)
         }
     }
 
@@ -92,10 +93,10 @@ class AddTimerViewModel(private val insertUseCase: InsertTimerUseCase) : ViewMod
 
     private fun restDecreaseValue() {
         _uiState.update {
-            if (it.restSecond > AddTimerUiState.MIN_REST)
+            if (it.restSecond > AddRoutineUiState.MIN_REST)
                 it.copy(restSecond = it.restSecond - 30)
             else
-                it.copy(restSecond = AddTimerUiState.MIN_REST)
+                it.copy(restSecond = AddRoutineUiState.MIN_REST)
         }
     }
 
@@ -107,16 +108,16 @@ class AddTimerViewModel(private val insertUseCase: InsertTimerUseCase) : ViewMod
 
     private fun roundDecreaseValue() {
         _uiState.update {
-            if (it.rounds > AddTimerUiState.MIN_ROUNDS)
+            if (it.rounds > AddRoutineUiState.MIN_ROUNDS)
                 it.copy(rounds = it.rounds - 1)
             else
-                it.copy(rounds = AddTimerUiState.MIN_ROUNDS)
+                it.copy(rounds = AddRoutineUiState.MIN_ROUNDS)
         }
     }
 
     private fun showError(message: String) {
         viewModelScope.launch {
-            _uiEffect.emit(AddTimerUiEffect.ShowSnackBar(message))
+            _uiEffect.emit(AddRoutineUiEffect.ShowSnackBar(message))
         }
     }
 
@@ -126,31 +127,33 @@ class AddTimerViewModel(private val insertUseCase: InsertTimerUseCase) : ViewMod
 
     private fun emitBackNavigation() {
         viewModelScope.launch {
-            _uiEffect.emit(AddTimerUiEffect.NavigationBack)
+            _uiEffect.emit(AddRoutineUiEffect.NavigationBack)
         }
     }
 }
 
-sealed class AddTimerAction {
+sealed class AddRoutineAction {
 
-    object SaveTimer : AddTimerAction()
-    data class OnNameChanged(val name: String) : AddTimerAction()
-    object OnWorkoutIncreased : AddTimerAction()
-    object OnWorkoutDecreased : AddTimerAction()
-    object OnRestIncreased : AddTimerAction()
-    object OnRestDecreased : AddTimerAction()
-    object OnRoundIncreased : AddTimerAction()
-    object OnRoundDecreased : AddTimerAction()
-    object BackClicked : AddTimerAction()
+    object SaveRoutine : AddRoutineAction()
+    data class OnNameChanged(val name: String) : AddRoutineAction()
+    object WorkoutIncreased : AddRoutineAction()
+    object WorkoutDecreased : AddRoutineAction()
+    object RestIncreased : AddRoutineAction()
+    object RestDecreased : AddRoutineAction()
+    object RoundIncreased : AddRoutineAction()
+    object RoundDecreased : AddRoutineAction()
+    object BackClicked : AddRoutineAction()
 }
 
-data class AddTimerUiState(
+data class AddRoutineUiState(
     val isSaving: Boolean = false,
     val name: String = "",
     val workoutSecond: Long = MIN_WORK_OUT,
     val restSecond: Long = MIN_REST,
     val rounds: Int = MIN_ROUNDS,
 ) {
+    val total = (workoutSecond + restSecond) * rounds
+
     companion object {
         const val MIN_REST = 30L
         const val MIN_WORK_OUT = 30L
@@ -158,8 +161,8 @@ data class AddTimerUiState(
     }
 }
 
-sealed class AddTimerUiEffect {
-    data class ShowSnackBar(val errorMessage: String) : AddTimerUiEffect()
-    object NavigationBack : AddTimerUiEffect()
+sealed class AddRoutineUiEffect {
+    data class ShowSnackBar(val errorMessage: String) : AddRoutineUiEffect()
+    object NavigationBack : AddRoutineUiEffect()
 
 }
