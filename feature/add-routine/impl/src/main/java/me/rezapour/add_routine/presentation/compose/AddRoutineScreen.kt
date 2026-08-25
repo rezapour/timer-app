@@ -1,6 +1,6 @@
 @file:OptIn(ExperimentalMaterial3Api::class)
 
-package me.rezapour.add_timer.presentation.compose
+package me.rezapour.add_routine.presentation.compose
 
 
 import androidx.compose.foundation.layout.Arrangement
@@ -27,11 +27,11 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import me.rezapour.add_timer.compose.RoutineConfigItem
-import me.rezapour.add_timer.presentation.viewmodel.AddRoutineAction
-import me.rezapour.add_timer.presentation.viewmodel.AddRoutineUiEffect
-import me.rezapour.add_timer.presentation.viewmodel.AddRoutineUiState
-import me.rezapour.add_timer.presentation.viewmodel.AddRoutineViewModel
+import me.rezapour.add_routine.compose.RoutineConfigItem
+import me.rezapour.add_routine.presentation.viewmodel.AddRoutineAction
+import me.rezapour.add_routine.presentation.viewmodel.AddRoutineUiEffect
+import me.rezapour.add_routine.presentation.viewmodel.AddRoutineUiState
+import me.rezapour.add_routine.presentation.viewmodel.AddRoutineViewModel
 import me.rezapour.designsystem.components.IniPill
 import me.rezapour.designsystem.components.button.IniPrimaryButton
 import me.rezapour.designsystem.components.icon_button.IniIconButton

@@ -1,8 +1,8 @@
-package me.rezapour.add_timer.presentation.navigation
+package me.rezapour.add_routine.presentation.navigation
 
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.navigation3.runtime.EntryProviderScope
-import me.rezapour.add_timer.presentation.compose.AddRoutineScreen
+import me.rezapour.add_routine.presentation.compose.AddRoutineScreen
 
 
 data object AddTimerScreen

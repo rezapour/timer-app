@@ -1,4 +1,4 @@
-package me.rezapour.add_timer.compose
+package me.rezapour.add_routine.compose
 
 import androidx.annotation.DrawableRes
 import androidx.compose.foundation.background

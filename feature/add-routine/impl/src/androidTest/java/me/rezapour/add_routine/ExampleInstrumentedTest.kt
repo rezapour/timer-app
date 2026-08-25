@@ -1,4 +1,4 @@
-package me.rezapour.add_timer
+package me.rezapour.add_routine
 
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.ext.junit.runners.AndroidJUnit4

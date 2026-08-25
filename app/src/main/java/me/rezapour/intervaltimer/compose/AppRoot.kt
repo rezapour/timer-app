@@ -7,8 +7,8 @@ import androidx.lifecycle.viewmodel.navigation3.rememberViewModelStoreNavEntryDe
 import androidx.navigation3.runtime.entryProvider
 import androidx.navigation3.runtime.rememberSaveableStateHolderNavEntryDecorator
 import androidx.navigation3.ui.NavDisplay
-import me.rezapour.add_timer.presentation.navigation.AddTimerScreen
-import me.rezapour.add_timer.presentation.navigation.addTimerScreen
+import me.rezapour.add_routine.presentation.navigation.AddTimerScreen
+import me.rezapour.add_routine.presentation.navigation.addTimerScreen
 import me.rezapour.timer_flow.compose.TimerFlowScreen
 import me.rezapour.timer_list.navigation.TimerListScreen
 import me.rezapour.timer_list.navigation.timerListScreen

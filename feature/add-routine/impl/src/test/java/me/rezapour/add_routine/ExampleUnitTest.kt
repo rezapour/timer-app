@@ -1,4 +1,4 @@
-package me.rezapour.add_timer
+package me.rezapour.add_routine
 
 import org.junit.Test
 

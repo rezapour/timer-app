@@ -1,4 +1,4 @@
-package me.rezapour.add_timer.presentation.viewmodel
+package me.rezapour.add_routine.presentation.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope

@@ -1,6 +1,6 @@
-package me.rezapour.add_timer.di
+package me.rezapour.add_routine.di
 
-import me.rezapour.add_timer.presentation.viewmodel.AddRoutineViewModel
+import me.rezapour.add_routine.presentation.viewmodel.AddRoutineViewModel
 import org.koin.core.module.Module
 import org.koin.core.module.dsl.viewModelOf
 import org.koin.dsl.module
