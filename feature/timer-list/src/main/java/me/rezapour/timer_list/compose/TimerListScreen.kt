@@ -176,17 +176,17 @@ fun TimerItemComponent(
                     Text(
                         text = "Run ${TimerDurationFormatter.formatForTimerList(timerItem.workSeconds)}",
                         style = IniTheme.typography.titleMedium,
-                        color = IniTheme.colors.primary
+                        color = IniTheme.materialColors.primary
                     )
                     Text(
                         text = " / ",
                         style = IniTheme.typography.titleMedium,
-                        color = IniTheme.colors.tertiary
+                        color = IniTheme.materialColors.tertiary
                     )
                     Text(
                         text = "Walk ${TimerDurationFormatter.formatForTimerList(timerItem.restSeconds)}",
                         style = IniTheme.typography.titleMedium,
-                        color = IniTheme.colors.secondary
+                        color = IniTheme.materialColors.secondary
                     )
                 }
                 Text(
@@ -196,7 +196,7 @@ fun TimerItemComponent(
                         )
                     } total",
                     style = IniTheme.typography.labelSmall,
-                    color = IniTheme.colors.tertiary
+                    color = IniTheme.materialColors.tertiary
                 )
             }
 

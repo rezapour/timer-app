@@ -32,7 +32,7 @@ fun IniTextField(
             Text(
                 text = it,
                 style = IniTheme.typography.labelMedium,
-                color = IniTheme.colors.onSurfaceVariant
+                color = IniTheme.materialColors.onSurfaceVariant
             )
 
             Spacer(modifier = Modifier.height(IniTheme.spacing.s))
@@ -61,26 +61,26 @@ fun IniTextField(
                     Text(
                         text = errorText,
                         style = IniTheme.typography.labelMedium,
-                        color = IniTheme.colors.error
+                        color = IniTheme.materialColors.error
                     )
                 }
             },
             shape = IniTheme.shapes.small,
             isError = isError,
             colors = OutlinedTextFieldDefaults.colors(
-                focusedTextColor = IniTheme.colors.onSurface,
-                unfocusedTextColor = IniTheme.colors.onSurface,
+                focusedTextColor = IniTheme.materialColors.onSurface,
+                unfocusedTextColor = IniTheme.materialColors.onSurface,
 
-                focusedContainerColor = IniTheme.colors.surface,
-                unfocusedContainerColor = IniTheme.colors.surface,
+                focusedContainerColor = IniTheme.materialColors.surface,
+                unfocusedContainerColor = IniTheme.materialColors.surface,
 
-                focusedBorderColor = IniTheme.colors.primary,
-                unfocusedBorderColor = IniTheme.colors.outlineVariant,
+                focusedBorderColor = IniTheme.materialColors.primary,
+                unfocusedBorderColor = IniTheme.materialColors.outlineVariant,
 
-                cursorColor = IniTheme.colors.primary,
+                cursorColor = IniTheme.materialColors.primary,
 
-                focusedPlaceholderColor = IniTheme.colors.outline,
-                unfocusedPlaceholderColor = IniTheme.colors.outline,
+                focusedPlaceholderColor = IniTheme.materialColors.outline,
+                unfocusedPlaceholderColor = IniTheme.materialColors.outline,
             )
         )
     }

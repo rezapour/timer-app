@@ -14,6 +14,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.unit.Dp
 import me.rezapour.designsystem.R
 import me.rezapour.designsystem.theme.IniTheme
 import me.rezapour.designsystem.util.IniPreview
@@ -25,6 +26,7 @@ fun IniIconButton(
     contentDescription: String? = null,
     enabled: Boolean = true,
     tint: Color = LocalContentColor.current,
+    iconSize: Dp = IniTheme.sizes.iconButtonIconSize,
     onClick: () -> Unit
 ) {
     IconButton(
@@ -33,7 +35,7 @@ fun IniIconButton(
         onClick = onClick,
     ) {
         Icon(
-            modifier = Modifier.size(IniTheme.sizes.iconButtonIconSize),
+            modifier = Modifier.size(iconSize),
             painter = painterResource(icon),
             tint = if (enabled) {
                 tint

@@ -38,7 +38,7 @@ dependencies {
     implementation(project((":core:timer-core")))
     implementation(project(":core:di"))
     implementation(project(":feature:di"))
-    implementation(project(":feature:add-timer"))
+    implementation(project(":feature:add-routine:impl"))
     implementation(project(":feature:timer-list"))
     implementation(project(":feature:timer-flow"))
 

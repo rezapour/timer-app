@@ -38,9 +38,9 @@ fun IniNumberPicker(
         shape = IniTheme.shapes.small,
         border = BorderStroke(
             IniTheme.sizes.numberPickerBorderStroke,
-            IniTheme.colors.outlineVariant
+            IniTheme.materialColors.outlineVariant
         ),
-        contentColor = IniTheme.colors.onSurface,
+        contentColor = IniTheme.materialColors.onSurface,
     ) {
         Row(
             modifier = Modifier.fillMaxSize().padding(IniTheme.sizes.numberPickerInnerPadding),
@@ -57,7 +57,7 @@ fun IniNumberPicker(
                 text = value,
                 textAlign = TextAlign.Center,
                 style = IniTheme.typography.bodyLarge,
-                color = IniTheme.colors.onSurface
+                color = IniTheme.materialColors.onSurface
             )
             IniIconButton(
                 icon = R.drawable.ic_plus,

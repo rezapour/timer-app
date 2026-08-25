@@ -20,7 +20,7 @@ fun MainScreen(
 
     Box(modifier = Modifier.fillMaxSize()) {
         Column(modifier = Modifier.align(Alignment.Center)) {
-            IniPrimaryButton (loading = true,text = "saveTimer",onClick = {
+            IniPrimaryButton (loading = false,text = "saveTimer",onClick = {
                 onAddTimerClicked()
             })
             IniSecondaryButton(text = "Timer List")  {

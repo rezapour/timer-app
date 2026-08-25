@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="add_routine_title">Add Routine</string>
+    <string name="add_routine_name_label">Routine Name</string>
+    <string name="add_routine_name_placeholder">e.g., Morning HIIT</string>
+
+    <string name="add_routine_interval_configuration">Interval Configuration</string>
+
+    <string name="add_routine_work_duration">Work\nDuration</string>
+    <string name="add_routine_rest_duration">Rest\nDuration</string>
+    <string name="add_routine_total_rounds">Total\nRounds</string>
+
+    <string name="add_routine_seconds">Seconds</string>
+    <string name="add_routine_repetitions">Repetitions</string>
+
+    <string name="add_routine_save">Save Routine</string>
+    <string name="add_routine_summary">%1$d rounds • %2$s total</string>
+    <string name="add_routine_error">The routine did not saved please try again.</string>
+</resources>

@@ -6,7 +6,7 @@ import kotlinx.coroutines.SupervisorJob
 import me.rezapour.domain.coordinator.RoutineCoordinator
 import me.rezapour.domain.usecase.DeleteTimerUseCase
 import me.rezapour.domain.usecase.GetTimersUseCase
-import me.rezapour.domain.usecase.InsertTimerUseCase
+import me.rezapour.domain.usecase.InsertRoutineUseCase
 import org.koin.core.module.Module
 import org.koin.core.module.dsl.singleOf
 import org.koin.core.qualifier.named
@@ -14,7 +14,7 @@ import org.koin.dsl.module
 
 val useCaseModule = module {
     singleOf(::GetTimersUseCase)
-    singleOf(::InsertTimerUseCase)
+    singleOf(::InsertRoutineUseCase)
     singleOf(::DeleteTimerUseCase)
     single {
         RoutineCoordinator(

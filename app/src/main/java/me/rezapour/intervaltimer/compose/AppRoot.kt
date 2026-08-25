@@ -3,10 +3,12 @@ package me.rezapour.intervaltimer.compose
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.remember
+import androidx.lifecycle.viewmodel.navigation3.rememberViewModelStoreNavEntryDecorator
 import androidx.navigation3.runtime.entryProvider
+import androidx.navigation3.runtime.rememberSaveableStateHolderNavEntryDecorator
 import androidx.navigation3.ui.NavDisplay
-import me.rezapour.add_timer.navigation.AddTimerScreen
-import me.rezapour.add_timer.navigation.addTimerScreen
+import me.rezapour.add_timer.presentation.navigation.AddTimerScreen
+import me.rezapour.add_timer.presentation.navigation.addTimerScreen
 import me.rezapour.timer_flow.compose.TimerFlowScreen
 import me.rezapour.timer_list.navigation.TimerListScreen
 import me.rezapour.timer_list.navigation.timerListScreen
@@ -20,6 +22,10 @@ fun AppRoot() {
     NavDisplay(
         backStack = backStack,
         onBack = { backStack.removeLastOrNull() },
+        entryDecorators = listOf(
+            rememberSaveableStateHolderNavEntryDecorator(),
+            rememberViewModelStoreNavEntryDecorator()
+        ),
         entryProvider = entryProvider {
             entry<MainScreen> {
                 MainScreen(onAddTimerClicked = {

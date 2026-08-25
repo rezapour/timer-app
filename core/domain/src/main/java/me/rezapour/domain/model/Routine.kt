@@ -2,7 +2,7 @@ package me.rezapour.domain.model
 
 data class Routine(
     val id: Long = 0,
-    val name: String,
+    val name: String?,
     val workSeconds: Long,
     val restSeconds: Long,
     val rounds: Int

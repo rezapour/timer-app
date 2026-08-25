@@ -26,10 +26,10 @@ fun IniPrimaryButton(
         loading = loading,
         resId = icon,
         colors = ButtonDefaults.buttonColors(
-            containerColor = IniTheme.colors.primary,
-            contentColor = IniTheme.colors.onPrimary,
-            disabledContainerColor = IniTheme.colors.primary.copy(alpha = 0.5f),
-            disabledContentColor = IniTheme.colors.onPrimary.copy(alpha = 0.7f),
+            containerColor = IniTheme.materialColors.primary,
+            contentColor = IniTheme.materialColors.onPrimary,
+            disabledContainerColor = IniTheme.materialColors.primary.copy(alpha = 0.5f),
+            disabledContentColor = IniTheme.materialColors.onPrimary.copy(alpha = 0.7f),
         ),
         onClick = onClick
     )
@@ -51,10 +51,10 @@ fun IniSecondaryButton(
         loading = loading,
         resId = resId,
         colors = ButtonDefaults.buttonColors(
-            containerColor = IniTheme.colors.secondaryContainer,
-            contentColor = IniTheme.colors.onSecondaryContainer,
-            disabledContainerColor = IniTheme.colors.secondaryContainer.copy(alpha = 0.5f),
-            disabledContentColor = IniTheme.colors.onSecondaryContainer.copy(alpha = 0.7f),
+            containerColor = IniTheme.materialColors.secondaryContainer,
+            contentColor = IniTheme.materialColors.onSecondaryContainer,
+            disabledContainerColor = IniTheme.materialColors.secondaryContainer.copy(alpha = 0.5f),
+            disabledContentColor = IniTheme.materialColors.onSecondaryContainer.copy(alpha = 0.7f),
         ),
         onClick = onClick
     )
@@ -76,10 +76,10 @@ fun IniDestructiveButton(
         loading = loading,
         resId = resId,
         colors = ButtonDefaults.buttonColors(
-            containerColor = IniTheme.colors.error,
-            contentColor = IniTheme.colors.onError,
-            disabledContainerColor = IniTheme.colors.error.copy(alpha = 0.5f),
-            disabledContentColor = IniTheme.colors.onError.copy(alpha = 0.7f),
+            containerColor = IniTheme.materialColors.error,
+            contentColor = IniTheme.materialColors.onError,
+            disabledContainerColor = IniTheme.materialColors.error.copy(alpha = 0.5f),
+            disabledContentColor = IniTheme.materialColors.onError.copy(alpha = 0.7f),
         ),
         onClick = onClick
     )

@@ -7,7 +7,7 @@ import androidx.room.PrimaryKey
 @Entity(tableName = "timer_table")
 data class RoutineEntity(
     @PrimaryKey(autoGenerate = true) val id: Long = 0,
-    @ColumnInfo(name = "name") val name: String,
+    @ColumnInfo(name = "name") val name: String? = null,
     @ColumnInfo(name = "work_seconds") val workSeconds: Long,
     @ColumnInfo(name = "rest_seconds") val restSeconds: Long,
     @ColumnInfo(name = "rounds") val rounds:Int
