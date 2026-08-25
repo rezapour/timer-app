@@ -26,7 +26,7 @@ fun IniButtonPicker(
             .size(54.dp)
             .clip(IniTheme.shapes.medium)
             .background(
-                color = IniTheme.colors.primaryContainer,
+                color = IniTheme.materialColors.primaryContainer,
             ),
         onClick = onClick
     ) {
@@ -36,7 +36,7 @@ fun IniButtonPicker(
             else
                 painterResource(res.drawable.ic_minus),
             contentDescription = null,
-            tint = IniTheme.colors.primary,
+            tint = IniTheme.materialColors.primary,
         )
     }
 }
