@@ -166,7 +166,6 @@ private fun Content(
             value = uiState.workoutSecond.toString(),
             onIncreased = { onAction(AddRoutineAction.WorkoutIncreased) },
             onDecreased = { onAction(AddRoutineAction.WorkoutDecreased) },
-            increasedEnabled = uiState.workIncreasedEnabled,
             decreasedEnabled = uiState.workDecreasedEnabled
         )
         Spacer(modifier = Modifier.height(IniTheme.spacing.m))
@@ -182,7 +181,6 @@ private fun Content(
             value = uiState.restSecond.toString(),
             onIncreased = { onAction(AddRoutineAction.RestIncreased) },
             onDecreased = { onAction(AddRoutineAction.RestDecreased) },
-            increasedEnabled = uiState.restIncreasedEnabled,
             decreasedEnabled = uiState.restDecreasedEnabled
         )
         Spacer(modifier = Modifier.height(IniTheme.spacing.m))
@@ -197,7 +195,6 @@ private fun Content(
             value = uiState.rounds.toString(),
             onIncreased = { onAction(AddRoutineAction.RoundIncreased) },
             onDecreased = { onAction(AddRoutineAction.RoundDecreased) },
-            increasedEnabled = uiState.roundIncreasedEnabled,
             decreasedEnabled = uiState.roundDecreasedEnabled
         )
         Spacer(modifier = Modifier.height(IniTheme.spacing.m))

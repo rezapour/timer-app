@@ -66,8 +66,7 @@ class AddRoutineViewModel(private val insertUseCase: InsertTimerUseCase) : ViewM
     private fun workoutIncreaseValue() {
         _uiState.update {
             it.copy(
-                workoutSecond = it.workoutSecond + 30,
-                workDecreasedEnabled = true
+                workoutSecond = it.workoutSecond + 30
             )
         }
     }
@@ -78,8 +77,7 @@ class AddRoutineViewModel(private val insertUseCase: InsertTimerUseCase) : ViewM
                 it.copy(workoutSecond = it.workoutSecond - 30)
             else
                 it.copy(
-                    workoutSecond = AddRoutineUiState.MIN_WORK_OUT,
-                    workDecreasedEnabled = false
+                    workoutSecond = AddRoutineUiState.MIN_WORK_OUT
                 )
         }
     }
@@ -87,8 +85,7 @@ class AddRoutineViewModel(private val insertUseCase: InsertTimerUseCase) : ViewM
     private fun restIncreaseValue() {
         _uiState.update {
             it.copy(
-                restSecond = it.restSecond + 30,
-                restDecreasedEnabled = true
+                restSecond = it.restSecond + 30
             )
         }
     }
@@ -99,8 +96,7 @@ class AddRoutineViewModel(private val insertUseCase: InsertTimerUseCase) : ViewM
                 it.copy(restSecond = it.restSecond - 30)
             else
                 it.copy(
-                    restSecond = AddRoutineUiState.MIN_REST,
-                    restDecreasedEnabled = false
+                    restSecond = AddRoutineUiState.MIN_REST
                 )
         }
     }
@@ -108,8 +104,7 @@ class AddRoutineViewModel(private val insertUseCase: InsertTimerUseCase) : ViewM
     private fun roundIncreaseValue() {
         _uiState.update {
             it.copy(
-                rounds = it.rounds + 1,
-                roundDecreasedEnabled = true
+                rounds = it.rounds + 1
             )
         }
     }
@@ -120,8 +115,7 @@ class AddRoutineViewModel(private val insertUseCase: InsertTimerUseCase) : ViewM
                 it.copy(rounds = it.rounds - 1)
             else
                 it.copy(
-                    rounds = AddRoutineUiState.MIN_ROUNDS,
-                    roundDecreasedEnabled = false
+                    rounds = AddRoutineUiState.MIN_ROUNDS
                 )
         }
     }
@@ -161,15 +155,17 @@ data class AddRoutineUiState(
     val workoutSecond: Long = MIN_WORK_OUT,
     val restSecond: Long = MIN_REST,
     val rounds: Int = MIN_ROUNDS,
-    val workIncreasedEnabled: Boolean = true,
-    val workDecreasedEnabled: Boolean = false,
-    val restIncreasedEnabled: Boolean = true,
-    val restDecreasedEnabled: Boolean = false,
-    val roundIncreasedEnabled: Boolean = true,
-    val roundDecreasedEnabled: Boolean = false
-
 ) {
     val total = workoutSecond * rounds + restSecond * (rounds - 1)
+    val workDecreasedEnabled: Boolean
+        get() = workoutSecond > MIN_WORK_OUT
+
+    val restDecreasedEnabled: Boolean
+        get() = restSecond > MIN_REST
+
+    val roundDecreasedEnabled: Boolean
+        get() = rounds > MIN_ROUNDS
+
 
     companion object {
         const val MIN_REST = 30L
