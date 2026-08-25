@@ -24,7 +24,7 @@ class AddRoutineViewModel(private val insertUseCase: InsertTimerUseCase) : ViewM
     private val _uiEffect: MutableSharedFlow<AddRoutineUiEffect> = MutableSharedFlow()
     val uiEffect: SharedFlow<AddRoutineUiEffect> = _uiEffect.asSharedFlow()
 
-    val mutex = Mutex()
+    private val mutex = Mutex()
 
     private fun saveRoutine() {
         val state = uiState.value
