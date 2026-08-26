@@ -57,6 +57,7 @@ dependencies {
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
     implementation(libs.compose.material.icons.extended)
+    testImplementation(libs.turbine)
 
     implementation(libs.bundles.coroutines)
     implementation(libs.bundles.koin)
