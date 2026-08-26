@@ -29,9 +29,7 @@ android {
 }
 
 dependencies {
-
-    implementation(project(":feature:add-routine:impl"))
-    implementation(project(":feature:timer-list"))
+    implementation(project(":feature:routine:impl"))
     implementation(project(":feature:timer-flow"))
     implementation(libs.bundles.koin)
 }
