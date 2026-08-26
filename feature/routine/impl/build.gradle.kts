@@ -6,7 +6,7 @@ plugins {
 }
 
 android {
-    namespace = "me.rezapour.timer_flow"
+    namespace = "me.rezapour.routine.impl"
     compileSdk = libs.versions.compileSdk.get().toInt()
 
     defaultConfig {
@@ -39,6 +39,7 @@ dependencies {
     implementation(project(":core:designsystem"))
     implementation(project(":core:common"))
     implementation(project(":core:ui"))
+    implementation(project(":core:resources"))
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.activity.compose)

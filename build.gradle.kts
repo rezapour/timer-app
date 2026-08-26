@@ -6,4 +6,5 @@ plugins {
     alias(libs.plugins.android.library) apply false
     alias(libs.plugins.kotlinSerialization) apply false
     alias(libs.plugins.kotzilla) apply false
+    alias(libs.plugins.android.junit5) apply false
 }
