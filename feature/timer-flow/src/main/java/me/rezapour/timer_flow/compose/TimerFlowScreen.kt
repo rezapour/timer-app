@@ -112,7 +112,7 @@ fun TimerComponent(
 
         Text(
             modifier = Modifier.align(Alignment.Center),
-            text = TimerDurationFormatter.formatForPicker(
+            text = TimerDurationFormatter.formatToLabelBreakLine(
                 (snapshot?.remainingMs)?.div(1000) ?: 0
             )
         )

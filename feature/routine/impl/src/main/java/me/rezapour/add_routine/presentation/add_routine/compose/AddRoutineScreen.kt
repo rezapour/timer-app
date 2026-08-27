@@ -207,7 +207,7 @@ private fun Content(
             value = stringResource(
                 res.string.add_routine_summary,
                 uiState.rounds,
-                TimerDurationFormatter.formatForTotal(uiState.total),
+                TimerDurationFormatter.formatForToMMSS(uiState.total),
             ),
             size = IniPillSize.Large
         )

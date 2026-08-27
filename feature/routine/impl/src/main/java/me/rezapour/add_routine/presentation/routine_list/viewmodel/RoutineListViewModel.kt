@@ -13,13 +13,13 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
+import me.rezapour.add_routine.presentation.routine_list.model.TimerItem
 import me.rezapour.domain.model.Routine
 import me.rezapour.domain.usecase.DeleteTimerUseCase
 import me.rezapour.domain.usecase.GetTimersUseCase
-import me.rezapour.add_routine.presentation.routine_list.model.TimerItem
 import me.rezapour.ui.mapper.Mapper
 
-class TimerListViewModel(
+class RoutineListViewModel(
     private val getTimersUseCase: GetTimersUseCase,
     private val deleteTimersUseCase: DeleteTimerUseCase,
     private val mapper: Mapper<Routine, TimerItem>
