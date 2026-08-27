@@ -68,7 +68,7 @@ val ErrorContainerDark = Color(0xFF93000A)
 val OnErrorContainerDark = Color(0xFFFFDAD6)
 
 
-// Routine semantic colors
+// Workout semantic colors
 val Work = Color(0xFF10B981)
 val Rest = Color(0xFFF59E0B)
 val Completed = Color(0xFF14B8A6)

@@ -7,9 +7,9 @@ import androidx.lifecycle.viewmodel.navigation3.rememberViewModelStoreNavEntryDe
 import androidx.navigation3.runtime.entryProvider
 import androidx.navigation3.runtime.rememberSaveableStateHolderNavEntryDecorator
 import androidx.navigation3.ui.NavDisplay
-import me.rezapour.add_routine.presentation.navigation.AddTimerScreen
-import me.rezapour.add_routine.presentation.navigation.RotuineFeature
-import me.rezapour.add_routine.presentation.navigation.TimerListScreen
+import me.rezapour.workout.presentation.navigation.AddWorkoutScreen
+import me.rezapour.workout.presentation.navigation.WorkoutFeature
+import me.rezapour.workout.presentation.navigation.WorkoutListScreen
 import me.rezapour.timer_flow.compose.TimerFlowScreen
 
 
@@ -29,16 +29,16 @@ fun AppRoot() {
         ),
         entryProvider = entryProvider {
             entry<MainScreen> {
-                MainScreen(onAddTimerClicked = {
-                    backStack.add(AddTimerScreen)
-                }, onTimerListScreenClicked = {
-                    backStack.add(TimerListScreen)
-                }, onTimeFlowScreenClicked = {
+                MainScreen(onAddWorkoutClicked = {
+                    backStack.add(AddWorkoutScreen)
+                }, onWorkoutListScreenClicked = {
+                    backStack.add(WorkoutListScreen)
+                }, onWorkoutFlowScreenClicked = {
                     backStack.add(TimerFlow)
                 }
                     )
             }
-            RotuineFeature(backStack)
+            WorkoutFeature(backStack)
 
             entry<TimerFlow> {
                 TimerFlowScreen()

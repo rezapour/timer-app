@@ -13,22 +13,22 @@ import me.rezapour.designsystem.components.button.IniSecondaryButton
 
 @Composable
 fun MainScreen(
-    onAddTimerClicked: () -> Unit,
-    onTimerListScreenClicked: () -> Unit,
-    onTimeFlowScreenClicked: () -> Unit,
+    onAddWorkoutClicked: () -> Unit,
+    onWorkoutListScreenClicked: () -> Unit,
+    onWorkoutFlowScreenClicked: () -> Unit,
 ) {
 
     Box(modifier = Modifier.fillMaxSize()) {
         Column(modifier = Modifier.align(Alignment.Center)) {
-            IniPrimaryButton (loading = false,text = "saveTimer",onClick = {
-                onAddTimerClicked()
+            IniPrimaryButton (loading = false,text = "Add Workout",onClick = {
+                onAddWorkoutClicked()
             })
-            IniSecondaryButton(text = "Timer List")  {
-                onTimerListScreenClicked()
+            IniSecondaryButton(text = "My Workouts")  {
+                onWorkoutListScreenClicked()
             }
 
-            IniDestructiveButton(text = "Timer") {
-                onTimeFlowScreenClicked()
+            IniDestructiveButton(text = "Start Workout") {
+                onWorkoutFlowScreenClicked()
             }
         }
     }

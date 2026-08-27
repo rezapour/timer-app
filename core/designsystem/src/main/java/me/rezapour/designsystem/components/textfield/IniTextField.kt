@@ -98,28 +98,28 @@ private fun IniTextFieldPreview() {
             IniTextField(
                 value = "",
                 onValueChange = {},
-                label = "Routine Name",
+                label = "Workout Name",
                 placeholder = "e.g., Morning HIIT"
             )
 
             IniTextField(
                 value = "Morning Workout",
                 onValueChange = {},
-                label = "Routine Name",
+                label = "Workout Name",
                 placeholder = "e.g., Morning HIIT"
             )
 
             IniTextField(
                 value = "Morning Workout",
                 onValueChange = {},
-                label = "Routine Name",
+                label = "Workout Name",
                 enabled = false
             )
 
             IniTextField(
                 value = "",
                 onValueChange = {},
-                label = "Routine Name",
+                label = "Workout Name",
                 placeholder = "e.g., Morning HIIT",
                 isError = true,
                 errorText = "Something is wrong"
