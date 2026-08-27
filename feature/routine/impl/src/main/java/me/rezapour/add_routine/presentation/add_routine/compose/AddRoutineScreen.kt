@@ -33,6 +33,7 @@ import me.rezapour.add_routine.presentation.add_routine.viewmodel.AddRoutineUiEf
 import me.rezapour.add_routine.presentation.add_routine.viewmodel.AddRoutineUiState
 import me.rezapour.add_routine.presentation.add_routine.viewmodel.AddRoutineViewModel
 import me.rezapour.designsystem.components.IniPill
+import me.rezapour.designsystem.components.IniPillSize
 import me.rezapour.designsystem.components.button.IniPrimaryButton
 import me.rezapour.designsystem.components.icon_button.IniIconButton
 import me.rezapour.designsystem.components.textfield.IniTextField
@@ -206,8 +207,9 @@ private fun Content(
             value = stringResource(
                 res.string.add_routine_summary,
                 uiState.rounds,
-                TimerDurationFormatter.formatForTotal(uiState.total)
-            )
+                TimerDurationFormatter.formatForTotal(uiState.total),
+            ),
+            size = IniPillSize.Large
         )
         Spacer(modifier = Modifier.height(IniTheme.spacing.m))
         IniPrimaryButton(
@@ -226,6 +228,7 @@ private fun AddRoutineContentPreview() {
         AddRoutineContent(
             AddRoutineUiState(),
             SnackbarHostState(),
-            onAction = {},)
+            onAction = {},
+        )
     }
 }

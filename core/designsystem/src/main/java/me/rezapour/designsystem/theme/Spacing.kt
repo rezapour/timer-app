@@ -9,6 +9,7 @@ val LocalSpacing = staticCompositionLocalOf { Spacing() }
 
 @Immutable
 data class Spacing(
+    val xxs: Dp = 2.dp,
     val xs: Dp = 4.dp,
     val s: Dp = 8.dp,
     val m: Dp = 16.dp,

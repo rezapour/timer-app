@@ -35,4 +35,7 @@ data class Sizes(
     //IniFilledIconButton
     val filledIconButtonSize:Dp = 48.dp,
     val filledIconButtonIconSize: Dp = 30.dp,
+
+    //IniPillSizes
+    val iniPillIconSize:Dp = 14.dp
 )
