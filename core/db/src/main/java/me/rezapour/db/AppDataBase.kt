@@ -6,17 +6,17 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import me.rezapour.db.converter.DataBaseConverter
-import me.rezapour.db.dao.RoutineDao
-import me.rezapour.db.dao.RoutineSessionDao
-import me.rezapour.db.entites.RoutineEntity
-import me.rezapour.db.entites.RoutineSessionEntity
+import me.rezapour.db.dao.WorkoutDao
+import me.rezapour.db.dao.WorkoutSessionDao
+import me.rezapour.db.entites.WorkoutEntity
+import me.rezapour.db.entites.WorkoutSessionEntity
 
-@Database(entities = [RoutineEntity::class, RoutineSessionEntity::class], version = 1)
+@Database(entities = [WorkoutEntity::class, WorkoutSessionEntity::class], version = 1)
 @TypeConverters(DataBaseConverter::class)
 abstract class AppDataBase : RoomDatabase() {
 
-    abstract fun RoutineDao(): RoutineDao
-    abstract fun RoutineSessionDao(): RoutineSessionDao
+    abstract fun workoutDao(): WorkoutDao
+    abstract fun workoutSessionDao(): WorkoutSessionDao
 
     companion object {
         fun databaseBuilder(context: Context) =

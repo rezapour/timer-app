@@ -38,7 +38,7 @@ fun TimerFlowScreen(viewModel: TimerFlowViewModel = koinViewModel()) {
 
     val snapshot by viewModel.snapshot.collectAsStateWithLifecycle()
 
-    RoutineSessionContent(
+    WorkoutSessionContent(
         snapshot = snapshot,
         onClickStart = {
             viewModel.start()
@@ -47,7 +47,7 @@ fun TimerFlowScreen(viewModel: TimerFlowViewModel = koinViewModel()) {
 }
 
 @Composable
-fun RoutineSessionContent(
+fun WorkoutSessionContent(
     snapshot: TimerSnapshot?,
     onClickStart: () -> Unit,
     onClickPause: () -> Unit
@@ -148,7 +148,6 @@ fun TimerComponent(
 
 @Preview
 @Composable
-fun RoutineSessenScreenPreivew() {
-    RoutineSessionContent(null,{},{})
+fun WorkoutSessionScreenPreview() {
+    WorkoutSessionContent(null,{},{})
 }
-

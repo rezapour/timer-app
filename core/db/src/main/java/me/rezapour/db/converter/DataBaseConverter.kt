@@ -1,23 +1,23 @@
 package me.rezapour.db.converter
 
 import androidx.room.TypeConverter
-import me.rezapour.db.entites.RunTimerStatusEntity
-import me.rezapour.db.entites.TimerPhaseEntity
+import me.rezapour.db.entites.RunWorkoutStatusEntity
+import me.rezapour.db.entites.WorkoutPhaseEntity
 import java.util.Date
 
 class DataBaseConverter {
 
     @TypeConverter
-    fun fromTimerPhase(value: TimerPhaseEntity): String = value.name
+    fun fromWorkoutPhase(value: WorkoutPhaseEntity): String = value.name
 
     @TypeConverter
-    fun toTimerPhase(value: String): TimerPhaseEntity = TimerPhaseEntity.valueOf(value)
+    fun toWorkoutPhase(value: String): WorkoutPhaseEntity = WorkoutPhaseEntity.valueOf(value)
 
     @TypeConverter
-    fun fromRunTimerStatus(value: RunTimerStatusEntity): String = value.name
+    fun fromRunWorkoutStatus(value: RunWorkoutStatusEntity): String = value.name
 
     @TypeConverter
-    fun toRunTimerStatus(value: String): RunTimerStatusEntity = RunTimerStatusEntity.valueOf(value)
+    fun toRunWorkoutStatus(value: String): RunWorkoutStatusEntity = RunWorkoutStatusEntity.valueOf(value)
 
     @TypeConverter
     fun fromDate(value: Date):Long = value.time
