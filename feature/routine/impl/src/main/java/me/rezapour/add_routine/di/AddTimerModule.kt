@@ -3,7 +3,7 @@ package me.rezapour.add_routine.di
 import me.rezapour.add_routine.presentation.add_routine.viewmodel.AddRoutineViewModel
 import me.rezapour.add_routine.presentation.routine_list.mapper.TimerItemMapper
 import me.rezapour.add_routine.presentation.routine_list.model.TimerItem
-import me.rezapour.add_routine.presentation.routine_list.viewmodel.TimerListViewModel
+import me.rezapour.add_routine.presentation.routine_list.viewmodel.RoutineListViewModel
 import me.rezapour.domain.model.Routine
 import me.rezapour.ui.mapper.Mapper
 import org.koin.core.module.Module
@@ -15,7 +15,7 @@ private val addRoutineModule = module {
 }
 
 private val routineListModule = module {
-    viewModelOf(::TimerListViewModel)
+    viewModelOf(::RoutineListViewModel)
     single<Mapper<Routine, TimerItem>> { TimerItemMapper() }
 }
 

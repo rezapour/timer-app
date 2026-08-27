@@ -45,7 +45,7 @@ internal fun RoutineConfigItem(
     Surface(
         modifier = modifier,
         shape = IniTheme.shapes.medium,
-        color = IniTheme.colors.surface
+        color = IniTheme.colors.container
     ) {
         Row(
             modifier = Modifier

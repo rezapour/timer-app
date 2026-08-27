@@ -30,5 +30,12 @@ data class Sizes(
     val numberPickerHeight: Dp = 50.dp,
     val numberPickerInnerPadding: Dp = 5.dp,
     val numberPickerBorderStroke: Dp = 1.dp,
-    val numberPickerValueWidth:Dp = 56.dp
+    val numberPickerValueWidth:Dp = 56.dp,
+
+    //IniFilledIconButton
+    val filledIconButtonSize:Dp = 48.dp,
+    val filledIconButtonIconSize: Dp = 30.dp,
+
+    //IniPillSizes
+    val iniPillIconSize:Dp = 14.dp
 )
