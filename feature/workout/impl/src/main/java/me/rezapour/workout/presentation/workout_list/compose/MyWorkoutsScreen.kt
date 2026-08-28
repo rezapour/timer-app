@@ -23,19 +23,19 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import me.rezapour.workout.presentation.workout_list.model.WorkoutItem
-import me.rezapour.workout.presentation.workout_list.viewmodel.WorkoutListViewModel
-import me.rezapour.workout.presentation.workout_list.viewmodel.WorkoutListAction
-import me.rezapour.workout.presentation.workout_list.viewmodel.WorkoutListUiEffect
-import me.rezapour.workout.presentation.workout_list.viewmodel.WorkoutListUiState
 import me.rezapour.designsystem.theme.IniTheme
 import me.rezapour.designsystem.util.IniPreview
+import me.rezapour.workout.presentation.workout_list.model.WorkoutItem
+import me.rezapour.workout.presentation.workout_list.viewmodel.MyWorkoutsAction
+import me.rezapour.workout.presentation.workout_list.viewmodel.MyWorkoutsUiEffect
+import me.rezapour.workout.presentation.workout_list.viewmodel.MyWorkoutsUiState
+import me.rezapour.workout.presentation.workout_list.viewmodel.MyWorkoutsViewmodel
 import org.koin.compose.viewmodel.koinViewModel
 import me.rezapour.resources.R as res
 
 @Composable
-fun WorkoutListScreen(
-    viewmodel: WorkoutListViewModel = koinViewModel(),
+fun MyWorkoutsScreen(
+    viewmodel: MyWorkoutsViewmodel = koinViewModel(),
     onNavigationBack: () -> Unit
 ) {
     val uiState = viewmodel.uiState.collectAsStateWithLifecycle().value
@@ -45,16 +45,18 @@ fun WorkoutListScreen(
     LaunchedEffect(viewmodel) {
         viewmodel.uiEffect.collect { effect ->
             when (effect) {
-                WorkoutListUiEffect.NavigationBack -> onNavigationBack()
-                is WorkoutListUiEffect.ShowSnackbar -> {
+                is MyWorkoutsUiEffect.ShowSnackbar -> {
                     snackbarHostState.showSnackbar(effect.message)
                 }
 
+                MyWorkoutsUiEffect.NavigateAddWorkout -> TODO()
+                is MyWorkoutsUiEffect.NavigateEditeWorkout -> TODO()
+                is MyWorkoutsUiEffect.StartWorkout -> TODO()
             }
         }
     }
 
-    WorkoutListScreenContent(
+    MyWorkoutsScreenContent(
         uiState = uiState,
         snackbarHostState = snackbarHostState,
         onAction = viewmodel::onAction
@@ -62,10 +64,10 @@ fun WorkoutListScreen(
 }
 
 @Composable
-internal fun WorkoutListScreenContent(
-    uiState: WorkoutListUiState,
+internal fun MyWorkoutsScreenContent(
+    uiState: MyWorkoutsUiState,
     snackbarHostState: SnackbarHostState,
-    onAction: (WorkoutListAction) -> Unit
+    onAction: (MyWorkoutsAction) -> Unit
 ) {
 
     Scaffold(
@@ -99,8 +101,9 @@ internal fun WorkoutListScreenContent(
 fun WorkoutList(
     modifier: Modifier = Modifier,
     workoutList: List<WorkoutItem>,
-    onAction: (WorkoutListAction) -> Unit
+    onAction: (MyWorkoutsAction) -> Unit
 ) {
+
     LazyColumn(
         modifier = modifier,
         contentPadding = PaddingValues(
@@ -125,7 +128,7 @@ fun WorkoutList(
                 rounds = it.rounds,
                 total = it.totalSeconds,
             ) {
-
+                onAction(MyWorkoutsAction.PlayClicked(it))
             }
         }
     }
@@ -134,10 +137,10 @@ fun WorkoutList(
 
 @IniPreview
 @Composable
-fun WorkoutListScreenPreview() {
+fun MyWorkoutsScreenPreview() {
     IniTheme {
-        WorkoutListScreenContent(
-            uiState = WorkoutListUiState(
+        MyWorkoutsScreenContent(
+            uiState = MyWorkoutsUiState(
                 workouts = listOf(
                     WorkoutItem(id = 1, "", 45, 60, 5),
                     WorkoutItem(id = 2, "", 120, 300, 5),
