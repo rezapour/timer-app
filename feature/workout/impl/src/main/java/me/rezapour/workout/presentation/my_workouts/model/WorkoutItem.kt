@@ -1,4 +1,4 @@
-package me.rezapour.workout.presentation.workout_list.model
+package me.rezapour.workout.presentation.my_workouts.model
 
 data class WorkoutItem(
     val id: Long = 0,

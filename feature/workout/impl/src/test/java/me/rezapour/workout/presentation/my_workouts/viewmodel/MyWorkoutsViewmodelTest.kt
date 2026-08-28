@@ -1,4 +1,4 @@
-package me.rezapour.workout.presentation.workout_list.viewmodel
+package me.rezapour.workout.presentation.my_workouts.viewmodel
 
 import app.cash.turbine.test
 import io.mockk.every
@@ -15,8 +15,8 @@ import me.rezapour.domain.model.Workout
 import me.rezapour.domain.usecase.GetWorkoutsUseCase
 import me.rezapour.workout.presentation.fake.WorkoutStubWithOneItem
 import me.rezapour.workout.presentation.fake.WorkoutStubWithTwoItems
-import me.rezapour.workout.presentation.workout_list.mapper.WorkoutItemMapper
-import me.rezapour.workout.presentation.workout_list.model.WorkoutItem
+import me.rezapour.workout.presentation.my_workouts.mapper.WorkoutItemMapper
+import me.rezapour.workout.presentation.my_workouts.model.WorkoutItem
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertInstanceOf

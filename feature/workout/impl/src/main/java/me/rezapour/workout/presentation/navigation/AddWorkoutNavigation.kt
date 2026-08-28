@@ -3,7 +3,7 @@ package me.rezapour.workout.presentation.navigation
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.navigation3.runtime.EntryProviderScope
 import me.rezapour.workout.presentation.add_workout.compose.AddWorkoutScreen
-import me.rezapour.workout.presentation.workout_list.compose.MyWorkoutsScreen
+import me.rezapour.workout.presentation.my_workouts.compose.MyWorkoutsScreen
 
 
 data object AddWorkoutScreen

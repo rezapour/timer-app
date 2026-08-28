@@ -1,6 +1,6 @@
 @file:OptIn(ExperimentalMaterial3Api::class)
 
-package me.rezapour.workout.presentation.workout_list.compose
+package me.rezapour.workout.presentation.my_workouts.compose
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
@@ -25,11 +25,11 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import me.rezapour.designsystem.theme.IniTheme
 import me.rezapour.designsystem.util.IniPreview
-import me.rezapour.workout.presentation.workout_list.model.WorkoutItem
-import me.rezapour.workout.presentation.workout_list.viewmodel.MyWorkoutsAction
-import me.rezapour.workout.presentation.workout_list.viewmodel.MyWorkoutsUiEffect
-import me.rezapour.workout.presentation.workout_list.viewmodel.MyWorkoutsUiState
-import me.rezapour.workout.presentation.workout_list.viewmodel.MyWorkoutsViewmodel
+import me.rezapour.workout.presentation.my_workouts.model.WorkoutItem
+import me.rezapour.workout.presentation.my_workouts.viewmodel.MyWorkoutsAction
+import me.rezapour.workout.presentation.my_workouts.viewmodel.MyWorkoutsUiEffect
+import me.rezapour.workout.presentation.my_workouts.viewmodel.MyWorkoutsUiState
+import me.rezapour.workout.presentation.my_workouts.viewmodel.MyWorkoutsViewmodel
 import org.koin.compose.viewmodel.koinViewModel
 import me.rezapour.resources.R as res
 

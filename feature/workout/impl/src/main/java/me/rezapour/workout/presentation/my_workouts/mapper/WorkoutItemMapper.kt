@@ -1,7 +1,7 @@
-package me.rezapour.workout.presentation.workout_list.mapper
+package me.rezapour.workout.presentation.my_workouts.mapper
 
 import me.rezapour.domain.model.Workout
-import me.rezapour.workout.presentation.workout_list.model.WorkoutItem
+import me.rezapour.workout.presentation.my_workouts.model.WorkoutItem
 import me.rezapour.ui.mapper.Mapper
 
 class WorkoutItemMapper : Mapper<Workout, WorkoutItem> {

@@ -1,4 +1,4 @@
-package me.rezapour.workout.presentation.workout_list.viewmodel
+package me.rezapour.workout.presentation.my_workouts.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -14,7 +14,7 @@ import kotlinx.coroutines.launch
 import me.rezapour.domain.model.Workout
 import me.rezapour.domain.usecase.GetWorkoutsUseCase
 import me.rezapour.ui.mapper.Mapper
-import me.rezapour.workout.presentation.workout_list.model.WorkoutItem
+import me.rezapour.workout.presentation.my_workouts.model.WorkoutItem
 
 class MyWorkoutsViewmodel(
     private val getWorkoutsUseCase: GetWorkoutsUseCase,

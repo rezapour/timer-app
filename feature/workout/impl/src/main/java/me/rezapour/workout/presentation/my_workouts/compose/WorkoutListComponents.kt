@@ -1,4 +1,4 @@
-package me.rezapour.workout.presentation.workout_list.compose
+package me.rezapour.workout.presentation.my_workouts.compose
 
 import androidx.annotation.DrawableRes
 import androidx.compose.foundation.BorderStroke
