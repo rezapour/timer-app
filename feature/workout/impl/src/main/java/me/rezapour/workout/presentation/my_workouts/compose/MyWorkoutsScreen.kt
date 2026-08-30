@@ -3,7 +3,7 @@
 package me.rezapour.workout.presentation.my_workouts.compose
 
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
@@ -55,7 +55,6 @@ fun MyWorkoutsScreen(
             }
         }
     }
-
     MyWorkoutsScreenContent(
         uiState = uiState,
         snackbarHostState = snackbarHostState,
@@ -75,7 +74,7 @@ internal fun MyWorkoutsScreenContent(
             CenterAlignedTopAppBar(
                 title = {
                     Text(
-                        text = stringResource(res.string.workout_list_title),
+                        text = stringResource(res.string.my_workouts_title),
                         style = IniTheme.typography.headlineMedium,
                         color = IniTheme.materialColors.primary
                     )
@@ -86,14 +85,33 @@ internal fun MyWorkoutsScreenContent(
             SnackbarHost(hostState = snackbarHostState)
         },
     ) { paddingValues ->
-        WorkoutList(
+        Column(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(top = paddingValues.calculateTopPadding())
-                .navigationBarsPadding(),
-            workoutList = uiState.workouts,
-            onAction = onAction
-        )
+                .navigationBarsPadding()
+                .padding(vertical = 20.dp, horizontal = 24.dp),
+            horizontalAlignment = Alignment.CenterHorizontally
+
+        ) {
+
+
+            when {
+                !uiState.errorMessage.isNullOrEmpty() -> ErrorComponent() { }
+                uiState.workouts.isEmpty() -> NoWorkoutAvailableComponent(
+                    modifier = Modifier
+                ) {
+                    onAction(MyWorkoutsAction.AddWorkoutClicked)
+                }
+
+                else -> WorkoutList(
+                    workoutList = uiState.workouts,
+                    onAction = onAction
+                )
+            }
+
+
+        }
     }
 }
 
@@ -105,11 +123,7 @@ fun WorkoutList(
 ) {
 
     LazyColumn(
-        modifier = modifier,
-        contentPadding = PaddingValues(
-            vertical = 20.dp,
-            horizontal = 24.dp
-        ),
+        modifier = modifier.fillMaxSize(),
         verticalArrangement = Arrangement.spacedBy(IniTheme.spacing.s),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
@@ -120,7 +134,7 @@ fun WorkoutList(
             WorkoutListItem(
                 modifier = Modifier.animateItem(),
                 title = if (it.name.isNullOrEmpty()) stringResource(
-                    res.string.workout_list_item_empty_name,
+                    res.string.my_workouts_empty_name,
                     it.id
                 ) else it.name,
                 workoutSeconds = it.workSeconds,
@@ -134,20 +148,55 @@ fun WorkoutList(
     }
 }
 
+@Composable
+private fun NoWorkoutAvailableComponent(
+    modifier: Modifier = Modifier,
+    onClick: () -> Unit
+) {
+    CallOutComponent(
+        modifier = modifier,
+        state = CalloutState.Info,
+        icon = res.drawable.ic_no_workout,
+        title = stringResource(res.string.my_workouts_no_workout_title),
+        message = stringResource(res.string.my_workouts_no_workout_message),
+        buttonValue = stringResource(res.string.my_workouts_no_workout_button_value),
+        buttonIcon = res.drawable.ic_add,
+        onClick = onClick
+    )
+}
+
+@Composable
+private fun ErrorComponent(
+    modifier: Modifier = Modifier,
+    onClick: () -> Unit
+) {
+    CallOutComponent(
+        modifier = modifier,
+        state = CalloutState.Error,
+        icon = res.drawable.ic_error,
+        title = stringResource(res.string.my_workouts_error_title),
+        message = stringResource(res.string.my_workouts_error_message),
+        buttonValue = stringResource(res.string.my_workouts_error_button_value),
+        buttonIcon = res.drawable.ic_retry,
+        onClick = onClick
+    )
+}
+
 
 @IniPreview
 @Composable
-fun MyWorkoutsScreenPreview() {
+private fun MyWorkoutsScreenPreview() {
     IniTheme {
         MyWorkoutsScreenContent(
             uiState = MyWorkoutsUiState(
-                workouts = listOf(
-                    WorkoutItem(id = 1, "", 45, 60, 5),
-                    WorkoutItem(id = 2, "", 120, 300, 5),
-                    WorkoutItem(id = 3, "", 190, 300, 5),
-                    WorkoutItem(id = 4, "", 270, 300, 5),
-
-                    )
+//                workouts = listOf(
+//                    WorkoutItem(id = 1, "", 45, 60, 5),
+//                    WorkoutItem(id = 2, "", 120, 300, 5),
+//                    WorkoutItem(id = 3, "", 190, 300, 5),
+//                    WorkoutItem(id = 4, "", 270, 300, 5),
+//
+//                    ),
+                errorMessage = ""
             ),
             snackbarHostState = SnackbarHostState()
         ) { }

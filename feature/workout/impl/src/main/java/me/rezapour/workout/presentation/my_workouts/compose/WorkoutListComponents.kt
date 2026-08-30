@@ -70,7 +70,7 @@ internal fun WorkoutListItem(
                 ) {
                     IniPill(
                         value = stringResource(
-                            res.string.workout_list_item_rounds,
+                            res.string.my_workouts_item_rounds,
                             rounds
                         )
                     )

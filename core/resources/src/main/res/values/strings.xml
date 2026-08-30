@@ -17,7 +17,14 @@
     <string name="add_workout_summary">%1$d rounds • %2$s total</string>
     <string name="add_workout_error">The Workout did not saved please try again.</string>
 
-    <string name="workout_list_title">My Workouts</string>
-    <string name="workout_list_item_rounds">%1$dX</string>
-    <string name="workout_list_item_empty_name">Workout #%1$d</string>
+    <string name="my_workouts_title">My Workouts</string>
+    <string name="my_workouts_item_rounds">%1$dX</string>
+    <string name="my_workouts_empty_name">Workout #%1$d</string>
+    <string name="my_workouts_no_workout_title">No Workout yet</string>
+    <string name="my_workouts_no_workout_message">Create your first interval Timer to get started with your workout.</string>
+    <string name="my_workouts_no_workout_button_value">Create Workout</string>
+    <string name="my_workouts_error_title">Something went wrong</string>
+    <string name="my_workouts_error_message">We couldn’t load your routines. Please check your connection or try again later.</string>
+    <string name="my_workouts_error_button_value">Try Again</string>
+
 </resources>

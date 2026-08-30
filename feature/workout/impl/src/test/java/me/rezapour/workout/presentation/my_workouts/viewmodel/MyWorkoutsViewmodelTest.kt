@@ -240,7 +240,7 @@ class MyWorkoutsViewmodelTest {
                 )
 
                 viewmodel.uiEffect.test {
-                    viewmodel.onAction(MyWorkoutsAction.FloatingButtonClicked)
+                    viewmodel.onAction(MyWorkoutsAction.AddWorkoutClicked)
                     assertInstanceOf(MyWorkoutsUiEffect.NavigateAddWorkout::class.java, awaitItem())
 
                 }

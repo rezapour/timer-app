@@ -23,4 +23,6 @@ class IniColors(
     val roundContainer = if (darkTheme) Color(0xFFDEE0FF) else Color(0xFFDEE0FF)
 
     val container = if (darkTheme) Color(0xFF1D2638) else Color(0xFFE5EEFF)
+
+    val callOutContainer = if (darkTheme) Color(0xFF292930) else Color(0xFFDCE9FF)
 }

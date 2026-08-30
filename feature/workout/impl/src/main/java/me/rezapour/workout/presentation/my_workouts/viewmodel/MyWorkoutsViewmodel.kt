@@ -45,7 +45,7 @@ class MyWorkoutsViewmodel(
     fun onAction(action: MyWorkoutsAction) {
         when (action) {
             is MyWorkoutsAction.PlayClicked -> emitStartWorkout(action.workout.id)
-            MyWorkoutsAction.FloatingButtonClicked -> navigateToAddWorkout()
+            MyWorkoutsAction.AddWorkoutClicked -> navigateToAddWorkout()
             is MyWorkoutsAction.RowClicked -> navigateToEditWorkout(action.workout.id)
         }
     }
@@ -81,7 +81,7 @@ class MyWorkoutsViewmodel(
 sealed class MyWorkoutsAction {
     data class PlayClicked(val workout: WorkoutItem) : MyWorkoutsAction()
     data class RowClicked(val workout: WorkoutItem) : MyWorkoutsAction()
-    data object FloatingButtonClicked : MyWorkoutsAction()
+    data object AddWorkoutClicked : MyWorkoutsAction()
 }
 
 data class MyWorkoutsUiState(
