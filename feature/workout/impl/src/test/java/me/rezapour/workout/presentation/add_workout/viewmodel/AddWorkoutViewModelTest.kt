@@ -117,7 +117,7 @@ class AddWorkoutViewModelTest {
 
                 addWorkoutViewModel.uiEffect.test {
                     addWorkoutViewModel.onAction(AddWorkoutAction.SaveWorkout)
-                    advanceUntilIdle()
+
                     val effect = awaitItem()
                     assertInstanceOf(
                         AddWorkoutUiEffect.NavigationBack::class.java,
@@ -134,7 +134,7 @@ class AddWorkoutViewModelTest {
 
             addWorkoutViewModel.uiEffect.test {
                 addWorkoutViewModel.onAction(AddWorkoutAction.SaveWorkout)
-                advanceUntilIdle()
+
                 val effect = awaitItem()
                 assertInstanceOf(
                     AddWorkoutUiEffect.ShowSnackBar::class.java,
@@ -164,7 +164,7 @@ class AddWorkoutViewModelTest {
         fun `when name changes, state contains new name`() = runTest(dispatcher) {
             val expectedName = "Morning Run"
             addWorkoutViewModel.onAction(AddWorkoutAction.OnNameChanged(expectedName))
-            advanceUntilIdle()
+
             val name = addWorkoutViewModel.uiState.value.name
             assertEquals(expectedName, name)
         }
@@ -173,7 +173,7 @@ class AddWorkoutViewModelTest {
         fun `when workout increased, workout duration is updated `() = runTest(dispatcher) {
             val expectedValue = 60L
             addWorkoutViewModel.onAction(AddWorkoutAction.WorkoutIncreased)
-            advanceUntilIdle()
+
             val workout = addWorkoutViewModel.uiState.value.workoutSecond
             assertEquals(expectedValue, workout)
         }
@@ -182,7 +182,7 @@ class AddWorkoutViewModelTest {
         fun `when workout rest, rest duration is updated `() = runTest(dispatcher) {
             val expectedValue = 60L
             addWorkoutViewModel.onAction(AddWorkoutAction.RestIncreased)
-            advanceUntilIdle()
+
             val rest = addWorkoutViewModel.uiState.value.restSecond
             assertEquals(expectedValue, rest)
         }
@@ -191,7 +191,7 @@ class AddWorkoutViewModelTest {
         fun `when round increased once,Ui state update round them 1 time `() = runTest(dispatcher) {
             val expectedValue = 2
             addWorkoutViewModel.onAction(AddWorkoutAction.RoundIncreased)
-            advanceUntilIdle()
+
             val round = addWorkoutViewModel.uiState.value.rounds
             assertEquals(expectedValue, round)
         }
@@ -202,7 +202,7 @@ class AddWorkoutViewModelTest {
             addWorkoutViewModel.onAction(AddWorkoutAction.WorkoutDecreased)
             addWorkoutViewModel.onAction(AddWorkoutAction.WorkoutDecreased)
 
-            advanceUntilIdle()
+
             val workout = addWorkoutViewModel.uiState.value.workoutSecond
             assertEquals(AddWorkoutUiState.MIN_WORK_OUT, workout)
         }
@@ -213,7 +213,6 @@ class AddWorkoutViewModelTest {
             addWorkoutViewModel.onAction(AddWorkoutAction.RestDecreased)
             addWorkoutViewModel.onAction(AddWorkoutAction.RestDecreased)
 
-            advanceUntilIdle()
             val rest = addWorkoutViewModel.uiState.value.restSecond
             assertEquals(AddWorkoutUiState.MIN_REST, rest)
         }
@@ -224,7 +223,6 @@ class AddWorkoutViewModelTest {
             addWorkoutViewModel.onAction(AddWorkoutAction.RoundDecreased)
             addWorkoutViewModel.onAction(AddWorkoutAction.RoundDecreased)
 
-            advanceUntilIdle()
             val round = addWorkoutViewModel.uiState.value.rounds
             assertEquals(AddWorkoutUiState.MIN_ROUNDS, round)
         }
@@ -233,7 +231,6 @@ class AddWorkoutViewModelTest {
         fun `when workout is increased, workout decrease is enabled`() = runTest(dispatcher) {
             addWorkoutViewModel.onAction(AddWorkoutAction.WorkoutIncreased)
 
-            advanceUntilIdle()
 
             assertTrue(
                 addWorkoutViewModel.uiState.value.workDecreasedEnabled
@@ -244,7 +241,6 @@ class AddWorkoutViewModelTest {
         fun `when rest is increased, workout decrease is enabled`() = runTest(dispatcher) {
             addWorkoutViewModel.onAction(AddWorkoutAction.RestIncreased)
 
-            advanceUntilIdle()
 
             assertTrue(
                 addWorkoutViewModel.uiState.value.restDecreasedEnabled
@@ -254,8 +250,6 @@ class AddWorkoutViewModelTest {
         @Test
         fun `when rount is increased, workout decrease is enabled`() = runTest(dispatcher) {
             addWorkoutViewModel.onAction(AddWorkoutAction.RoundIncreased)
-
-            advanceUntilIdle()
 
             assertTrue(
                 addWorkoutViewModel.uiState.value.roundDecreasedEnabled
@@ -268,7 +262,6 @@ class AddWorkoutViewModelTest {
             addWorkoutViewModel.onAction(AddWorkoutAction.WorkoutIncreased)
             addWorkoutViewModel.onAction(AddWorkoutAction.WorkoutDecreased)
 
-            advanceUntilIdle()
 
             assertFalse(
                 addWorkoutViewModel.uiState.value.workDecreasedEnabled
@@ -280,8 +273,6 @@ class AddWorkoutViewModelTest {
             addWorkoutViewModel.onAction(AddWorkoutAction.RestIncreased)
             addWorkoutViewModel.onAction(AddWorkoutAction.RestDecreased)
 
-            advanceUntilIdle()
-
             assertFalse(
                 addWorkoutViewModel.uiState.value.restDecreasedEnabled
             )
@@ -291,8 +282,6 @@ class AddWorkoutViewModelTest {
         fun `when rounds are decreased to minimum, round decrease is disabled`() = runTest(dispatcher) {
             addWorkoutViewModel.onAction(AddWorkoutAction.RoundIncreased)
             addWorkoutViewModel.onAction(AddWorkoutAction.RoundDecreased)
-
-            advanceUntilIdle()
 
             assertFalse(
                 addWorkoutViewModel.uiState.value.roundDecreasedEnabled
@@ -309,7 +298,6 @@ class AddWorkoutViewModelTest {
 
             addWorkoutViewModel.uiEffect.test {
                 addWorkoutViewModel.onAction(AddWorkoutAction.BackClicked)
-                advanceUntilIdle()
                 val effect = awaitItem()
                 assertInstanceOf(
                     AddWorkoutUiEffect.NavigationBack::class.java,

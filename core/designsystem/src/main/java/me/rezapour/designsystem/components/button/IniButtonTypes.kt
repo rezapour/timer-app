@@ -41,7 +41,7 @@ fun IniSecondaryButton(
     text: String,
     enabled: Boolean = true,
     loading: Boolean = false,
-    @DrawableRes resId: Int? = null,
+    @DrawableRes icon: Int? = null,
     onClick: () -> Unit,
 ) {
     IniButton(
@@ -49,7 +49,7 @@ fun IniSecondaryButton(
         text = text,
         enabled = enabled,
         loading = loading,
-        resId = resId,
+        resId = icon,
         colors = ButtonDefaults.buttonColors(
             containerColor = IniTheme.materialColors.secondaryContainer,
             contentColor = IniTheme.materialColors.onSecondaryContainer,
@@ -66,7 +66,7 @@ fun IniDestructiveButton(
     text: String,
     enabled: Boolean = true,
     loading: Boolean = false,
-    @DrawableRes resId: Int? = null,
+    @DrawableRes icon: Int? = null,
     onClick: () -> Unit,
 ) {
     IniButton(
@@ -74,7 +74,7 @@ fun IniDestructiveButton(
         text = text,
         enabled = enabled,
         loading = loading,
-        resId = resId,
+        resId = icon,
         colors = ButtonDefaults.buttonColors(
             containerColor = IniTheme.materialColors.error,
             contentColor = IniTheme.materialColors.onError,

@@ -1,4 +1,4 @@
-package me.rezapour.workout.presentation.workout_list.compose
+package me.rezapour.workout.presentation.my_workouts.compose
 
 import androidx.annotation.DrawableRes
 import androidx.compose.foundation.BorderStroke
@@ -70,7 +70,7 @@ internal fun WorkoutListItem(
                 ) {
                     IniPill(
                         value = stringResource(
-                            res.string.workout_list_item_rounds,
+                            res.string.my_workouts_item_rounds,
                             rounds
                         )
                     )

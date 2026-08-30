@@ -1,9 +1,9 @@
 package me.rezapour.workout.di
 
 import me.rezapour.workout.presentation.add_workout.viewmodel.AddWorkoutViewModel
-import me.rezapour.workout.presentation.workout_list.mapper.WorkoutItemMapper
-import me.rezapour.workout.presentation.workout_list.model.WorkoutItem
-import me.rezapour.workout.presentation.workout_list.viewmodel.WorkoutListViewModel
+import me.rezapour.workout.presentation.my_workouts.mapper.WorkoutItemMapper
+import me.rezapour.workout.presentation.my_workouts.model.WorkoutItem
+import me.rezapour.workout.presentation.my_workouts.viewmodel.MyWorkoutsViewmodel
 import me.rezapour.domain.model.Workout
 import me.rezapour.ui.mapper.Mapper
 import org.koin.core.module.Module
@@ -15,7 +15,7 @@ private val addWorkoutModule = module {
 }
 
 private val workoutListModule = module {
-    viewModelOf(::WorkoutListViewModel)
+    viewModelOf(::MyWorkoutsViewmodel)
     single<Mapper<Workout, WorkoutItem>> { WorkoutItemMapper() }
 }
 
