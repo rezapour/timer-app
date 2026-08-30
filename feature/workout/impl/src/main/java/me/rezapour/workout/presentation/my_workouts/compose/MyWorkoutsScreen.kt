@@ -23,6 +23,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import me.rezapour.designsystem.components.floating_button.IniPrimaryFloatingButton
 import me.rezapour.designsystem.theme.IniTheme
 import me.rezapour.designsystem.util.IniPreview
 import me.rezapour.workout.presentation.my_workouts.model.WorkoutItem
@@ -80,6 +81,15 @@ internal fun MyWorkoutsScreenContent(
                     )
                 }
             )
+        },
+        floatingActionButton = {
+
+            if (uiState is MyWorkoutsUiState.Success && uiState.workouts.isNotEmpty())
+                IniPrimaryFloatingButton(
+                    icon = res.drawable.ic_add
+                ) {
+                    onAction(MyWorkoutsAction.AddWorkoutClicked)
+                }
         },
         snackbarHost = {
             SnackbarHost(hostState = snackbarHostState)
@@ -190,14 +200,14 @@ private fun ErrorComponent(
 private fun MyWorkoutsScreenPreview() {
     IniTheme {
         MyWorkoutsScreenContent(
-            uiState = MyWorkoutsUiState.Success(
-                workouts = listOf(
-                    WorkoutItem(id = 1, "", 45, 60, 5),
-                    WorkoutItem(id = 2, "", 120, 300, 5),
-                    WorkoutItem(id = 3, "", 190, 300, 5),
-                    WorkoutItem(id = 4, "", 270, 300, 5),
-
-                    )
+            uiState = MyWorkoutsUiState.Error(
+//                workouts = listOf(
+//                    WorkoutItem(id = 1, "", 45, 60, 5),
+//                    WorkoutItem(id = 2, "", 120, 300, 5),
+//                    WorkoutItem(id = 3, "", 190, 300, 5),
+//                    WorkoutItem(id = 4, "", 270, 300, 5),
+//
+//                    )
             ),
             snackbarHostState = SnackbarHostState()
         ) { }

@@ -41,5 +41,9 @@ data class Sizes(
 
     //CallOut
     val calloutIconBackgroundSize: Dp = 195.dp,
-    val calloutIconSize:Dp = 80.dp
+    val calloutIconSize:Dp = 80.dp,
+
+    //IniFloatingButton
+    val floatingButtonSize: Dp = 56.dp,
+    val floatingButtonIconSize: Dp = 14.dp,
 )
