@@ -7,6 +7,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.emptyFlow
 import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.StandardTestDispatcher
 import kotlinx.coroutines.test.resetMain
 import kotlinx.coroutines.test.runTest
@@ -139,6 +140,47 @@ class MyWorkoutsViewmodelTest {
                 assertEquals(
                     MyWorkoutsUiState.Error("Something when wrong"),
                     awaitItem()
+                )
+            }
+        }
+
+        @Test
+        fun `When workouts throw exception , retry can load data again`() = runTest(dispatcher) {
+            every { getWorkoutsUseCase.invoke() } returnsMany listOf(
+                flow {
+                    throw IOException("Something went wrong")
+                },
+                flowOf(WorkoutStubWithTwoItems.workoutListStub)
+            )
+
+            viewmodel = MyWorkoutsViewmodel(
+                getWorkoutsUseCase = getWorkoutsUseCase,
+                mapper = WorkoutItemMapper()
+            )
+
+            viewmodel.uiState.test {
+                assertInstanceOf(
+                    MyWorkoutsUiState.Loading::class.java, awaitItem()
+                )
+                assertEquals(
+                    MyWorkoutsUiState.Error("Something went wrong"),
+                    awaitItem()
+                )
+                viewmodel.onAction(MyWorkoutsAction.RetryClicked)
+
+
+                assertInstanceOf(
+                    MyWorkoutsUiState.Loading::class.java, awaitItem()
+                )
+
+                val success = assertInstanceOf(
+                    MyWorkoutsUiState.Success::class.java,
+                    awaitItem()
+                )
+
+                assertEquals(
+                    WorkoutStubWithTwoItems.workoutItemListExpected,
+                    success.workouts
                 )
             }
         }

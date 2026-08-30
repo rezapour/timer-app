@@ -95,7 +95,10 @@ internal fun MyWorkoutsScreenContent(
 
         ) {
             when (uiState) {
-                is MyWorkoutsUiState.Error -> ErrorComponent() { }
+                is MyWorkoutsUiState.Error -> ErrorComponent() {
+                    onAction(MyWorkoutsAction.RetryClicked)
+                }
+
                 is MyWorkoutsUiState.Loading -> {}
                 is MyWorkoutsUiState.Success if uiState.workouts.isEmpty() -> {
                     NoWorkoutAvailableComponent(

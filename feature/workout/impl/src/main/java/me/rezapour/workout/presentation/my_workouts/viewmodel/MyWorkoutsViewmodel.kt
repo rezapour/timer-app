@@ -8,7 +8,9 @@ import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import me.rezapour.domain.model.Workout
@@ -23,17 +25,20 @@ class MyWorkoutsViewmodel(
 
     private val _uiEffect: MutableSharedFlow<MyWorkoutsUiEffect> = MutableSharedFlow()
     val uiEffect: SharedFlow<MyWorkoutsUiEffect> = _uiEffect.asSharedFlow()
-
-    val uiState: StateFlow<MyWorkoutsUiState> = getWorkoutsUseCase()
-        .map<List<Workout>, MyWorkoutsUiState> { workouts ->
-            MyWorkoutsUiState.Success(
-                workouts = mapper.mapDomainToUIModel(workouts),
-            )
-        }
-        .catch { error ->
-            emit(MyWorkoutsUiState.Error(errorMessage = error.message.toString()))
-        }
-        .stateIn(
+    private val retryState = MutableSharedFlow<Unit>()
+    val uiState: StateFlow<MyWorkoutsUiState> = retryState.onStart { emit(Unit) }
+        .flatMapLatest {
+            getWorkoutsUseCase()
+                .map<List<Workout>, MyWorkoutsUiState> { workouts ->
+                    MyWorkoutsUiState.Success(
+                        workouts = mapper.mapDomainToUIModel(workouts),
+                    )
+                }
+                .onStart { emit(MyWorkoutsUiState.Loading) }
+                .catch { error ->
+                    emit(MyWorkoutsUiState.Error(errorMessage = error.message.toString()))
+                }
+        }.stateIn(
             scope = viewModelScope,
             started = SharingStarted.WhileSubscribed(5_000),
             initialValue = MyWorkoutsUiState.Loading
@@ -45,6 +50,13 @@ class MyWorkoutsViewmodel(
             is MyWorkoutsAction.PlayClicked -> emitStartWorkout(action.workout.id)
             MyWorkoutsAction.AddWorkoutClicked -> navigateToAddWorkout()
             is MyWorkoutsAction.RowClicked -> navigateToEditWorkout(action.workout.id)
+            MyWorkoutsAction.RetryClicked -> retry()
+        }
+    }
+
+    private fun retry() {
+        viewModelScope.launch {
+            retryState.emit(Unit)
         }
     }
 
@@ -76,10 +88,11 @@ class MyWorkoutsViewmodel(
 }
 
 
-sealed class MyWorkoutsAction {
-    data class PlayClicked(val workout: WorkoutItem) : MyWorkoutsAction()
-    data class RowClicked(val workout: WorkoutItem) : MyWorkoutsAction()
-    data object AddWorkoutClicked : MyWorkoutsAction()
+sealed interface MyWorkoutsAction {
+    data class PlayClicked(val workout: WorkoutItem) : MyWorkoutsAction
+    data class RowClicked(val workout: WorkoutItem) : MyWorkoutsAction
+    data object AddWorkoutClicked : MyWorkoutsAction
+    data object RetryClicked : MyWorkoutsAction
 }
 
 sealed interface MyWorkoutsUiState {
