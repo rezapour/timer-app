@@ -25,20 +25,18 @@ class MyWorkoutsViewmodel(
     val uiEffect: SharedFlow<MyWorkoutsUiEffect> = _uiEffect.asSharedFlow()
 
     val uiState: StateFlow<MyWorkoutsUiState> = getWorkoutsUseCase()
-        .map { workouts ->
-            MyWorkoutsUiState(
+        .map<List<Workout>, MyWorkoutsUiState> { workouts ->
+            MyWorkoutsUiState.Success(
                 workouts = mapper.mapDomainToUIModel(workouts),
-                isLoading = false,
-                errorMessage = null
             )
         }
         .catch { error ->
-            emit(MyWorkoutsUiState(errorMessage = error.message, isLoading = false))
+            emit(MyWorkoutsUiState.Error(errorMessage = error.message.toString()))
         }
         .stateIn(
             scope = viewModelScope,
             started = SharingStarted.WhileSubscribed(5_000),
-            initialValue = MyWorkoutsUiState()
+            initialValue = MyWorkoutsUiState.Loading
         )
 
 
@@ -66,7 +64,7 @@ class MyWorkoutsViewmodel(
 
     private fun navigateToEditWorkout(workoutId: Long) {
         viewModelScope.launch {
-            _uiEffect.emit(MyWorkoutsUiEffect.NavigateEditeWorkout(workoutId))
+            _uiEffect.emit(MyWorkoutsUiEffect.NavigateEditWorkout(workoutId))
         }
     }
 
@@ -84,15 +82,17 @@ sealed class MyWorkoutsAction {
     data object AddWorkoutClicked : MyWorkoutsAction()
 }
 
-data class MyWorkoutsUiState(
-    val isLoading: Boolean = true,
-    val workouts: List<WorkoutItem> = emptyList(),
-    val errorMessage: String? = null
-)
+sealed interface MyWorkoutsUiState {
+
+    data class Success(val workouts: List<WorkoutItem> = emptyList()) : MyWorkoutsUiState
+    data object Loading : MyWorkoutsUiState
+    data class Error(val errorMessage: String? = null) : MyWorkoutsUiState
+
+}
 
 sealed class MyWorkoutsUiEffect {
     data class ShowSnackbar(val message: String) : MyWorkoutsUiEffect()
     data class StartWorkout(val workoutId: Long) : MyWorkoutsUiEffect()
-    data class NavigateEditeWorkout(val workoutId: Long) : MyWorkoutsUiEffect()
+    data class NavigateEditWorkout(val workoutId: Long) : MyWorkoutsUiEffect()
     data object NavigateAddWorkout : MyWorkoutsUiEffect()
 }

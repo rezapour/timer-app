@@ -50,7 +50,7 @@ fun MyWorkoutsScreen(
                 }
 
                 MyWorkoutsUiEffect.NavigateAddWorkout -> TODO()
-                is MyWorkoutsUiEffect.NavigateEditeWorkout -> TODO()
+                is MyWorkoutsUiEffect.NavigateEditWorkout -> TODO()
                 is MyWorkoutsUiEffect.StartWorkout -> TODO()
             }
         }
@@ -94,23 +94,22 @@ internal fun MyWorkoutsScreenContent(
             horizontalAlignment = Alignment.CenterHorizontally
 
         ) {
-
-
-            when {
-                !uiState.errorMessage.isNullOrEmpty() -> ErrorComponent() { }
-                uiState.workouts.isEmpty() -> NoWorkoutAvailableComponent(
-                    modifier = Modifier
-                ) {
-                    onAction(MyWorkoutsAction.AddWorkoutClicked)
+            when (uiState) {
+                is MyWorkoutsUiState.Error -> ErrorComponent() { }
+                is MyWorkoutsUiState.Loading -> {}
+                is MyWorkoutsUiState.Success if uiState.workouts.isEmpty() -> {
+                    NoWorkoutAvailableComponent(
+                        modifier = Modifier
+                    ) {
+                        onAction(MyWorkoutsAction.AddWorkoutClicked)
+                    }
                 }
 
-                else -> WorkoutList(
+                is MyWorkoutsUiState.Success -> WorkoutList(
                     workoutList = uiState.workouts,
                     onAction = onAction
                 )
             }
-
-
         }
     }
 }
@@ -188,15 +187,14 @@ private fun ErrorComponent(
 private fun MyWorkoutsScreenPreview() {
     IniTheme {
         MyWorkoutsScreenContent(
-            uiState = MyWorkoutsUiState(
-//                workouts = listOf(
-//                    WorkoutItem(id = 1, "", 45, 60, 5),
-//                    WorkoutItem(id = 2, "", 120, 300, 5),
-//                    WorkoutItem(id = 3, "", 190, 300, 5),
-//                    WorkoutItem(id = 4, "", 270, 300, 5),
-//
-//                    ),
-                errorMessage = ""
+            uiState = MyWorkoutsUiState.Success(
+                workouts = listOf(
+                    WorkoutItem(id = 1, "", 45, 60, 5),
+                    WorkoutItem(id = 2, "", 120, 300, 5),
+                    WorkoutItem(id = 3, "", 190, 300, 5),
+                    WorkoutItem(id = 4, "", 270, 300, 5),
+
+                    )
             ),
             snackbarHostState = SnackbarHostState()
         ) { }

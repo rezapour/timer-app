@@ -56,20 +56,14 @@ class MyWorkoutsViewmodelTest {
             )
 
             viewmodel.uiState.test {
-                assertEquals(
-                    MyWorkoutsUiState(
-                        workouts = emptyList<WorkoutItem>(),
-                        isLoading = true,
-                        errorMessage = null,
-                    ), awaitItem()
+                assertInstanceOf(
+                    MyWorkoutsUiState.Loading::class.java, awaitItem()
                 )
-                assertEquals(
-                    MyWorkoutsUiState(
-                        workouts = emptyList<WorkoutItem>(),
-                        isLoading = false,
-                        errorMessage = null,
-                    ), awaitItem()
+                val state = assertInstanceOf(
+                    MyWorkoutsUiState.Success::class.java, awaitItem()
                 )
+
+                assertEquals(emptyList<WorkoutItem>(),state.workouts)
             }
 
         }
@@ -84,21 +78,15 @@ class MyWorkoutsViewmodelTest {
             )
 
             viewmodel.uiState.test {
-                assertEquals(
-                    MyWorkoutsUiState(
-                        workouts = emptyList<WorkoutItem>(),
-                        isLoading = true,
-                        errorMessage = null
-                    ), awaitItem()
+                assertInstanceOf(
+                    MyWorkoutsUiState.Loading::class.java, awaitItem()
                 )
-                assertEquals(
-                    MyWorkoutsUiState(
-                        workouts = WorkoutStubWithTwoItems.workoutItemListExpected,
-                        isLoading = false,
-                        errorMessage = null
-                    ),
-                    awaitItem()
+
+                val state = assertInstanceOf(
+                    MyWorkoutsUiState.Success::class.java, awaitItem()
                 )
+
+                assertEquals(WorkoutStubWithTwoItems.workoutItemListExpected,state.workouts)
             }
         }
 
@@ -116,31 +104,22 @@ class MyWorkoutsViewmodelTest {
 
 
                 viewmodel.uiState.test {
-                    assertEquals(
-                        MyWorkoutsUiState(
-                            workouts = emptyList<WorkoutItem>(),
-                            isLoading = true,
-                            errorMessage = null
-                        ),
-                        awaitItem()
+                    assertInstanceOf(
+                        MyWorkoutsUiState.Loading::class.java, awaitItem()
                     )
-                    assertEquals(
-                        MyWorkoutsUiState(
-                            workouts = WorkoutStubWithOneItem.workoutItemListExpected,
-                            isLoading = false,
-                            errorMessage = null
-                        ),
-                        awaitItem()
+                    val firstState = assertInstanceOf(
+                        MyWorkoutsUiState.Success::class.java, awaitItem()
                     )
+
+                    assertEquals(WorkoutStubWithOneItem.workoutItemListExpected,firstState.workouts)
+
                     workoutsFlow.value = WorkoutStubWithTwoItems.workoutListStub
-                    assertEquals(
-                        MyWorkoutsUiState(
-                            workouts = WorkoutStubWithTwoItems.workoutItemListExpected,
-                            isLoading = false,
-                            errorMessage = null
-                        ),
-                        awaitItem()
+
+                    val secondState = assertInstanceOf(
+                        MyWorkoutsUiState.Success::class.java, awaitItem()
                     )
+
+                    assertEquals(WorkoutStubWithTwoItems.workoutItemListExpected,secondState.workouts)
                 }
             }
 
@@ -154,19 +133,11 @@ class MyWorkoutsViewmodelTest {
             )
 
             viewmodel.uiState.test {
-                assertEquals(
-                    MyWorkoutsUiState(
-                        workouts = emptyList<WorkoutItem>(),
-                        isLoading = true,
-                        errorMessage = null
-                    ), awaitItem()
+                assertInstanceOf(
+                    MyWorkoutsUiState.Loading::class.java, awaitItem()
                 )
                 assertEquals(
-                    MyWorkoutsUiState(
-                        workouts = emptyList<WorkoutItem>(),
-                        isLoading = false,
-                        errorMessage = "Something when wrong"
-                    ),
+                    MyWorkoutsUiState.Error("Something when wrong"),
                     awaitItem()
                 )
             }
@@ -223,7 +194,7 @@ class MyWorkoutsViewmodelTest {
                     )
                 )
                 val effect = assertInstanceOf(
-                    MyWorkoutsUiEffect.NavigateEditeWorkout::class.java,
+                    MyWorkoutsUiEffect.NavigateEditWorkout::class.java,
                     awaitItem()
                 )
                 assertEquals(1, effect.workoutId)
