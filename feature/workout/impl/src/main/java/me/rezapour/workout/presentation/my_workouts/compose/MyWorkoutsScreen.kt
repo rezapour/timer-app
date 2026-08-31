@@ -23,6 +23,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import me.rezapour.designsystem.components.MainBottomNavigation
+import me.rezapour.designsystem.components.MainTab
 import me.rezapour.designsystem.components.floating_button.IniPrimaryFloatingButton
 import me.rezapour.designsystem.theme.IniTheme
 import me.rezapour.designsystem.util.IniPreview
@@ -37,7 +39,10 @@ import me.rezapour.resources.R as res
 @Composable
 fun MyWorkoutsScreen(
     viewmodel: MyWorkoutsViewmodel = koinViewModel(),
-    onNavigationBack: () -> Unit
+    selectedTab: MainTab,
+    onTabSelected: (MainTab) -> Unit,
+    navigateToAddWorkout: () -> Unit,
+    navigateToEditWorkout: (Long) -> Unit,
 ) {
     val uiState = viewmodel.uiState.collectAsStateWithLifecycle().value
 
@@ -50,8 +55,8 @@ fun MyWorkoutsScreen(
                     snackbarHostState.showSnackbar(effect.message)
                 }
 
-                MyWorkoutsUiEffect.NavigateAddWorkout -> TODO()
-                is MyWorkoutsUiEffect.NavigateEditWorkout -> TODO()
+                MyWorkoutsUiEffect.NavigateAddWorkout -> navigateToAddWorkout()
+                is MyWorkoutsUiEffect.NavigateEditWorkout -> navigateToEditWorkout(effect.workoutId)
                 is MyWorkoutsUiEffect.StartWorkout -> TODO()
             }
         }
@@ -59,6 +64,8 @@ fun MyWorkoutsScreen(
     MyWorkoutsScreenContent(
         uiState = uiState,
         snackbarHostState = snackbarHostState,
+        onTabSelected = onTabSelected,
+        selectedTab = selectedTab,
         onAction = viewmodel::onAction
     )
 }
@@ -67,6 +74,8 @@ fun MyWorkoutsScreen(
 internal fun MyWorkoutsScreenContent(
     uiState: MyWorkoutsUiState,
     snackbarHostState: SnackbarHostState,
+    selectedTab: MainTab,
+    onTabSelected: (MainTab) -> Unit,
     onAction: (MyWorkoutsAction) -> Unit
 ) {
 
@@ -80,6 +89,12 @@ internal fun MyWorkoutsScreenContent(
                         color = IniTheme.materialColors.primary
                     )
                 }
+            )
+        },
+        bottomBar = {
+            MainBottomNavigation(
+                selectedTab = selectedTab,
+                onTabSelected = onTabSelected
             )
         },
         floatingActionButton = {
@@ -209,7 +224,9 @@ private fun MyWorkoutsScreenPreview() {
 //
 //                    )
             ),
-            snackbarHostState = SnackbarHostState()
+            snackbarHostState = SnackbarHostState(),
+            selectedTab = MainTab.WORKOUTS,
+            onTabSelected = {}
         ) { }
     }
 }

@@ -40,8 +40,9 @@ dependencies {
     implementation(project(":feature:di"))
     implementation(project(":feature:workout:impl"))
     implementation(project(":feature:timer-flow"))
-
     implementation(project(":core:designsystem"))
+    implementation(project(":core:resources"))
+
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.activity.compose)

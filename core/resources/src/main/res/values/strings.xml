@@ -27,4 +27,8 @@
     <string name="my_workouts_error_message">We couldn’t load your routines. Please check your connection or try again later.</string>
     <string name="my_workouts_error_button_value">Try Again</string>
 
+    <string name="navigation_bar_tab_workouts">My Workouts</string>
+    <string name="navigation_bar_tab_history">History</string>
+    <string name="navigation_bar_tab_setting">Setting</string>
+
 </resources>
