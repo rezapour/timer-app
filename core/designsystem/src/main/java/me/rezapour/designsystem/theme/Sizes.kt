@@ -46,4 +46,7 @@ data class Sizes(
     //IniFloatingButton
     val floatingButtonSize: Dp = 56.dp,
     val floatingButtonIconSize: Dp = 14.dp,
+
+    //IniNavigationBarItem
+    val navigationItemIconSize: Dp = 25.dp
 )
