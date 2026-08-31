@@ -1,25 +1,28 @@
 package me.rezapour.intervaltimer.compose
 
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateListOf
-import androidx.compose.runtime.remember
 import androidx.lifecycle.viewmodel.navigation3.rememberViewModelStoreNavEntryDecorator
+import androidx.navigation3.runtime.NavKey
 import androidx.navigation3.runtime.entryProvider
+import androidx.navigation3.runtime.rememberNavBackStack
 import androidx.navigation3.runtime.rememberSaveableStateHolderNavEntryDecorator
 import androidx.navigation3.ui.NavDisplay
-import me.rezapour.workout.presentation.navigation.AddWorkoutScreen
-import me.rezapour.workout.presentation.navigation.WorkoutFeature
-import me.rezapour.workout.presentation.navigation.WorkoutListScreen
+import kotlinx.serialization.Serializable
 import me.rezapour.timer_flow.compose.TimerFlowScreen
+import me.rezapour.workout.presentation.navigation.AddWorkoutRoute
+import me.rezapour.workout.presentation.navigation.MyWorkoutsRoute
+import me.rezapour.workout.presentation.navigation.workoutFeature
 
 
+@Serializable
+data object MainRoute : NavKey
 
-data object MainScreen
-data object TimerFlow
+@Serializable
+data object ActiveWorkoutRoute : NavKey
 
 @Composable
 fun AppRoot() {
-    val backStack = remember { mutableStateListOf<Any>(MainScreen) }
+    val backStack = rememberNavBackStack(MainRoute)
     NavDisplay(
         backStack = backStack,
         onBack = { backStack.removeLastOrNull() },
@@ -28,19 +31,19 @@ fun AppRoot() {
             rememberViewModelStoreNavEntryDecorator()
         ),
         entryProvider = entryProvider {
-            entry<MainScreen> {
+            entry<MainRoute> {
                 MainScreen(onAddWorkoutClicked = {
-                    backStack.add(AddWorkoutScreen)
+                    backStack.add(AddWorkoutRoute)
                 }, onWorkoutListScreenClicked = {
-                    backStack.add(WorkoutListScreen)
+                    backStack.add(MyWorkoutsRoute)
                 }, onWorkoutFlowScreenClicked = {
-                    backStack.add(TimerFlow)
+                    backStack.add(ActiveWorkoutRoute)
                 }
-                    )
+                )
             }
-            WorkoutFeature(backStack)
+            workoutFeature(backStack)
 
-            entry<TimerFlow> {
+            entry<ActiveWorkoutRoute> {
                 TimerFlowScreen()
             }
 
