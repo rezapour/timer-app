@@ -39,6 +39,7 @@ dependencies {
     implementation(project(":core:di"))
     implementation(project(":feature:di"))
     implementation(project(":feature:workout:impl"))
+    implementation(project(":feature:workout:api"))
     implementation(project(":feature:timer-flow"))
     implementation(project(":core:designsystem"))
     implementation(project(":core:resources"))
