@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="add_workout_title">Add Workout</string>
+    <string name="edit_workout_title">Edit Workout</string>
     <string name="add_workout_name_label">Workout Name</string>
     <string name="add_workout_name_placeholder">e.g., Morning HIIT</string>
 
@@ -14,6 +15,7 @@
     <string name="add_workout_repetitions">Repetitions</string>
 
     <string name="add_workout_save">Save Workout</string>
+    <string name="edit_workout_save">Update Workout</string>
     <string name="add_workout_summary">%1$d rounds • %2$s total</string>
     <string name="add_workout_error">The Workout did not saved please try again.</string>
 

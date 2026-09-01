@@ -27,11 +27,6 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import me.rezapour.workout.presentation.add_workout.compose.WorkoutConfigItem
-import me.rezapour.workout.presentation.add_workout.viewmodel.AddWorkoutAction
-import me.rezapour.workout.presentation.add_workout.viewmodel.AddWorkoutUiEffect
-import me.rezapour.workout.presentation.add_workout.viewmodel.AddWorkoutUiState
-import me.rezapour.workout.presentation.add_workout.viewmodel.AddWorkoutViewModel
 import me.rezapour.designsystem.components.IniPill
 import me.rezapour.designsystem.components.IniPillSize
 import me.rezapour.designsystem.components.button.IniPrimaryButton
@@ -39,26 +34,33 @@ import me.rezapour.designsystem.components.icon_button.IniIconButton
 import me.rezapour.designsystem.components.textfield.IniTextField
 import me.rezapour.designsystem.theme.IniTheme
 import me.rezapour.ui.formatter.TimerDurationFormatter
+import me.rezapour.workout.presentation.add_workout.viewmodel.AddEditWorkoutAction
+import me.rezapour.workout.presentation.add_workout.viewmodel.AddEditWorkoutFormMode
+import me.rezapour.workout.presentation.add_workout.viewmodel.AddEditWorkoutUiEffect
+import me.rezapour.workout.presentation.add_workout.viewmodel.AddEditWorkoutUiState
+import me.rezapour.workout.presentation.add_workout.viewmodel.AddEditWorkoutViewModel
 import org.koin.compose.viewmodel.koinViewModel
+import org.koin.core.parameter.parametersOf
 import me.rezapour.resources.R as res
 
 
 @Composable
-fun AddWorkoutScreen(
-    viewModel: AddWorkoutViewModel = koinViewModel(),
-    onNavigationBack: () -> Unit
+fun AddEditWorkoutScreen(
+    mode: AddEditWorkoutFormMode = AddEditWorkoutFormMode.Add,
+    viewModel: AddEditWorkoutViewModel = koinViewModel(
+        parameters = { parametersOf(mode) }
+    ),
+    onNavigationBack: () -> Unit,
 ) {
     val uiState = viewModel.uiState.collectAsStateWithLifecycle().value
 
     val snackbarHost = remember { SnackbarHostState() }
 
-
-
     LaunchedEffect(viewModel) {
         viewModel.uiEffect.collect { effect ->
             when (effect) {
-                AddWorkoutUiEffect.NavigationBack -> onNavigationBack()
-                is AddWorkoutUiEffect.ShowSnackBar -> snackbarHost.showSnackbar(effect.errorMessage)
+                AddEditWorkoutUiEffect.NavigationBack -> onNavigationBack()
+                is AddEditWorkoutUiEffect.ShowSnackBar -> snackbarHost.showSnackbar(effect.errorMessage)
             }
         }
     }
@@ -73,9 +75,9 @@ fun AddWorkoutScreen(
 
 @Composable
 private fun AddWorkoutContent(
-    uiState: AddWorkoutUiState,
+    uiState: AddEditWorkoutUiState,
     snackBarHostState: SnackbarHostState,
-    onAction: (AddWorkoutAction) -> Unit
+    onAction: (AddEditWorkoutAction) -> Unit
 ) {
 
     Scaffold(
@@ -84,7 +86,10 @@ private fun AddWorkoutContent(
             CenterAlignedTopAppBar(
                 title = {
                     Text(
-                        text = stringResource(res.string.add_workout_title),
+                        text = when (uiState.mode) {
+                            AddEditWorkoutFormMode.Add -> stringResource(res.string.add_workout_title)
+                            is AddEditWorkoutFormMode.Edit -> stringResource(res.string.edit_workout_title)
+                        },
                         style = IniTheme.typography.headlineMedium,
                         color = IniTheme.materialColors.primary
                     )
@@ -95,7 +100,7 @@ private fun AddWorkoutContent(
                         iconSize = 32.dp,
                         tint = IniTheme.materialColors.primary
                     ) {
-                        onAction(AddWorkoutAction.BackClicked)
+                        onAction(AddEditWorkoutAction.BackClicked)
                     }
 
                 }
@@ -119,8 +124,8 @@ private fun AddWorkoutContent(
 @Composable
 private fun Content(
     modifier: Modifier = Modifier,
-    uiState: AddWorkoutUiState,
-    onAction: (AddWorkoutAction) -> Unit
+    uiState: AddEditWorkoutUiState,
+    onAction: (AddEditWorkoutAction) -> Unit
 ) {
 
     Column(
@@ -136,7 +141,7 @@ private fun Content(
         IniTextField(
             value = uiState.name,
             onValueChange = { newValue ->
-                onAction(AddWorkoutAction.OnNameChanged(newValue))
+                onAction(AddEditWorkoutAction.OnNameChanged(newValue))
             },
             placeholder = stringResource(res.string.add_workout_name_placeholder),
             label = stringResource(res.string.add_workout_name_label)
@@ -165,9 +170,10 @@ private fun Content(
             tint = IniTheme.colors.workContent,
             iconContainerColor = IniTheme.colors.workContainer,
             value = uiState.workoutSecond.toString(),
-            onIncreased = { onAction(AddWorkoutAction.WorkoutIncreased) },
-            onDecreased = { onAction(AddWorkoutAction.WorkoutDecreased) },
-            decreasedEnabled = uiState.workDecreasedEnabled
+            onIncreased = { onAction(AddEditWorkoutAction.WorkoutIncreased) },
+            onDecreased = { onAction(AddEditWorkoutAction.WorkoutDecreased) },
+            decreasedEnabled = uiState.workDecreasedEnabled && !uiState.isLoading,
+            increasedEnabled = !uiState.isLoading
         )
         Spacer(modifier = Modifier.height(IniTheme.spacing.m))
 
@@ -180,9 +186,10 @@ private fun Content(
             tint = IniTheme.colors.restContent,
             iconContainerColor = IniTheme.colors.restContainer,
             value = uiState.restSecond.toString(),
-            onIncreased = { onAction(AddWorkoutAction.RestIncreased) },
-            onDecreased = { onAction(AddWorkoutAction.RestDecreased) },
-            decreasedEnabled = uiState.restDecreasedEnabled
+            onIncreased = { onAction(AddEditWorkoutAction.RestIncreased) },
+            onDecreased = { onAction(AddEditWorkoutAction.RestDecreased) },
+            decreasedEnabled = uiState.restDecreasedEnabled && !uiState.isLoading,
+            increasedEnabled = !uiState.isLoading
         )
         Spacer(modifier = Modifier.height(IniTheme.spacing.m))
 
@@ -194,9 +201,10 @@ private fun Content(
             tint = IniTheme.colors.roundContent,
             iconContainerColor = IniTheme.colors.roundContainer,
             value = uiState.rounds.toString(),
-            onIncreased = { onAction(AddWorkoutAction.RoundIncreased) },
-            onDecreased = { onAction(AddWorkoutAction.RoundDecreased) },
-            decreasedEnabled = uiState.roundDecreasedEnabled
+            onIncreased = { onAction(AddEditWorkoutAction.RoundIncreased) },
+            onDecreased = { onAction(AddEditWorkoutAction.RoundDecreased) },
+            decreasedEnabled = uiState.roundDecreasedEnabled && !uiState.isLoading,
+            increasedEnabled = !uiState.isLoading,
         )
         Spacer(modifier = Modifier.height(IniTheme.spacing.m))
         HorizontalDivider()
@@ -213,9 +221,13 @@ private fun Content(
         )
         Spacer(modifier = Modifier.height(IniTheme.spacing.m))
         IniPrimaryButton(
-            text = stringResource(res.string.add_workout_save)
+            text = when (uiState.mode) {
+                AddEditWorkoutFormMode.Add -> stringResource(res.string.add_workout_save)
+                is AddEditWorkoutFormMode.Edit -> stringResource(res.string.edit_workout_save)
+            },
+            loading = uiState.isLoading
         ) {
-            onAction(AddWorkoutAction.SaveWorkout)
+            onAction(AddEditWorkoutAction.SaveWorkout)
         }
     }
 }
@@ -226,7 +238,7 @@ private fun Content(
 private fun AddWorkoutContentPreview() {
     IniTheme {
         AddWorkoutContent(
-            AddWorkoutUiState(),
+            AddEditWorkoutUiState(mode = AddEditWorkoutFormMode.Edit(1), isLoading = false),
             SnackbarHostState(),
             onAction = {},
         )
