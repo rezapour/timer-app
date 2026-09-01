@@ -2,6 +2,7 @@ package me.rezapour.workout.presentation.my_workouts.compose
 
 import androidx.annotation.DrawableRes
 import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -35,8 +36,8 @@ internal fun WorkoutListItem(
     restSeconds: Long,
     rounds: Int,
     total: Long,
-    onPlayClicked: () -> Unit
-
+    onRowClick: () -> Unit,
+    onPlayClick: () -> Unit
 ) {
     Surface(
         modifier = modifier,
@@ -49,6 +50,9 @@ internal fun WorkoutListItem(
         Row(
             modifier = Modifier
                 .fillMaxWidth()
+                .clickable {
+                    onRowClick()
+                }
                 .padding(IniTheme.spacing.m)
         ) {
             Column(
@@ -91,7 +95,7 @@ internal fun WorkoutListItem(
             }
             IniPrimaryFilledIconButton(
                 icon = res.drawable.ic_play,
-                onClick = onPlayClicked
+                onClick = onPlayClick
             )
         }
     }
@@ -138,6 +142,7 @@ private fun WorkoutListItemPreview() {
             restSeconds = 75,
             rounds = 4,
             total = 250,
+            onRowClick = {}
         ) {
 
         }

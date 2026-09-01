@@ -5,7 +5,6 @@ package me.rezapour.workout.presentation.my_workouts.compose
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -113,9 +112,11 @@ internal fun MyWorkoutsScreenContent(
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(top = paddingValues.calculateTopPadding())
-                .navigationBarsPadding()
-                .padding(vertical = 20.dp, horizontal = 24.dp),
+                .padding(paddingValues)
+                .padding(
+                    vertical = 20.dp,
+                    horizontal = 24.dp
+                ),
             horizontalAlignment = Alignment.CenterHorizontally
 
         ) {
@@ -168,6 +169,9 @@ fun WorkoutList(
                 restSeconds = it.restSeconds,
                 rounds = it.rounds,
                 total = it.totalSeconds,
+                onRowClick = {
+                    onAction(MyWorkoutsAction.RowClicked(it))
+                }
             ) {
                 onAction(MyWorkoutsAction.PlayClicked(it))
             }
