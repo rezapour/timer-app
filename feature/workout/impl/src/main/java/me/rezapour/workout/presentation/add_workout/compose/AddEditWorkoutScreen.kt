@@ -144,7 +144,8 @@ private fun Content(
                 onAction(AddEditWorkoutAction.OnNameChanged(newValue))
             },
             placeholder = stringResource(res.string.add_workout_name_placeholder),
-            label = stringResource(res.string.add_workout_name_label)
+            label = stringResource(res.string.add_workout_name_label),
+            enabled = !uiState.isLoading
         )
 
         Spacer(modifier = Modifier.height(IniTheme.spacing.xl))
