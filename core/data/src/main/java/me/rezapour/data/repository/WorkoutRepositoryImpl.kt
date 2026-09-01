@@ -29,4 +29,14 @@ class WorkoutRepositoryImpl(
     override suspend fun deleteWorkout(id: Long) = withContext(dispatcher.io) {
         dao.deleteWorkout(id)
     }
+
+    override suspend fun getWorkout(workoutId: Long): Workout? = withContext(dispatcher.io) {
+        return@withContext dao.getWorkout(workoutId)?.let {
+            dbMapper.mapEntityToDomain(it)
+        }
+    }
+
+    override suspend fun updateWorkout(workout: Workout) = withContext(dispatcher.io) {
+        dao.updateWorkout(dbMapper.mapDomainToEntity(workout))
+    }
 }
