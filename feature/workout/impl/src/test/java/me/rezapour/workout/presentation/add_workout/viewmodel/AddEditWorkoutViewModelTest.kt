@@ -376,53 +376,55 @@ class AddEditWorkoutViewModelTest {
         }
 
         @Test
-        fun `when workout updated is successfully, navigation back is emitted`() = runTest(dispatcher) {
+        fun `when workout updated is successfully, navigation back is emitted`() =
+            runTest(dispatcher) {
 
-            coEvery { getWorkoutUseCase(1) } returns Workout(
-                name = "",
-                workSeconds = 100,
-                restSeconds = 30,
-                rounds = 5
-            )
+                coEvery { getWorkoutUseCase(1) } returns Workout(
+                    name = "",
+                    workSeconds = 100,
+                    restSeconds = 30,
+                    rounds = 5
+                )
 
-            createViewModel()
-            runCurrent()
-            addEditWorkoutViewModel.onAction(AddEditWorkoutAction.OnNameChanged("run"))
-            addEditWorkoutViewModel.onAction(AddEditWorkoutAction.WorkoutIncreased)
-            addEditWorkoutViewModel.onAction(AddEditWorkoutAction.RestIncreased)
-            addEditWorkoutViewModel.onAction(AddEditWorkoutAction.RoundIncreased)
-            addEditWorkoutViewModel.onAction(AddEditWorkoutAction.SaveWorkout)
+                createViewModel()
+                runCurrent()
+                addEditWorkoutViewModel.onAction(AddEditWorkoutAction.OnNameChanged("run"))
+                addEditWorkoutViewModel.onAction(AddEditWorkoutAction.WorkoutIncreased)
+                addEditWorkoutViewModel.onAction(AddEditWorkoutAction.RestIncreased)
+                addEditWorkoutViewModel.onAction(AddEditWorkoutAction.RoundIncreased)
+                addEditWorkoutViewModel.onAction(AddEditWorkoutAction.SaveWorkout)
 
-            addEditWorkoutViewModel.uiEffect.test {
+                addEditWorkoutViewModel.uiEffect.test {
 
-                assertInstanceOf(AddEditWorkoutUiEffect.NavigationBack::class.java,awaitItem())
+                    assertInstanceOf(AddEditWorkoutUiEffect.NavigationBack::class.java, awaitItem())
+                }
             }
-        }
 
         @Test
-        fun `when workout updated throws exception, showsnakBar is emitted`() = runTest(dispatcher) {
+        fun `when workout updated throws exception, showsnakBar is emitted`() =
+            runTest(dispatcher) {
 
-            coEvery { getWorkoutUseCase(1) } returns Workout(
-                name = "",
-                workSeconds = 100,
-                restSeconds = 30,
-                rounds = 5
-            )
-            coEvery { updateWorkoutUseCase(any()) } throws IOException()
+                coEvery { getWorkoutUseCase(1) } returns Workout(
+                    name = "",
+                    workSeconds = 100,
+                    restSeconds = 30,
+                    rounds = 5
+                )
+                coEvery { updateWorkoutUseCase(any()) } throws IOException()
 
-            createViewModel()
-            runCurrent()
-            addEditWorkoutViewModel.onAction(AddEditWorkoutAction.OnNameChanged("run"))
-            addEditWorkoutViewModel.onAction(AddEditWorkoutAction.WorkoutIncreased)
-            addEditWorkoutViewModel.onAction(AddEditWorkoutAction.RestIncreased)
-            addEditWorkoutViewModel.onAction(AddEditWorkoutAction.RoundIncreased)
-            addEditWorkoutViewModel.onAction(AddEditWorkoutAction.SaveWorkout)
+                createViewModel()
+                runCurrent()
+                addEditWorkoutViewModel.onAction(AddEditWorkoutAction.OnNameChanged("run"))
+                addEditWorkoutViewModel.onAction(AddEditWorkoutAction.WorkoutIncreased)
+                addEditWorkoutViewModel.onAction(AddEditWorkoutAction.RestIncreased)
+                addEditWorkoutViewModel.onAction(AddEditWorkoutAction.RoundIncreased)
+                addEditWorkoutViewModel.onAction(AddEditWorkoutAction.SaveWorkout)
 
-            addEditWorkoutViewModel.uiEffect.test {
+                addEditWorkoutViewModel.uiEffect.test {
 
-                assertInstanceOf(AddEditWorkoutUiEffect.ShowSnackBar::class.java,awaitItem())
+                    assertInstanceOf(AddEditWorkoutUiEffect.ShowSnackBar::class.java, awaitItem())
+                }
             }
-        }
     }
 
 
@@ -587,6 +589,17 @@ class AddEditWorkoutViewModelTest {
     @Nested
     @DisplayName("Navigation")
     inner class Navigation {
+
+        @BeforeEach
+        fun setupAddWorkoutTest() {
+            addEditWorkoutViewModel = AddEditWorkoutViewModel(
+                formMode = AddEditWorkoutFormMode.Add,
+                insertWorkoutUseCase = insertWorkoutUseCase,
+                getWorkoutUseCase = getWorkoutUseCase,
+                updateWorkoutUseCase = updateWorkoutUseCase
+            )
+        }
+
         @Test
         fun `backClicked navigates emits navigateBack `() = runTest(dispatcher) {
 
