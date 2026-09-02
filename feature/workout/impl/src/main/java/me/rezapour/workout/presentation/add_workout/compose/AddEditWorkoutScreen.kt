@@ -10,6 +10,8 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
@@ -31,6 +33,7 @@ import me.rezapour.designsystem.components.IniPill
 import me.rezapour.designsystem.components.IniPillSize
 import me.rezapour.designsystem.components.button.IniPrimaryButton
 import me.rezapour.designsystem.components.icon_button.IniIconButton
+import me.rezapour.designsystem.components.text_button.IniDestructiveTextButton
 import me.rezapour.designsystem.components.textfield.IniTextField
 import me.rezapour.designsystem.theme.IniTheme
 import me.rezapour.ui.formatter.TimerDurationFormatter
@@ -112,9 +115,8 @@ private fun AddWorkoutContent(
     ) { paddingValues ->
         Content(
             modifier = Modifier.padding(
-                top = paddingValues.calculateTopPadding(),
-
-                ),
+                paddingValues
+            ),
             uiState = uiState,
             onAction = onAction
         )
@@ -129,12 +131,15 @@ private fun Content(
 ) {
 
     Column(
-        modifier = modifier.padding(
-            top = 24.dp,
-            start = 20.dp,
-            end = 20.dp,
-            bottom = 20.dp
-        ),
+        modifier = modifier
+            .fillMaxSize()
+            .verticalScroll(rememberScrollState())
+            .padding(
+                top = 24.dp,
+                start = 20.dp,
+                end = 20.dp,
+                bottom = 20.dp
+            ),
         verticalArrangement = Arrangement.Top,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
@@ -230,6 +235,19 @@ private fun Content(
         ) {
             onAction(AddEditWorkoutAction.SaveWorkout)
         }
+
+        if (uiState.mode is AddEditWorkoutFormMode.Edit) {
+            Spacer(modifier = Modifier.height(IniTheme.spacing.m))
+
+            IniDestructiveTextButton(
+                text = stringResource(res.string.edit_workout_delete),
+                icon = res.drawable.ic_delete,
+                loading = uiState.isLoading
+            ) {
+                onAction(AddEditWorkoutAction.DeleteWorkout)
+            }
+        }
+
     }
 }
 

@@ -16,6 +16,7 @@
 
     <string name="add_workout_save">Save Workout</string>
     <string name="edit_workout_save">Update Workout</string>
+    <string name="edit_workout_delete">Delete Workout</string>
     <string name="add_workout_summary">%1$d rounds • %2$s total</string>
     <string name="add_workout_error">The Workout did not saved please try again.</string>
 
