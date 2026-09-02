@@ -2,9 +2,11 @@ package me.rezapour.workout.presentation.add_workout.viewmodel
 
 import app.cash.turbine.test
 import io.mockk.MockKAnnotations
+import io.mockk.Runs
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.impl.annotations.MockK
+import io.mockk.just
 import io.mockk.slot
 import kotlinx.coroutines.CompletableDeferred
 import kotlinx.coroutines.Dispatchers
@@ -15,6 +17,7 @@ import kotlinx.coroutines.test.runCurrent
 import kotlinx.coroutines.test.runTest
 import kotlinx.coroutines.test.setMain
 import me.rezapour.domain.model.Workout
+import me.rezapour.domain.usecase.DeleteWorkoutUseCase
 import me.rezapour.domain.usecase.GetWorkoutUseCase
 import me.rezapour.domain.usecase.InsertWorkoutUseCase
 import me.rezapour.domain.usecase.UpdateWorkoutUseCase
@@ -41,6 +44,9 @@ class AddEditWorkoutViewModelTest {
 
     @MockK(relaxed = true)
     private lateinit var updateWorkoutUseCase: UpdateWorkoutUseCase
+
+    @MockK
+    private lateinit var deleteWorkoutUseCase: DeleteWorkoutUseCase
     private val dispatcher = StandardTestDispatcher()
 
     @BeforeEach
@@ -65,7 +71,8 @@ class AddEditWorkoutViewModelTest {
                 formMode = AddEditWorkoutFormMode.Add,
                 insertWorkoutUseCase = insertWorkoutUseCase,
                 getWorkoutUseCase = getWorkoutUseCase,
-                updateWorkoutUseCase = updateWorkoutUseCase
+                updateWorkoutUseCase = updateWorkoutUseCase,
+                deleteWorkoutUseCase = deleteWorkoutUseCase
             )
         }
 
@@ -190,7 +197,8 @@ class AddEditWorkoutViewModelTest {
                 formMode = AddEditWorkoutFormMode.Edit(1),
                 insertWorkoutUseCase = insertWorkoutUseCase,
                 getWorkoutUseCase = getWorkoutUseCase,
-                updateWorkoutUseCase = updateWorkoutUseCase
+                updateWorkoutUseCase = updateWorkoutUseCase,
+                deleteWorkoutUseCase = deleteWorkoutUseCase
             )
         }
 
@@ -438,7 +446,8 @@ class AddEditWorkoutViewModelTest {
                 formMode = AddEditWorkoutFormMode.Add,
                 insertWorkoutUseCase = insertWorkoutUseCase,
                 getWorkoutUseCase = getWorkoutUseCase,
-                updateWorkoutUseCase = updateWorkoutUseCase
+                updateWorkoutUseCase = updateWorkoutUseCase,
+                deleteWorkoutUseCase = deleteWorkoutUseCase
             )
         }
 
@@ -596,7 +605,8 @@ class AddEditWorkoutViewModelTest {
                 formMode = AddEditWorkoutFormMode.Add,
                 insertWorkoutUseCase = insertWorkoutUseCase,
                 getWorkoutUseCase = getWorkoutUseCase,
-                updateWorkoutUseCase = updateWorkoutUseCase
+                updateWorkoutUseCase = updateWorkoutUseCase,
+                deleteWorkoutUseCase = deleteWorkoutUseCase
             )
         }
 
@@ -610,6 +620,143 @@ class AddEditWorkoutViewModelTest {
                     AddEditWorkoutUiEffect.NavigationBack::class.java,
                     effect
                 )
+            }
+        }
+    }
+
+    @Nested
+    @DisplayName("DeleteWorkout")
+    inner class DeleteWorkout {
+        fun createViewmodel(mode: AddEditWorkoutFormMode) {
+            addEditWorkoutViewModel = AddEditWorkoutViewModel(
+                formMode = mode,
+                insertWorkoutUseCase = insertWorkoutUseCase,
+                getWorkoutUseCase = getWorkoutUseCase,
+                updateWorkoutUseCase = updateWorkoutUseCase,
+                deleteWorkoutUseCase = deleteWorkoutUseCase
+            )
+        }
+
+        @Test
+        fun `When State is Edit, Delete would be execute`() = runTest(dispatcher) {
+            val expectedId = 1L
+            coEvery { getWorkoutUseCase(expectedId) } returns Workout(
+                name = "",
+                workSeconds = 30,
+                restSeconds = 30,
+                rounds = 1
+            )
+            coEvery { deleteWorkoutUseCase(expectedId) } just Runs
+            createViewmodel(AddEditWorkoutFormMode.Edit(expectedId))
+            runCurrent()
+
+            addEditWorkoutViewModel.onAction(AddEditWorkoutAction.DeleteWorkout)
+            runCurrent()
+
+            coVerify(exactly = 1) { deleteWorkoutUseCase(expectedId) }
+
+            advanceUntilIdle()
+        }
+
+        @Test
+        fun `When Delete is successful, navigate back would be emit`() = runTest(dispatcher) {
+            val expectedId = 1L
+            coEvery { getWorkoutUseCase(expectedId) } returns Workout(
+                name = "",
+                workSeconds = 30,
+                restSeconds = 30,
+                rounds = 1
+            )
+            coEvery { deleteWorkoutUseCase(any()) } just Runs
+
+            createViewmodel(AddEditWorkoutFormMode.Edit(expectedId))
+            runCurrent()
+
+            addEditWorkoutViewModel.onAction(AddEditWorkoutAction.DeleteWorkout)
+
+            addEditWorkoutViewModel.uiEffect.test {
+                assertInstanceOf(AddEditWorkoutUiEffect.NavigationBack::class.java, awaitItem())
+            }
+        }
+
+        @Test
+        fun `When state is ADD, Delete would be ignored`() = runTest(dispatcher) {
+
+            createViewmodel(AddEditWorkoutFormMode.Add)
+            runCurrent()
+
+            addEditWorkoutViewModel.onAction(AddEditWorkoutAction.DeleteWorkout)
+            runCurrent()
+
+            coVerify(exactly = 0) { deleteWorkoutUseCase(any()) }
+        }
+
+        @Test
+        fun `When state is loading,Delete would be ignored`() = runTest(dispatcher) {
+            val gateWay = CompletableDeferred<Unit>()
+            coEvery { getWorkoutUseCase(any()) } coAnswers {
+                gateWay.await()
+                Workout(
+                    name = "",
+                    workSeconds = 30,
+                    restSeconds = 30,
+                    rounds = 1
+                )
+            }
+            createViewmodel(AddEditWorkoutFormMode.Edit(1))
+            runCurrent()
+            assertTrue(addEditWorkoutViewModel.uiState.value.isLoading)
+
+            addEditWorkoutViewModel.onAction(AddEditWorkoutAction.DeleteWorkout)
+            runCurrent()
+            coVerify(exactly = 0) { deleteWorkoutUseCase(any()) }
+            gateWay.complete(Unit)
+            advanceUntilIdle()
+        }
+
+        @Test
+        fun `when delete is clicked multiple times, workout is deleted once`() =
+            runTest(dispatcher) {
+                val gateWay = CompletableDeferred<Unit>()
+                coEvery { getWorkoutUseCase(any()) } returns Workout(
+                    name = "",
+                    workSeconds = 30,
+                    restSeconds = 30,
+                    rounds = 1
+                )
+
+                coEvery { deleteWorkoutUseCase(any()) } coAnswers {
+                    gateWay.await()
+                }
+                createViewmodel(AddEditWorkoutFormMode.Edit(1))
+                runCurrent()
+
+                addEditWorkoutViewModel.onAction(AddEditWorkoutAction.DeleteWorkout)
+                addEditWorkoutViewModel.onAction(AddEditWorkoutAction.DeleteWorkout)
+                runCurrent()
+                coVerify(exactly = 1) { deleteWorkoutUseCase(any()) }
+                gateWay.complete(Unit)
+                advanceUntilIdle()
+            }
+
+        @Test
+        fun `When Delete throw exception, showSnackBar would be emit`() = runTest(dispatcher) {
+            val expectedId = 1L
+            coEvery { getWorkoutUseCase(expectedId) } returns Workout(
+                name = "",
+                workSeconds = 30,
+                restSeconds = 30,
+                rounds = 1
+            )
+            coEvery { deleteWorkoutUseCase(any()) } throws IOException()
+
+            createViewmodel(AddEditWorkoutFormMode.Edit(expectedId))
+            runCurrent()
+
+            addEditWorkoutViewModel.onAction(AddEditWorkoutAction.DeleteWorkout)
+
+            addEditWorkoutViewModel.uiEffect.test {
+                assertInstanceOf(AddEditWorkoutUiEffect.ShowSnackBar::class.java, awaitItem())
             }
         }
     }

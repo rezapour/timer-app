@@ -13,6 +13,7 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.sync.Mutex
 import me.rezapour.domain.model.Workout
+import me.rezapour.domain.usecase.DeleteWorkoutUseCase
 import me.rezapour.domain.usecase.GetWorkoutUseCase
 import me.rezapour.domain.usecase.InsertWorkoutUseCase
 import me.rezapour.domain.usecase.UpdateWorkoutUseCase
@@ -21,7 +22,8 @@ class AddEditWorkoutViewModel(
     formMode: AddEditWorkoutFormMode,
     private val insertWorkoutUseCase: InsertWorkoutUseCase,
     private val getWorkoutUseCase: GetWorkoutUseCase,
-    private val updateWorkoutUseCase: UpdateWorkoutUseCase
+    private val updateWorkoutUseCase: UpdateWorkoutUseCase,
+    private val deleteWorkoutUseCase: DeleteWorkoutUseCase
 ) : ViewModel() {
 
     private val _uiState: MutableStateFlow<AddEditWorkoutUiState> =
@@ -47,7 +49,8 @@ class AddEditWorkoutViewModel(
             AddEditWorkoutAction.RoundIncreased -> roundIncreaseValue()
             AddEditWorkoutAction.WorkoutDecreased -> workoutDecreaseValue()
             AddEditWorkoutAction.WorkoutIncreased -> workoutIncreaseValue()
-            AddEditWorkoutAction.BackClicked -> emitBackNavigation()
+            AddEditWorkoutAction.BackClicked -> navigationBack()
+            AddEditWorkoutAction.DeleteWorkout -> deleteWorkout()
         }
     }
 
@@ -82,7 +85,7 @@ class AddEditWorkoutViewModel(
                 throw e
             } catch (e: Exception) {
                 showError(e.message.toString())
-            }finally {
+            } finally {
                 _uiState.update {
                     it.copy(
                         isLoading = false
@@ -123,6 +126,33 @@ class AddEditWorkoutViewModel(
 
                 _uiEffect.emit(AddEditWorkoutUiEffect.NavigationBack)
 
+            } catch (e: CancellationException) {
+                throw e
+            } catch (e: Exception) {
+                showError(e.message.orEmpty())
+            } finally {
+                _uiState.update {
+                    it.copy(isLoading = false)
+                }
+                mutex.unlock()
+            }
+        }
+    }
+
+    private fun deleteWorkout() {
+        viewModelScope.launch {
+            if (uiState.value.isLoading) return@launch
+
+            val modeForm = uiState.value.mode
+            if (modeForm !is AddEditWorkoutFormMode.Edit) return@launch
+
+            if (!mutex.tryLock()) return@launch
+            try {
+                _uiState.update {
+                    it.copy(isLoading = true)
+                }
+                deleteWorkoutUseCase(modeForm.workoutId)
+                emitBackNavigation()
             } catch (e: CancellationException) {
                 throw e
             } catch (e: Exception) {
@@ -201,7 +231,11 @@ class AddEditWorkoutViewModel(
         _uiState.update { it.copy(name = newNameValue) }
     }
 
-    private fun emitBackNavigation() {
+    private suspend fun emitBackNavigation() {
+        _uiEffect.emit(AddEditWorkoutUiEffect.NavigationBack)
+    }
+
+    private fun navigationBack() {
         viewModelScope.launch {
             _uiEffect.emit(AddEditWorkoutUiEffect.NavigationBack)
         }
@@ -220,6 +254,7 @@ sealed class AddEditWorkoutAction {
     object RoundIncreased : AddEditWorkoutAction()
     object RoundDecreased : AddEditWorkoutAction()
     object BackClicked : AddEditWorkoutAction()
+    data object DeleteWorkout : AddEditWorkoutAction()
 }
 
 data class AddEditWorkoutUiState(

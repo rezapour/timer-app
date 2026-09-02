@@ -18,6 +18,7 @@ private val addWorkoutModule = module {
             insertWorkoutUseCase = get(),
             getWorkoutUseCase = get(),
             updateWorkoutUseCase = get(),
+            deleteWorkoutUseCase = get()
         )
     }
 }
