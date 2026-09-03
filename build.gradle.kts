@@ -7,4 +7,5 @@ plugins {
     alias(libs.plugins.kotlinSerialization) apply false
     alias(libs.plugins.kotzilla) apply false
     alias(libs.plugins.android.junit5) apply false
+    alias(libs.plugins.androidx.room) apply false
 }

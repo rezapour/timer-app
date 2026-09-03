@@ -11,7 +11,11 @@ import me.rezapour.db.dao.WorkoutSessionDao
 import me.rezapour.db.entites.WorkoutEntity
 import me.rezapour.db.entites.WorkoutSessionEntity
 
-@Database(entities = [WorkoutEntity::class, WorkoutSessionEntity::class], version = 1)
+@Database(
+    entities = [WorkoutEntity::class, WorkoutSessionEntity::class],
+    version = 1,
+    exportSchema = true
+)
 @TypeConverters(DataBaseConverter::class)
 abstract class AppDataBase : RoomDatabase() {
 
@@ -19,11 +23,13 @@ abstract class AppDataBase : RoomDatabase() {
     abstract fun workoutSessionDao(): WorkoutSessionDao
 
     companion object {
+
+        const val DATA_BASE_NAME = "workout_app_db"
         fun databaseBuilder(context: Context) =
             Room.databaseBuilder(
                 context,
                 AppDataBase::class.java,
-                "database-name"
+                DATA_BASE_NAME
             ).build()
     }
 }
