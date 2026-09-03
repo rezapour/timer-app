@@ -97,6 +97,7 @@ android-library = { id = "com.android.library", version.ref = "agp" }
 kotlinSerialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
 kotzilla = { id = "io.kotzilla.kotzilla-plugin", version.ref = "kotzilla" }
 android-junit5 = { id = "de.mannodermaus.android-junit5", version.ref = "android-junit5" }
+androidx-room = { id = "androidx.room", version.ref = "roomVersion" }
 
 [bundles]
 coroutines = [
