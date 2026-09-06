@@ -4,7 +4,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
 import me.rezapour.domain.coordinator.WorkoutCoordinator
-import me.rezapour.domain.model.Workout
+import me.rezapour.workout.api.domain.model.Workout
+
 
 class TimerFlowViewModel(private val workoutCoordinator: WorkoutCoordinator) : ViewModel() {
 

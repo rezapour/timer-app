@@ -12,8 +12,8 @@ import kotlinx.coroutines.test.StandardTestDispatcher
 import kotlinx.coroutines.test.resetMain
 import kotlinx.coroutines.test.runTest
 import kotlinx.coroutines.test.setMain
-import me.rezapour.domain.model.Workout
-import me.rezapour.domain.usecase.GetWorkoutsUseCase
+import me.rezapour.workout.api.domain.model.Workout
+import me.rezapour.workout.domain.usecase.GetWorkoutsUseCase
 import me.rezapour.workout.presentation.fake.WorkoutStubWithOneItem
 import me.rezapour.workout.presentation.fake.WorkoutStubWithTwoItems
 import me.rezapour.workout.presentation.my_workouts.mapper.WorkoutItemMapper

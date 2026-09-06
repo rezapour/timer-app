@@ -1,4 +1,4 @@
-package me.rezapour.domain.model
+package me.rezapour.workout.api.domain.model
 
 data class Workout(
     val id: Long = 0,

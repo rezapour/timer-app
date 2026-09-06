@@ -8,15 +8,15 @@ import kotlinx.coroutines.launch
 import me.rezapour.domain.controller.TimerEngine
 import me.rezapour.domain.controller.TimerSnapshot
 import me.rezapour.domain.controller.TimerStatus
-import me.rezapour.domain.model.Workout
 import me.rezapour.domain.model.WorkoutPhase
 import me.rezapour.domain.model.WorkoutSession
-import me.rezapour.domain.repository.WorkoutRepository
 import me.rezapour.domain.repository.WorkoutSessionRepository
+import me.rezapour.workout.api.domain.model.Workout
+import me.rezapour.workout.api.domain.usecase.InsertWorkoutUseCase
 import java.util.Date
 
 class WorkoutCoordinator(
-    private val workoutRepository: WorkoutRepository,
+    private val insertWorkoutUseCase: InsertWorkoutUseCase,
     private val workoutSessionRepository: WorkoutSessionRepository,
     private val timerEngine: TimerEngine,
     private val scope: CoroutineScope
@@ -43,7 +43,7 @@ class WorkoutCoordinator(
 
     suspend fun start(workout: Workout, saveTimer: Boolean = false) {
         val timerToWorkout = if (saveTimer) {
-            val id = workoutRepository.insertWorkout(workout)
+            val id = insertWorkoutUseCase(workout)
             workout.copy(id = id)
         } else {
             workout

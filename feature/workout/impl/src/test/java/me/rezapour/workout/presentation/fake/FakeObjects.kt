@@ -1,6 +1,6 @@
 package me.rezapour.workout.presentation.fake
 
-import me.rezapour.domain.model.Workout
+import me.rezapour.workout.api.domain.model.Workout
 import me.rezapour.workout.presentation.my_workouts.model.WorkoutItem
 
 object WorkoutStubWithTwoItems {

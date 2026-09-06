@@ -1,7 +1,7 @@
-package me.rezapour.domain.repository
+package me.rezapour.workout.domain.repository
 
 import kotlinx.coroutines.flow.Flow
-import me.rezapour.domain.model.Workout
+import me.rezapour.workout.api.domain.model.Workout
 
 interface WorkoutRepository {
 

@@ -51,6 +51,5 @@ fun AppRoot() {
             entry<ActiveWorkoutRoute> {
                 TimerFlowScreen()
             }
-
         })
 }

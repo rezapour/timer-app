@@ -16,11 +16,11 @@ import kotlinx.coroutines.test.resetMain
 import kotlinx.coroutines.test.runCurrent
 import kotlinx.coroutines.test.runTest
 import kotlinx.coroutines.test.setMain
-import me.rezapour.domain.model.Workout
-import me.rezapour.domain.usecase.DeleteWorkoutUseCase
-import me.rezapour.domain.usecase.GetWorkoutUseCase
-import me.rezapour.domain.usecase.InsertWorkoutUseCase
-import me.rezapour.domain.usecase.UpdateWorkoutUseCase
+import me.rezapour.workout.api.domain.model.Workout
+import me.rezapour.workout.domain.usecase.DeleteWorkoutUseCase
+import me.rezapour.workout.domain.usecase.GetWorkoutUseCase
+import me.rezapour.workout.domain.usecase.InsertWorkoutUseCaseImpl
+import me.rezapour.workout.domain.usecase.UpdateWorkoutUseCase
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertFalse
@@ -37,7 +37,7 @@ class AddEditWorkoutViewModelTest {
     private lateinit var addEditWorkoutViewModel: AddEditWorkoutViewModel
 
     @MockK(relaxed = true)
-    private lateinit var insertWorkoutUseCase: InsertWorkoutUseCase
+    private lateinit var insertWorkoutUseCaseImpl: InsertWorkoutUseCaseImpl
 
     @MockK(relaxed = true)
     private lateinit var getWorkoutUseCase: GetWorkoutUseCase
@@ -69,7 +69,7 @@ class AddEditWorkoutViewModelTest {
         fun setupAddWorkoutTest() {
             addEditWorkoutViewModel = AddEditWorkoutViewModel(
                 formMode = AddEditWorkoutFormMode.Add,
-                insertWorkoutUseCase = insertWorkoutUseCase,
+                insertWorkoutUseCase = insertWorkoutUseCaseImpl,
                 getWorkoutUseCase = getWorkoutUseCase,
                 updateWorkoutUseCase = updateWorkoutUseCase,
                 deleteWorkoutUseCase = deleteWorkoutUseCase
@@ -114,7 +114,7 @@ class AddEditWorkoutViewModelTest {
             val workoutSlot = slot<Workout>()
 
             coVerify(exactly = 1) {
-                insertWorkoutUseCase(capture(workoutSlot))
+                insertWorkoutUseCaseImpl(capture(workoutSlot))
             }
 
             coVerify(exactly = 0) {
@@ -133,9 +133,9 @@ class AddEditWorkoutViewModelTest {
         @Test
         fun `when save is clicked multiple times during insert, workout is inserted once`() =
             runTest(dispatcher) {
-                val insertGate = CompletableDeferred<Unit>()
+                val insertGate = CompletableDeferred<Long>()
 
-                coEvery { insertWorkoutUseCase(any()) } coAnswers {
+                coEvery { insertWorkoutUseCaseImpl(any()) } coAnswers {
                     insertGate.await()
                 }
 
@@ -147,9 +147,9 @@ class AddEditWorkoutViewModelTest {
 
                 runCurrent()
 
-                coVerify(exactly = 1) { insertWorkoutUseCase(any()) }
+                coVerify(exactly = 1) { insertWorkoutUseCaseImpl(any()) }
 
-                insertGate.complete(Unit)
+                insertGate.complete(1)
                 advanceUntilIdle()
             }
 
@@ -172,7 +172,7 @@ class AddEditWorkoutViewModelTest {
 
         @Test
         fun `when workout insert fails, snackbar is emitted`() = runTest(dispatcher) {
-            coEvery { insertWorkoutUseCase.invoke(any()) } throws IOException()
+            coEvery { insertWorkoutUseCaseImpl.invoke(any()) } throws IOException()
 
             addEditWorkoutViewModel.uiEffect.test {
                 addEditWorkoutViewModel.onAction(AddEditWorkoutAction.SaveWorkout)
@@ -195,7 +195,7 @@ class AddEditWorkoutViewModelTest {
         private fun createViewModel() {
             addEditWorkoutViewModel = AddEditWorkoutViewModel(
                 formMode = AddEditWorkoutFormMode.Edit(1),
-                insertWorkoutUseCase = insertWorkoutUseCase,
+                insertWorkoutUseCase = insertWorkoutUseCaseImpl,
                 getWorkoutUseCase = getWorkoutUseCase,
                 updateWorkoutUseCase = updateWorkoutUseCase,
                 deleteWorkoutUseCase = deleteWorkoutUseCase
@@ -308,7 +308,7 @@ class AddEditWorkoutViewModelTest {
                 runCurrent()
 
                 coVerify(exactly = 1) { updateWorkoutUseCase(any()) }
-                coVerify(exactly = 0) { insertWorkoutUseCase(any()) }
+                coVerify(exactly = 0) { insertWorkoutUseCaseImpl(any()) }
 
 
                 deferred.complete(Unit)
@@ -338,7 +338,7 @@ class AddEditWorkoutViewModelTest {
             runCurrent()
 
             coVerify(exactly = 0) { updateWorkoutUseCase(any()) }
-            coVerify(exactly = 0) { insertWorkoutUseCase(any()) }
+            coVerify(exactly = 0) { insertWorkoutUseCaseImpl(any()) }
 
             deferred.complete(Unit)
             advanceUntilIdle()
@@ -372,7 +372,7 @@ class AddEditWorkoutViewModelTest {
             coVerify(exactly = 1) { updateWorkoutUseCase(capture(workout)) }
 
             coVerify(exactly = 0) {
-                insertWorkoutUseCase(any())
+                insertWorkoutUseCaseImpl(any())
             }
 
             assertEquals(1L, workout.captured.id)
@@ -444,7 +444,7 @@ class AddEditWorkoutViewModelTest {
         fun setupAddWorkoutTest() {
             addEditWorkoutViewModel = AddEditWorkoutViewModel(
                 formMode = AddEditWorkoutFormMode.Add,
-                insertWorkoutUseCase = insertWorkoutUseCase,
+                insertWorkoutUseCase = insertWorkoutUseCaseImpl,
                 getWorkoutUseCase = getWorkoutUseCase,
                 updateWorkoutUseCase = updateWorkoutUseCase,
                 deleteWorkoutUseCase = deleteWorkoutUseCase
@@ -603,7 +603,7 @@ class AddEditWorkoutViewModelTest {
         fun setupAddWorkoutTest() {
             addEditWorkoutViewModel = AddEditWorkoutViewModel(
                 formMode = AddEditWorkoutFormMode.Add,
-                insertWorkoutUseCase = insertWorkoutUseCase,
+                insertWorkoutUseCase = insertWorkoutUseCaseImpl,
                 getWorkoutUseCase = getWorkoutUseCase,
                 updateWorkoutUseCase = updateWorkoutUseCase,
                 deleteWorkoutUseCase = deleteWorkoutUseCase
@@ -630,7 +630,7 @@ class AddEditWorkoutViewModelTest {
         fun createViewmodel(mode: AddEditWorkoutFormMode) {
             addEditWorkoutViewModel = AddEditWorkoutViewModel(
                 formMode = mode,
-                insertWorkoutUseCase = insertWorkoutUseCase,
+                insertWorkoutUseCase = insertWorkoutUseCaseImpl,
                 getWorkoutUseCase = getWorkoutUseCase,
                 updateWorkoutUseCase = updateWorkoutUseCase,
                 deleteWorkoutUseCase = deleteWorkoutUseCase
