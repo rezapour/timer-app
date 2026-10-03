@@ -12,11 +12,11 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.sync.Mutex
-import me.rezapour.domain.model.Workout
-import me.rezapour.domain.usecase.DeleteWorkoutUseCase
-import me.rezapour.domain.usecase.GetWorkoutUseCase
-import me.rezapour.domain.usecase.InsertWorkoutUseCase
-import me.rezapour.domain.usecase.UpdateWorkoutUseCase
+import me.rezapour.workout.api.domain.model.Workout
+import me.rezapour.workout.api.domain.usecase.InsertWorkoutUseCase
+import me.rezapour.workout.domain.usecase.DeleteWorkoutUseCase
+import me.rezapour.workout.domain.usecase.GetWorkoutUseCase
+import me.rezapour.workout.domain.usecase.UpdateWorkoutUseCase
 
 class AddEditWorkoutViewModel(
     formMode: AddEditWorkoutFormMode,

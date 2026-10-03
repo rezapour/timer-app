@@ -1,9 +1,9 @@
-package me.rezapour.data.mapper
+package me.rezapour.workout.data.mapper
 
 import me.rezapour.db.entites.WorkoutEntity
-import me.rezapour.domain.model.Workout
+import me.rezapour.workout.api.domain.model.Workout
 
-class WorkoutDbMapper : Mapper<WorkoutEntity, Workout> {
+class WorkoutDbDataMapper : DataMapper<WorkoutEntity, Workout> {
     override fun mapEntityToDomain(entity: WorkoutEntity): Workout = Workout(
         id = entity.id,
         name = entity.name,

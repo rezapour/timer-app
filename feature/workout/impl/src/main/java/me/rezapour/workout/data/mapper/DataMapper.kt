@@ -1,6 +1,6 @@
-package me.rezapour.data.mapper
+package me.rezapour.workout.data.mapper
 
-interface Mapper<Entity, Domain> {
+interface DataMapper<Entity, Domain> {
 
     fun mapEntityToDomain(entity: Entity): Domain
 

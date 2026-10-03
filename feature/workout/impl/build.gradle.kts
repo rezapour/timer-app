@@ -37,11 +37,11 @@ android {
 
 dependencies {
     implementation(project(":feature:workout:api"))
-    implementation(project(":core:domain"))
     implementation(project(":core:designsystem"))
     implementation(project(":core:common"))
     implementation(project(":core:ui"))
     implementation(project(":core:resources"))
+    implementation(project(":core:db"))
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.activity.compose)

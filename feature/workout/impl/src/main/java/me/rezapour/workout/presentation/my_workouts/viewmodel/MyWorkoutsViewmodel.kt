@@ -13,8 +13,8 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
-import me.rezapour.domain.model.Workout
-import me.rezapour.domain.usecase.GetWorkoutsUseCase
+import me.rezapour.workout.api.domain.model.Workout
+import me.rezapour.workout.domain.usecase.GetWorkoutsUseCase
 import me.rezapour.ui.mapper.Mapper
 import me.rezapour.workout.presentation.my_workouts.model.WorkoutItem
 

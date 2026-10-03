@@ -1,8 +1,9 @@
-package me.rezapour.domain.usecase
+package me.rezapour.workout.domain.usecase
 
 import kotlinx.coroutines.flow.Flow
-import me.rezapour.domain.model.Workout
-import me.rezapour.domain.repository.WorkoutRepository
+import me.rezapour.workout.api.domain.model.Workout
+import me.rezapour.workout.domain.repository.WorkoutRepository
+
 
 class GetWorkoutsUseCase(
     private val workoutRepository: WorkoutRepository

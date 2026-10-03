@@ -1,6 +1,7 @@
-package me.rezapour.domain.usecase
+package me.rezapour.workout.domain.usecase
 
-import me.rezapour.domain.repository.WorkoutRepository
+import me.rezapour.workout.domain.repository.WorkoutRepository
+
 
 class DeleteWorkoutUseCase(
     private val workoutRepository: WorkoutRepository
