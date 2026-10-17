@@ -16,12 +16,28 @@ class WorkoutRepositoryImpl(
     private val dispatcher: CoroutineDispatcherProvider
 ) : WorkoutRepository {
     override suspend fun insertWorkout(workout: Workout) = withContext(dispatcher.io) {
-        return@withContext dao.insertWorkout(dbMapper.mapDomainToEntity(workout))
+        return@withContext dao.insertWorkoutWithIntervals(
+            workout = dbMapper.mapWorkoutDomainToEntity(workout),
+
+            intervals = workout.intervals.mapIndexed { index, interval ->
+                dbMapper.mapIntervalDomainToEntity(
+                    interval = interval,
+                    workoutId = workout.id,
+                    index = index
+                )
+            }
+        )
     }
 
     override fun getWorkouts(): Flow<List<Workout>> {
-        return dao.getWorkouts()
-            .map { dbMapper.mapEntityToDomain(it) }
+        return dao.getWorkoutsWithIntervals()
+            .map { workouts ->
+                workouts.map {
+                    dbMapper.mapEntityToDomain(
+                        workoutEntity = it.workout,
+                        intervalsEntity = it.intervals.sortedBy { entity -> entity.position })
+                }
+            }
             .flowOn(dispatcher.io)
     }
 
@@ -31,11 +47,21 @@ class WorkoutRepositoryImpl(
 
     override suspend fun getWorkout(workoutId: Long): Workout? = withContext(dispatcher.io) {
         return@withContext dao.getWorkout(workoutId)?.let {
-            dbMapper.mapEntityToDomain(it)
+            dbMapper.mapEntityToDomain(
+                workoutEntity = it.workout,
+                intervalsEntity = it.intervals.sortedBy { entity -> entity.position })
         }
     }
 
     override suspend fun updateWorkout(workout: Workout) = withContext(dispatcher.io) {
-        dao.updateWorkout(dbMapper.mapDomainToEntity(workout))
+        dao.updateWorkoutWithIntervals(
+            workout = dbMapper.mapWorkoutDomainToEntity(workout),
+            intervals = workout.intervals.mapIndexed { index, interval ->
+                dbMapper.mapIntervalDomainToEntity(
+                    interval = interval,
+                    workoutId = workout.id,
+                    index = index
+                )
+            })
     }
 }

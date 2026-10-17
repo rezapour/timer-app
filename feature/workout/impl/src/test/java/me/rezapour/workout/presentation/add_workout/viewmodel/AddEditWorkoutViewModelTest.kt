@@ -16,6 +16,8 @@ import kotlinx.coroutines.test.resetMain
 import kotlinx.coroutines.test.runCurrent
 import kotlinx.coroutines.test.runTest
 import kotlinx.coroutines.test.setMain
+import me.rezapour.workout.api.domain.model.Interval
+import me.rezapour.workout.api.domain.model.IntervalType
 import me.rezapour.workout.api.domain.model.Workout
 import me.rezapour.workout.domain.usecase.DeleteWorkoutUseCase
 import me.rezapour.workout.domain.usecase.GetWorkoutUseCase
@@ -87,10 +89,21 @@ class AddEditWorkoutViewModelTest {
         @Test
         fun `when save workout clicked, correct values in inserted`() = runTest(dispatcher) {
             val expectedName = "Morning Run"
-            val expectedWorkout = 60L
-            val expectedRest = 60L
             val expectedRounds = 2
             val expectedId = 0L
+            val expectedIntervals = listOf(
+                Interval(
+                    name = "Workout",
+                    durationSeconds = 60L,
+                    type = IntervalType.WORK
+                ),
+                Interval(
+                    name = "Rest",
+                    durationSeconds = 60L,
+                    type = IntervalType.REST
+                )
+            )
+
 
             addEditWorkoutViewModel.onAction(
                 AddEditWorkoutAction.OnNameChanged(expectedName)
@@ -125,8 +138,7 @@ class AddEditWorkoutViewModelTest {
 
             assertEquals(expectedId, capturedWorkout.id)
             assertEquals(expectedName, capturedWorkout.name)
-            assertEquals(expectedWorkout, capturedWorkout.workSeconds)
-            assertEquals(expectedRest, capturedWorkout.restSeconds)
+            assertEquals(expectedIntervals, capturedWorkout.intervals)
             assertEquals(expectedRounds, capturedWorkout.rounds)
         }
 
@@ -222,9 +234,19 @@ class AddEditWorkoutViewModelTest {
                 val expectedLoading = false
                 coEvery { getWorkoutUseCase(1) } returns Workout(
                     name = expectedName,
-                    workSeconds = expectedWork,
-                    restSeconds = expectedRest,
-                    rounds = expectedRound
+                    rounds = expectedRound,
+                    intervals = listOf(
+                        Interval(
+                            name = "Workout",
+                            durationSeconds = expectedWork,
+                            type = IntervalType.WORK
+                        ),
+                        Interval(
+                            name = "Rest",
+                            durationSeconds = expectedRest,
+                            type = IntervalType.REST
+                        )
+                    )
                 )
 
                 createViewModel()
@@ -293,9 +315,19 @@ class AddEditWorkoutViewModelTest {
                 val deferred = CompletableDeferred<Unit>()
                 coEvery { getWorkoutUseCase(1) } returns Workout(
                     name = "",
-                    workSeconds = 30,
-                    restSeconds = 30,
                     rounds = 1,
+                    intervals = listOf(
+                        Interval(
+                            name = "Workout",
+                            durationSeconds = 60L,
+                            type = IntervalType.WORK
+                        ),
+                        Interval(
+                            name = "Rest",
+                            durationSeconds = 60L,
+                            type = IntervalType.REST
+                        )
+                    )
                 )
 
                 coEvery { updateWorkoutUseCase(any()) } coAnswers { deferred.await() }
@@ -322,9 +354,19 @@ class AddEditWorkoutViewModelTest {
                 deferred.await()
                 Workout(
                     name = "",
-                    workSeconds = 30,
-                    restSeconds = 30,
                     rounds = 1,
+                    intervals = listOf(
+                        Interval(
+                            name = "Workout",
+                            durationSeconds = 30L,
+                            type = IntervalType.WORK
+                        ),
+                        Interval(
+                            name = "Rest",
+                            durationSeconds = 30L,
+                            type = IntervalType.REST
+                        )
+                    )
                 )
             }
 
@@ -348,15 +390,35 @@ class AddEditWorkoutViewModelTest {
         fun `when workout is updated, use case receives correct values`() = runTest(dispatcher) {
 
             val expectedName = "run"
-            val expectedWork = 130L
-            val expectedRest = 60L
             val expectedRound = 6
+            val expectedIntervals =  listOf(
+                Interval(
+                    name = "Workout",
+                    durationSeconds = 90L,
+                    type = IntervalType.WORK
+                ),
+                Interval(
+                    name = "Rest",
+                    durationSeconds = 60L,
+                    type = IntervalType.REST
+                )
+            )
 
             coEvery { getWorkoutUseCase(1) } returns Workout(
                 name = "",
-                workSeconds = 100,
-                restSeconds = 30,
-                rounds = 5
+                rounds = 5,
+                intervals = listOf(
+                    Interval(
+                        name = "Workout",
+                        durationSeconds = 60L,
+                        type = IntervalType.WORK
+                    ),
+                    Interval(
+                        name = "Rest",
+                        durationSeconds = 30L,
+                        type = IntervalType.REST
+                    )
+                )
             )
 
             createViewModel()
@@ -377,8 +439,7 @@ class AddEditWorkoutViewModelTest {
 
             assertEquals(1L, workout.captured.id)
             assertEquals(expectedName, workout.captured.name)
-            assertEquals(expectedWork, workout.captured.workSeconds)
-            assertEquals(expectedRest, workout.captured.restSeconds)
+            assertEquals(expectedIntervals, workout.captured.intervals)
             assertEquals(expectedRound, workout.captured.rounds)
 
         }
@@ -389,9 +450,19 @@ class AddEditWorkoutViewModelTest {
 
                 coEvery { getWorkoutUseCase(1) } returns Workout(
                     name = "",
-                    workSeconds = 100,
-                    restSeconds = 30,
-                    rounds = 5
+                    rounds = 5,
+                    intervals = listOf(
+                        Interval(
+                            name = "Workout",
+                            durationSeconds = 100L,
+                            type = IntervalType.WORK
+                        ),
+                        Interval(
+                            name = "Rest",
+                            durationSeconds = 30L,
+                            type = IntervalType.REST
+                        )
+                    )
                 )
 
                 createViewModel()
@@ -414,9 +485,19 @@ class AddEditWorkoutViewModelTest {
 
                 coEvery { getWorkoutUseCase(1) } returns Workout(
                     name = "",
-                    workSeconds = 100,
-                    restSeconds = 30,
-                    rounds = 5
+                    rounds = 5,
+                    intervals = listOf(
+                        Interval(
+                            name = "Workout",
+                            durationSeconds = 100L,
+                            type = IntervalType.WORK
+                        ),
+                        Interval(
+                            name = "Rest",
+                            durationSeconds = 30L,
+                            type = IntervalType.REST
+                        )
+                    )
                 )
                 coEvery { updateWorkoutUseCase(any()) } throws IOException()
 
@@ -642,9 +723,19 @@ class AddEditWorkoutViewModelTest {
             val expectedId = 1L
             coEvery { getWorkoutUseCase(expectedId) } returns Workout(
                 name = "",
-                workSeconds = 30,
-                restSeconds = 30,
-                rounds = 1
+                rounds = 1,
+                intervals = listOf(
+                    Interval(
+                        name = "Workout",
+                        durationSeconds = 30L,
+                        type = IntervalType.WORK
+                    ),
+                    Interval(
+                        name = "Rest",
+                        durationSeconds = 30L,
+                        type = IntervalType.REST
+                    )
+                )
             )
             coEvery { deleteWorkoutUseCase(expectedId) } just Runs
             createViewmodel(AddEditWorkoutFormMode.Edit(expectedId))
@@ -663,9 +754,19 @@ class AddEditWorkoutViewModelTest {
             val expectedId = 1L
             coEvery { getWorkoutUseCase(expectedId) } returns Workout(
                 name = "",
-                workSeconds = 30,
-                restSeconds = 30,
-                rounds = 1
+                rounds = 1,
+                intervals = listOf(
+                    Interval(
+                        name = "Workout",
+                        durationSeconds = 30L,
+                        type = IntervalType.WORK
+                    ),
+                    Interval(
+                        name = "Rest",
+                        durationSeconds = 30L,
+                        type = IntervalType.REST
+                    )
+                )
             )
             coEvery { deleteWorkoutUseCase(any()) } just Runs
 
@@ -698,9 +799,19 @@ class AddEditWorkoutViewModelTest {
                 gateWay.await()
                 Workout(
                     name = "",
-                    workSeconds = 30,
-                    restSeconds = 30,
-                    rounds = 1
+                    rounds = 1,
+                    intervals = listOf(
+                        Interval(
+                            name = "Workout",
+                            durationSeconds = 30L,
+                            type = IntervalType.WORK
+                        ),
+                        Interval(
+                            name = "Rest",
+                            durationSeconds = 30L,
+                            type = IntervalType.REST
+                        )
+                    )
                 )
             }
             createViewmodel(AddEditWorkoutFormMode.Edit(1))
@@ -720,9 +831,19 @@ class AddEditWorkoutViewModelTest {
                 val gateWay = CompletableDeferred<Unit>()
                 coEvery { getWorkoutUseCase(any()) } returns Workout(
                     name = "",
-                    workSeconds = 30,
-                    restSeconds = 30,
-                    rounds = 1
+                    rounds = 1,
+                    intervals = listOf(
+                        Interval(
+                            name = "Workout",
+                            durationSeconds = 30L,
+                            type = IntervalType.WORK
+                        ),
+                        Interval(
+                            name = "Rest",
+                            durationSeconds = 30L,
+                            type = IntervalType.REST
+                        )
+                    )
                 )
 
                 coEvery { deleteWorkoutUseCase(any()) } coAnswers {
@@ -744,9 +865,19 @@ class AddEditWorkoutViewModelTest {
             val expectedId = 1L
             coEvery { getWorkoutUseCase(expectedId) } returns Workout(
                 name = "",
-                workSeconds = 30,
-                restSeconds = 30,
-                rounds = 1
+                rounds = 1,
+                intervals = listOf(
+                    Interval(
+                        name = "Workout",
+                        durationSeconds = 30,
+                        type = IntervalType.WORK
+                    ),
+                    Interval(
+                        name = "Rest",
+                        durationSeconds = 30L,
+                        type = IntervalType.REST
+                    )
+                )
             )
             coEvery { deleteWorkoutUseCase(any()) } throws IOException()
 

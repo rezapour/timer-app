@@ -3,15 +3,20 @@ package me.rezapour.workout.api.domain.model
 data class Workout(
     val id: Long = 0,
     val name: String?,
-    val workSeconds: Long,
-    val restSeconds: Long,
-    val rounds: Int
+    val rounds: Int,
+    val intervals: List<Interval>
+)
+
+data class Interval(
+    val id: Long = 0,
+    val name: String?,
+    val durationSeconds: Long,
+    val type: IntervalType
 ) {
-    val workMilliSecond
-        get() = workSeconds * 1000
+    val durationMilliSeconds:Long = durationSeconds * 1000
+}
 
-    val restMilliSecond
-        get() = restSeconds * 1000
-
-
+enum class IntervalType {
+    WORK,
+    REST,
 }

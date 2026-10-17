@@ -9,10 +9,11 @@ import me.rezapour.db.converter.DataBaseConverter
 import me.rezapour.db.dao.WorkoutDao
 import me.rezapour.db.dao.WorkoutSessionDao
 import me.rezapour.db.entites.WorkoutEntity
+import me.rezapour.db.entites.IntervalEntity
 import me.rezapour.db.entites.WorkoutSessionEntity
 
 @Database(
-    entities = [WorkoutEntity::class, WorkoutSessionEntity::class],
+    entities = [WorkoutEntity::class, WorkoutSessionEntity::class, IntervalEntity::class],
     version = 1,
     exportSchema = true
 )
