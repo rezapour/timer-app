@@ -87,8 +87,8 @@ class AddEditWorkoutViewModel(
                     it.copy(
                         mode = AddEditWorkoutFormMode.Edit(workoutId),
                         name = workout.name ?: "",
-                        workoutSecond = workoutInterval?.durationSeconds ?: 0,
-                        restSecond = restInterval?.durationSeconds ?: 0,
+                        workoutSecond = workoutInterval?.durationSeconds ?: AddEditWorkoutUiState.MIN_WORK_OUT,
+                        restSecond = restInterval?.durationSeconds ?: AddEditWorkoutUiState.MIN_REST,
                         rounds = workout.rounds,
                         isLoading = false
                     )
