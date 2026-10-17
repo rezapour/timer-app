@@ -16,7 +16,9 @@ import kotlinx.coroutines.test.resetMain
 import kotlinx.coroutines.test.runCurrent
 import kotlinx.coroutines.test.runTest
 import kotlinx.coroutines.test.setMain
+import me.rezapour.workout.api.domain.model.IntervalType
 import me.rezapour.workout.api.domain.model.Workout
+import me.rezapour.workout.api.domain.model.WorkoutInterval
 import me.rezapour.workout.domain.usecase.DeleteWorkoutUseCase
 import me.rezapour.workout.domain.usecase.GetWorkoutUseCase
 import me.rezapour.workout.domain.usecase.InsertWorkoutUseCaseImpl
@@ -87,10 +89,21 @@ class AddEditWorkoutViewModelTest {
         @Test
         fun `when save workout clicked, correct values in inserted`() = runTest(dispatcher) {
             val expectedName = "Morning Run"
-            val expectedWorkout = 60L
-            val expectedRest = 60L
             val expectedRounds = 2
             val expectedId = 0L
+            val expectedIntervals = listOf(
+                WorkoutInterval(
+                    name = "Workout",
+                    durationSeconds = 60L,
+                    type = IntervalType.WORK
+                ),
+                WorkoutInterval(
+                    name = "Rest",
+                    durationSeconds = 60L,
+                    type = IntervalType.REST
+                )
+            )
+
 
             addEditWorkoutViewModel.onAction(
                 AddEditWorkoutAction.OnNameChanged(expectedName)
@@ -125,8 +138,7 @@ class AddEditWorkoutViewModelTest {
 
             assertEquals(expectedId, capturedWorkout.id)
             assertEquals(expectedName, capturedWorkout.name)
-            assertEquals(expectedWorkout, capturedWorkout.workSeconds)
-            assertEquals(expectedRest, capturedWorkout.restSeconds)
+            assertEquals(expectedIntervals, capturedWorkout.intervals)
             assertEquals(expectedRounds, capturedWorkout.rounds)
         }
 

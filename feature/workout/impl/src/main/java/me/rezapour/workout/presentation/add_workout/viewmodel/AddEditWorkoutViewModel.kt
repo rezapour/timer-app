@@ -12,6 +12,8 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.sync.Mutex
+import me.rezapour.workout.api.domain.model.Interval
+import me.rezapour.workout.api.domain.model.IntervalType
 import me.rezapour.workout.api.domain.model.Workout
 import me.rezapour.workout.api.domain.usecase.InsertWorkoutUseCase
 import me.rezapour.workout.domain.usecase.DeleteWorkoutUseCase
@@ -37,6 +39,7 @@ class AddEditWorkoutViewModel(
     private val _uiEffect: MutableSharedFlow<AddEditWorkoutUiEffect> = MutableSharedFlow()
     val uiEffect: SharedFlow<AddEditWorkoutUiEffect> = _uiEffect.asSharedFlow()
 
+    private var originalWorkout: Workout? = null
     private val mutex = Mutex()
 
     fun onAction(event: AddEditWorkoutAction) {
@@ -70,13 +73,22 @@ class AddEditWorkoutViewModel(
                     showError("Workout not found")
                     return@launch
                 }
+                originalWorkout = workout
+                val workoutInterval = workout.intervals.firstOrNull {
+                    it.type == IntervalType.WORK
+                }
+
+                val restInterval = workout.intervals.firstOrNull {
+                    it.type == IntervalType.REST
+                }
+
 
                 _uiState.update {
                     it.copy(
                         mode = AddEditWorkoutFormMode.Edit(workoutId),
                         name = workout.name ?: "",
-                        workoutSecond = workout.workSeconds,
-                        restSecond = workout.restSeconds,
+                        workoutSecond = workoutInterval?.durationSeconds ?: 0,
+                        restSecond = restInterval?.durationSeconds ?: 0,
                         rounds = workout.rounds,
                         isLoading = false
                     )
@@ -108,15 +120,35 @@ class AddEditWorkoutViewModel(
                 val state = uiState.value
                 val mode = state.mode
 
+                val existingWork = originalWorkout?.intervals
+                    ?.firstOrNull { it.type == IntervalType.WORK }
+
+                val existingRest = originalWorkout?.intervals
+                    ?.firstOrNull { it.type == IntervalType.REST }
+
+                val intervals = listOf(
+                    Interval(
+                        id = existingWork?.id ?: 0L,
+                        name = existingWork?.name ?: "Workout",
+                        durationSeconds = state.workoutSecond,
+                        type = IntervalType.WORK
+                    ),
+                    Interval(
+                        id = existingRest?.id ?: 0L,
+                        name = existingRest?.name ?: "Rest",
+                        durationSeconds = state.restSecond,
+                        type = IntervalType.REST
+                    )
+                )
+
                 val workout = Workout(
                     id = when (mode) {
                         AddEditWorkoutFormMode.Add -> 0L
                         is AddEditWorkoutFormMode.Edit -> mode.workoutId
                     },
                     name = state.name.ifBlank { null },
-                    workSeconds = state.workoutSecond,
-                    restSeconds = state.restSecond,
-                    rounds = state.rounds
+                    rounds = state.rounds,
+                    intervals = intervals
                 )
 
                 when (mode) {

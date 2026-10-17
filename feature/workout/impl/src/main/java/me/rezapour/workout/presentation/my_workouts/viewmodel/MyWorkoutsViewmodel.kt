@@ -15,12 +15,12 @@ import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import me.rezapour.workout.api.domain.model.Workout
 import me.rezapour.workout.domain.usecase.GetWorkoutsUseCase
-import me.rezapour.ui.mapper.Mapper
+import me.rezapour.workout.presentation.my_workouts.mapper.WorkoutItemMapper
 import me.rezapour.workout.presentation.my_workouts.model.WorkoutItem
 
 class MyWorkoutsViewmodel(
     private val getWorkoutsUseCase: GetWorkoutsUseCase,
-    private val mapper: Mapper<Workout, WorkoutItem>
+    private val mapper: WorkoutItemMapper
 ) : ViewModel() {
 
     private val _uiEffect: MutableSharedFlow<MyWorkoutsUiEffect> = MutableSharedFlow()

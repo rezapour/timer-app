@@ -11,6 +11,7 @@ import me.rezapour.domain.controller.TimerStatus
 import me.rezapour.domain.model.WorkoutPhase
 import me.rezapour.domain.model.WorkoutSession
 import me.rezapour.domain.repository.WorkoutSessionRepository
+import me.rezapour.workout.api.domain.model.IntervalType
 import me.rezapour.workout.api.domain.model.Workout
 import me.rezapour.workout.api.domain.usecase.InsertWorkoutUseCase
 import java.util.Date
@@ -48,12 +49,15 @@ class WorkoutCoordinator(
         } else {
             workout
         }
+        val workMilliSecond =
+            timerToWorkout.intervals.firstOrNull { it.type == IntervalType.WORK }?.durationMilliSeconds
+                ?: 0L
         val newWorkoutSession = WorkoutSession(
             workoutId = timerToWorkout.id,
             currentPhase = WorkoutPhase.INTERVAL,
             currentRound = 1,
             status = TimerStatus.Running,
-            phaseEndAt = Date(Date().time + timerToWorkout.workMilliSecond),
+            phaseEndAt = Date(Date().time + workMilliSecond),
             pausedRemainingMs = 0,
             startedAt = Date()
         )
@@ -63,7 +67,7 @@ class WorkoutCoordinator(
         this@WorkoutCoordinator.workout = timerToWorkout
         _workoutState.value = newWorkoutSession.copy(sessionId = id)
 
-        startNewTimer(timerToWorkout.workMilliSecond)
+        startNewTimer(workMilliSecond)
 
     }
 
@@ -92,24 +96,28 @@ class WorkoutCoordinator(
     }
 
     private suspend fun startInterval(session: WorkoutSession, workout: Workout, round: Int) {
+
+        val workMilliSecond =
+            workout.intervals.firstOrNull { it.type == IntervalType.WORK }?.durationMilliSeconds ?: 0L
         val sessionState = session.copy(
             currentPhase = WorkoutPhase.INTERVAL,
             currentRound = round,
-            phaseEndAt = Date(Date().time + workout.workMilliSecond),
+            phaseEndAt = Date(Date().time + workMilliSecond),
             pausedRemainingMs = 0,
         )
         updateSession(sessionState)
-        startNewTimer(workout.workMilliSecond)
+        startNewTimer(workMilliSecond)
     }
 
     private suspend fun startRest(session: WorkoutSession, workout: Workout) {
+        val restMilliSecond =workout.intervals.firstOrNull { it.type == IntervalType.REST }?.durationMilliSeconds ?: 0L
         val sessionState = session.copy(
             currentPhase = WorkoutPhase.REST,
-            phaseEndAt = Date(Date().time + workout.restMilliSecond),
+            phaseEndAt = Date(Date().time + restMilliSecond),
             pausedRemainingMs = 0,
         )
         updateSession(sessionState)
-        startNewTimer(workout.restMilliSecond)
+        startNewTimer(restMilliSecond)
     }
 
     suspend fun pauseTimer() {

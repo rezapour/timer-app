@@ -1,6 +1,7 @@
 package me.rezapour.db.converter
 
 import androidx.room.TypeConverter
+import me.rezapour.db.entites.IntervalTypeEntity
 import me.rezapour.db.entites.RunWorkoutStatusEntity
 import me.rezapour.db.entites.WorkoutPhaseEntity
 import java.util.Date
@@ -17,11 +18,18 @@ class DataBaseConverter {
     fun fromRunWorkoutStatus(value: RunWorkoutStatusEntity): String = value.name
 
     @TypeConverter
-    fun toRunWorkoutStatus(value: String): RunWorkoutStatusEntity = RunWorkoutStatusEntity.valueOf(value)
+    fun toRunWorkoutStatus(value: String): RunWorkoutStatusEntity =
+        RunWorkoutStatusEntity.valueOf(value)
 
     @TypeConverter
-    fun fromDate(value: Date):Long = value.time
+    fun fromDate(value: Date): Long = value.time
 
     @TypeConverter
-    fun toDate(value:Long): Date = Date(value)
+    fun toDate(value: Long): Date = Date(value)
+
+    @TypeConverter
+    fun fromIntervalType(value: IntervalTypeEntity): String = value.name
+
+    @TypeConverter
+    fun toIntervalType(value: String): IntervalTypeEntity = IntervalTypeEntity.valueOf(value)
 }
