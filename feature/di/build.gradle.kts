@@ -30,6 +30,6 @@ android {
 
 dependencies {
     implementation(project(":feature:workout:impl"))
-    implementation(project(":feature:timer-flow"))
+    implementation(project(":feature:timer:impl"))
     implementation(libs.bundles.koin)
 }
