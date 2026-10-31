@@ -31,7 +31,6 @@ android {
 dependencies {
 
     implementation(project(":core:db"))
-    implementation(project(":core:data"))
     implementation(project(":core:common"))
     implementation(project(":core:domain"))
     implementation(libs.bundles.koin)
