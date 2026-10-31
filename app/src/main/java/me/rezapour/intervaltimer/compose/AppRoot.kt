@@ -13,7 +13,7 @@ import androidx.navigation3.runtime.rememberSaveableStateHolderNavEntryDecorator
 import androidx.navigation3.ui.NavDisplay
 import kotlinx.serialization.Serializable
 import me.rezapour.designsystem.components.MainTab
-import me.rezapour.timer_flow.compose.TimerFlowScreen
+import me.rezapour.timer.compose.TimerFlowScreen
 import me.rezapour.workout.api.navigation.MyWorkoutsRoute
 import me.rezapour.workout.presentation.navigation.workoutFeature
 

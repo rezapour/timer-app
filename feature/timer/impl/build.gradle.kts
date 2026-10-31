@@ -6,7 +6,7 @@ plugins {
 }
 
 android {
-    namespace = "me.rezapour.timer_flow"
+    namespace = "me.rezapour.timer"
     compileSdk = libs.versions.compileSdk.get().toInt()
 
     defaultConfig {

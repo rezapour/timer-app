@@ -1,4 +1,4 @@
-package me.rezapour.timer_flow
+package me.rezapour.timer
 
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.ext.junit.runners.AndroidJUnit4

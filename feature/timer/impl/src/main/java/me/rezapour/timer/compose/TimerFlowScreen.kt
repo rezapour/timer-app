@@ -1,6 +1,6 @@
 @file:OptIn(ExperimentalMaterial3Api::class)
 
-package me.rezapour.timer_flow.compose
+package me.rezapour.timer.compose
 
 import androidx.compose.animation.core.LinearEasing
 import androidx.compose.animation.core.animateFloatAsState
@@ -29,7 +29,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import me.rezapour.domain.controller.TimerSnapshot
-import me.rezapour.timer_flow.viewmodel.TimerFlowViewModel
+import me.rezapour.timer.viewmodel.TimerFlowViewModel
 import me.rezapour.ui.formatter.TimerDurationFormatter
 import org.koin.compose.viewmodel.koinViewModel
 
