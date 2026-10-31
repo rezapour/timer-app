@@ -1,16 +1,16 @@
-package me.rezapour.domain.coordinator
+package me.rezapour.timer.domain.coordinator
 
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
-import me.rezapour.domain.controller.TimerEngine
-import me.rezapour.domain.controller.TimerSnapshot
-import me.rezapour.domain.controller.TimerStatus
-import me.rezapour.domain.model.WorkoutPhase
-import me.rezapour.domain.model.WorkoutSession
-import me.rezapour.domain.repository.WorkoutSessionRepository
+import me.rezapour.timer.domain.controller.TimerEngine
+import me.rezapour.timer.domain.controller.TimerSnapshot
+import me.rezapour.timer.domain.controller.TimerStatus
+import me.rezapour.timer.domain.model.WorkoutPhase
+import me.rezapour.timer.domain.model.WorkoutSession
+import me.rezapour.timer.domain.repository.WorkoutSessionRepository
 import me.rezapour.workout.api.domain.model.IntervalType
 import me.rezapour.workout.api.domain.model.Workout
 import me.rezapour.workout.api.domain.usecase.InsertWorkoutUseCase

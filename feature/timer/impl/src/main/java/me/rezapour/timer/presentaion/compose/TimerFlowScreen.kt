@@ -28,7 +28,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import me.rezapour.domain.controller.TimerSnapshot
+import me.rezapour.timer.domain.controller.TimerSnapshot
 import me.rezapour.timer.presentaion.viewmodel.TimerFlowViewModel
 import me.rezapour.ui.formatter.TimerDurationFormatter
 import org.koin.compose.viewmodel.koinViewModel

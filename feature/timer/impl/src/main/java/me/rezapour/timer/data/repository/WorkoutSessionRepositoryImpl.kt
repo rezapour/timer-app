@@ -4,10 +4,10 @@ import me.rezapour.db.dao.WorkoutSessionDao
 import me.rezapour.db.entites.WorkoutSessionEntity
 import me.rezapour.db.entites.RunWorkoutStatusEntity
 import me.rezapour.db.entites.WorkoutPhaseEntity
-import me.rezapour.domain.controller.TimerStatus
-import me.rezapour.domain.model.WorkoutPhase
-import me.rezapour.domain.model.WorkoutSession
-import me.rezapour.domain.repository.WorkoutSessionRepository
+import me.rezapour.timer.domain.controller.TimerStatus
+import me.rezapour.timer.domain.model.WorkoutPhase
+import me.rezapour.timer.domain.model.WorkoutSession
+import me.rezapour.timer.domain.repository.WorkoutSessionRepository
 
 class WorkoutSessionRepositoryImpl(private val dao: WorkoutSessionDao) : WorkoutSessionRepository {
     override suspend fun insertWorkoutSession(workoutSession: WorkoutSession): Long {

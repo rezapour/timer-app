@@ -1,6 +1,6 @@
-package me.rezapour.domain.model
+package me.rezapour.timer.domain.model
 
-import me.rezapour.domain.controller.TimerStatus
+import me.rezapour.timer.domain.controller.TimerStatus
 import java.util.Date
 
 data class WorkoutSession(

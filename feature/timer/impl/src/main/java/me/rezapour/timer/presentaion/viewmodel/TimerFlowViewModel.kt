@@ -3,7 +3,7 @@ package me.rezapour.timer.presentaion.viewmodel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
-import me.rezapour.domain.coordinator.WorkoutCoordinator
+import me.rezapour.timer.domain.coordinator.WorkoutCoordinator
 import me.rezapour.workout.api.domain.model.Interval
 import me.rezapour.workout.api.domain.model.IntervalType
 import me.rezapour.workout.api.domain.model.Workout

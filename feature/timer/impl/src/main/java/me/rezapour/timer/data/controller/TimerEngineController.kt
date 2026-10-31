@@ -6,9 +6,9 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
-import me.rezapour.domain.controller.TimerEngine
-import me.rezapour.domain.controller.TimerSnapshot
-import me.rezapour.domain.controller.TimerStatus
+import me.rezapour.timer.domain.controller.TimerEngine
+import me.rezapour.timer.domain.controller.TimerSnapshot
+import me.rezapour.timer.domain.controller.TimerStatus
 import me.rezapour.timer_core.CoreTimer
 import me.rezapour.timer_core.model.CoreTimerStatus
 import me.rezapour.timer_core.model.CountDirection

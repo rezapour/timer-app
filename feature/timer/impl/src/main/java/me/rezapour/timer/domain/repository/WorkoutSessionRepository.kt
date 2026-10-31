@@ -1,6 +1,6 @@
-package me.rezapour.domain.repository
+package me.rezapour.timer.domain.repository
 
-import me.rezapour.domain.model.WorkoutSession
+import me.rezapour.timer.domain.model.WorkoutSession
 
 interface WorkoutSessionRepository {
     suspend fun insertWorkoutSession(workoutSession: WorkoutSession):Long
