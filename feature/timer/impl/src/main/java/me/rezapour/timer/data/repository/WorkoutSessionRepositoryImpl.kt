@@ -1,4 +1,4 @@
-package me.rezapour.data.repository
+package me.rezapour.timer.data.repository
 
 import me.rezapour.db.dao.WorkoutSessionDao
 import me.rezapour.db.entites.WorkoutSessionEntity

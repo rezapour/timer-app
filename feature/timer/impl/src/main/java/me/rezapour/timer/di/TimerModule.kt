@@ -1,21 +1,27 @@
-package me.rezapour.data.di
+package me.rezapour.timer.di
 
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
-import me.rezapour.data.controller.TimerEngineController
-import me.rezapour.data.repository.WorkoutSessionRepositoryImpl
 import me.rezapour.domain.controller.TimerEngine
 import me.rezapour.domain.repository.WorkoutSessionRepository
+import me.rezapour.timer.data.controller.TimerEngineController
+import me.rezapour.timer.data.repository.WorkoutSessionRepositoryImpl
+import me.rezapour.timer.presentaion.viewmodel.TimerFlowViewModel
 import me.rezapour.timer_core.CoreTimer
 import me.rezapour.timer_core.impl.DefaultCoreTimer
 import org.koin.core.module.Module
 import org.koin.core.module.dsl.singleOf
+import org.koin.core.module.dsl.viewModelOf
 import org.koin.core.qualifier.named
 import org.koin.dsl.bind
 import org.koin.dsl.module
 
-val dataModule = module {
+private val timerPresentationModule = module {
+    viewModelOf(::TimerFlowViewModel)
+}
+
+val timerDataModule = module {
     single<CoreTimer> {
         DefaultCoreTimer(scope = get(named("TimerScope")))
     }
@@ -32,6 +38,6 @@ val dataModule = module {
 
 }
 
-object DataModule {
-    val modules: List<Module> = listOf(dataModule)
+object TimerFlowModule {
+    val modules: List<Module> = listOf(timerPresentationModule,timerDataModule)
 }
