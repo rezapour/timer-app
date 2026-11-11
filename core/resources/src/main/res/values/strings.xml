@@ -34,4 +34,6 @@
     <string name="navigation_bar_tab_history">History</string>
     <string name="navigation_bar_tab_setting">Setting</string>
 
+    <string name="preparation_component_title">STARTING</string>
+
 </resources>
