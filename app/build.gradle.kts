@@ -41,6 +41,7 @@ dependencies {
     implementation(project(":feature:workout:impl"))
     implementation(project(":feature:workout:api"))
     implementation(project(":feature:timer:impl"))
+    implementation(project(":feature:timer:api"))
     implementation(project(":core:designsystem"))
     implementation(project(":core:resources"))
 

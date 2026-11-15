@@ -36,6 +36,7 @@ android {
 }
 
 dependencies {
+    implementation(project(":feature:timer:api"))
     implementation(project(":feature:workout:api"))
     implementation(project(":core:designsystem"))
     implementation(project(":core:common"))
