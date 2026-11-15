@@ -13,14 +13,13 @@ object TimerDurationFormatter {
     }
 
     fun formatForToMMSS(seconds: Long): String {
-        val mins = seconds / 60
-        val seconds = seconds % 60
+        val minutes = (seconds / 60)
+        val seconds = (seconds % 60)
 
-        return when {
-            mins != 0L && seconds != 0L -> "${mins}:${seconds}"
-            mins != 0L -> "${mins}:00"
-            else -> "00:${seconds}"
-        }
+        val minStr = minutes.toString().padStart(2, '0')
+        val secStr = seconds.toString().padStart(2, '0')
+
+        return "$minStr:$secStr"
     }
 
     fun formatForLabel(seconds: Long): String {

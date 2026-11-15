@@ -25,7 +25,7 @@ import me.rezapour.resources.R as res
 internal fun StatusPill(
     modifier: Modifier = Modifier,
     text: String,
-    @DrawableRes icon: Int,
+    @DrawableRes icon: Int? = null,
     color: Color,
     contentDescription: String? = null
 ) {
@@ -43,11 +43,12 @@ internal fun StatusPill(
             horizontalArrangement = Arrangement.Center,
             verticalAlignment = Alignment.CenterVertically
         ) {
-            Icon(
-                modifier = Modifier.size(15.dp),
-                painter = painterResource(icon),
-                contentDescription = contentDescription
-            )
+            if (icon != null)
+                Icon(
+                    modifier = Modifier.size(15.dp),
+                    painter = painterResource(icon),
+                    contentDescription = contentDescription
+                )
 
             Spacer(modifier = Modifier.width(IniTheme.spacing.s))
 

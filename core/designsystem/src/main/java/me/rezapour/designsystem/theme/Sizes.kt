@@ -41,12 +41,18 @@ data class Sizes(
 
     //CallOut
     val calloutIconBackgroundSize: Dp = 195.dp,
-    val calloutIconSize:Dp = 80.dp,
+    val calloutIconSize: Dp = 80.dp,
 
     //IniFloatingButton
     val floatingButtonSize: Dp = 56.dp,
     val floatingButtonIconSize: Dp = 14.dp,
 
     //IniNavigationBarItem
-    val navigationItemIconSize: Dp = 25.dp
+    val navigationItemIconSize: Dp = 25.dp,
+
+    //IniTimerFButtonSize
+    val timerButtonLargeIconSize: Dp = 28.dp,
+    val timerButtonLargeSize: Dp = 96.dp,
+    val timerButtonMediumSize: Dp = 72.dp,
+    val timerButtonMediumIconSize:Dp = 16.dp
 )
