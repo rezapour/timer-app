@@ -25,4 +25,6 @@ class IniColors(
     val container = if (darkTheme) Color(0xFF1D2638) else Color(0xFFE5EEFF)
 
     val callOutContainer = if (darkTheme) Color(0xFF292930) else Color(0xFFDCE9FF)
+
+    val completeWorkoutContainer = if (darkTheme) Color(0xFF202C42) else Color(0xFFEFF4FF)
 }

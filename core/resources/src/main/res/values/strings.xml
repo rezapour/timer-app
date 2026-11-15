@@ -36,4 +36,11 @@
 
     <string name="preparation_component_title">STARTING</string>
 
+    <string name="timer_workout_complete_title">Workout Complete</string>
+    <string name="timer_workout_complete_well_done">Great work staying focused.</string>
+    <string name="timer_workout_complete_label_round">ROUNDS</string>
+    <string name="timer_workout_complete_label_total_time">TOTAL TIME</string>
+    <string name="timer_workout_complete_detail_row_work_time">Work Time</string>
+    <string name="timer_workout_complete_detail_row_rest_time">Rest Time</string>
+
 </resources>
