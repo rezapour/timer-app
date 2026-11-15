@@ -16,6 +16,7 @@ internal annotation class LightMode
     name = "DarkMode",
     group = "LightMode",
     showBackground = true,
+    backgroundColor = 0xFF121212,
     uiMode = UI_MODE_NIGHT_YES
 )
 internal annotation class DarkMode
