@@ -6,20 +6,16 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.viewmodel.navigation3.rememberViewModelStoreNavEntryDecorator
-import androidx.navigation3.runtime.NavKey
 import androidx.navigation3.runtime.entryProvider
 import androidx.navigation3.runtime.rememberNavBackStack
 import androidx.navigation3.runtime.rememberSaveableStateHolderNavEntryDecorator
 import androidx.navigation3.ui.NavDisplay
-import kotlinx.serialization.Serializable
+import me.rezapour.api.navigation.ActiveWorkoutRoute
 import me.rezapour.designsystem.components.MainTab
 import me.rezapour.timer.presentaion.compose.TimerFlowScreen
 import me.rezapour.workout.api.navigation.MyWorkoutsRoute
 import me.rezapour.workout.presentation.navigation.workoutFeature
 
-
-@Serializable
-data object ActiveWorkoutRoute : NavKey
 
 @Composable
 fun AppRoot() {

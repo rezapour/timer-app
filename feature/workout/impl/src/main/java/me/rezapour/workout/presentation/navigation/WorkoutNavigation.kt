@@ -3,6 +3,7 @@ package me.rezapour.workout.presentation.navigation
 import androidx.navigation3.runtime.EntryProviderScope
 import androidx.navigation3.runtime.NavBackStack
 import androidx.navigation3.runtime.NavKey
+import me.rezapour.api.navigation.ActiveWorkoutRoute
 import me.rezapour.designsystem.components.MainTab
 import me.rezapour.workout.api.navigation.AddEditWorkoutRoute
 import me.rezapour.workout.api.navigation.MyWorkoutsRoute
@@ -34,6 +35,9 @@ fun EntryProviderScope<NavKey>.workoutFeature(
             },
             navigateToEditWorkout = { id ->
                 backStack.add(AddEditWorkoutRoute(workoutId = id))
+            },
+            startTimer = {
+                backStack.add(ActiveWorkoutRoute)
             }
         )
     }

@@ -8,15 +8,9 @@ import androidx.compose.animation.core.tween
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
-import androidx.compose.material3.Button
-import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
@@ -27,7 +21,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import me.rezapour.timer.domain.controller.TimerSnapshot
 import me.rezapour.timer.presentaion.viewmodel.TimerFlowViewModel
 import me.rezapour.ui.formatter.TimerDurationFormatter
@@ -36,32 +29,16 @@ import org.koin.compose.viewmodel.koinViewModel
 @Composable
 fun TimerFlowScreen(viewModel: TimerFlowViewModel = koinViewModel()) {
 
-    val snapshot by viewModel.snapshot.collectAsStateWithLifecycle()
-
-    WorkoutSessionContent(
-        snapshot = snapshot,
-        onClickStart = {
-            viewModel.start()
-        }
-    ) { viewModel.pause()}
+    WorkoutSessionContent()
 }
 
 @Composable
 fun WorkoutSessionContent(
-    snapshot: TimerSnapshot?,
-    onClickStart: () -> Unit,
-    onClickPause: () -> Unit
+
 ) {
 
     Scaffold(
         modifier = Modifier.fillMaxSize(),
-        topBar = {
-            CenterAlignedTopAppBar(
-                title = {
-                    Text("Timer")
-                }
-            )
-        }
     ) { paddingValues ->
 
         Column(
@@ -71,31 +48,23 @@ fun WorkoutSessionContent(
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            TimerComponent(snapshot = snapshot)
-
-
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.Center,
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-
-                Button(
-                    onClick = {
-                        onClickStart()
-                    }
-                ) { Text("Start") }
-                Spacer(modifier = Modifier.width(20.dp))
-
-                Button(
-                    onClick = {
-                        onClickPause()
-                    }
-                ) { Text("Pause") }
-            }
+//            PreparationComponent(
+//                modifier = Modifier,
+//                state = "STARTING",
+//                title = "Morning run",
+//                description = "Get Ready"
+//            ) {
+//
+//            }
+            WorkoutCompleteCard(
+                modifier = Modifier.padding(24.dp),
+                totalTime = 180,
+                rounds = 5,
+                totalWorkTime = 120,
+                totalRestTimer = 60
+            )
 
         }
-
 
     }
 }
@@ -149,5 +118,5 @@ fun TimerComponent(
 @Preview
 @Composable
 fun WorkoutSessionScreenPreview() {
-    WorkoutSessionContent(null,{},{})
+
 }

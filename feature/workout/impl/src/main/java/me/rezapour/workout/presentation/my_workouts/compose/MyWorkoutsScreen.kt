@@ -42,6 +42,7 @@ fun MyWorkoutsScreen(
     onTabSelected: (MainTab) -> Unit,
     navigateToAddWorkout: () -> Unit,
     navigateToEditWorkout: (Long) -> Unit,
+    startTimer:() -> Unit
 ) {
     val uiState = viewmodel.uiState.collectAsStateWithLifecycle().value
 
@@ -56,7 +57,7 @@ fun MyWorkoutsScreen(
 
                 MyWorkoutsUiEffect.NavigateAddWorkout -> navigateToAddWorkout()
                 is MyWorkoutsUiEffect.NavigateEditWorkout -> navigateToEditWorkout(effect.workoutId)
-                is MyWorkoutsUiEffect.StartWorkout -> TODO()
+                is MyWorkoutsUiEffect.StartWorkout -> startTimer()
             }
         }
     }
